@@ -1,1 +1,10 @@
 @import "tailwindcss";
+
+@theme {
+  --color-background-gray: oklch(92.8% 0.006 264.531); /* gray-200 */
+  --color-font-gray: oklch(37.1% 0 0);
+}
+
+body {
+  @apply bg-background-gray w-full h-[3000px];
+}
