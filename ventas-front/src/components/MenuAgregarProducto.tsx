@@ -1,9 +1,8 @@
-import { startTransition, useEffect, useState } from "react";
+import { startTransition, useState } from "react";
 import { ProductoDO } from "../models/producto";
 import {
   Combobox,
   ComboboxItem,
-  ComboboxLabel,
   ComboboxPopover,
   ComboboxProvider,
 } from "@ariakit/react";

@@ -7,7 +7,7 @@ export const CarritoVentas: React.FC<{
   productosCarro: Array<ProductoUI>;
   agregarProductoCarrito: (id: string, producto: ProductoDO) => void;
   eliminarProductoCarrito: (id: string) => void;
-  actualizarProductoCarrito: (id: string, cantidad: number) => void;
+  actualizarCantidadProductoCarrito: (id: string, cantidad: number) => void;
 }> = ({ productosCarro, agregarProductoCarrito, eliminarProductoCarrito }) => {
   const [productosInventario, setProductosInventario] = useState<
     Array<ProductoDO>

@@ -11,7 +11,7 @@ export const CrearOrden: React.FC = () => {
     const productoEnCarro = productosCarro.find((productoCarro) => productoCarro.id === id);
     if (productoEnCarro) {
       // Posible performance issue. Va a buscar dos veces la lista.
-      actualizarProductoCarrito(producto.id, productoEnCarro.cantidad + 1);
+      actualizarCantidadProductoCarrito(producto.id, productoEnCarro.cantidad + 1);
     } else {
       setProductosCarro((prev) => [
         ...prev,
@@ -25,7 +25,7 @@ export const CrearOrden: React.FC = () => {
     setProductosCarro((prev) => prev.filter((producto) => producto.id !== id));
   };
 
-  const actualizarProductoCarrito = (id: string, cantidad: number) => {
+  const actualizarCantidadProductoCarrito = (id: string, cantidad: number) => {
     setProductosCarro((prev) =>
       prev.map((producto) =>
         producto.id === id ? { ...producto, cantidad: cantidad, valorTotalConIva: producto.valorUnitConIva*cantidad } : producto
@@ -50,7 +50,7 @@ export const CrearOrden: React.FC = () => {
             productosCarro,
             agregarProductoCarrito,
             eliminarProductoCarrito,
-            actualizarProductoCarrito,
+            actualizarCantidadProductoCarrito,
           }}
         />
       </main>
