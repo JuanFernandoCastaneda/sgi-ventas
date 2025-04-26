@@ -1,11 +1,37 @@
 import { useNavigate } from "react-router";
-import { ProductoUI } from "../models/producto";
+import { ProductoDO, ProductoUI } from "../models/producto";
 import { useState } from "react";
 import { CarritoVentas } from "../components/CarritoVentas";
 
 export const CrearOrden: React.FC = () => {
   const navigate = useNavigate();
   const [productosCarro, setProductosCarro] = useState<Array<ProductoUI>>([]);
+
+  const agregarProductoCarrito = (id: string, producto: ProductoDO) => {
+    const productoEnCarro = productosCarro.find((productoCarro) => productoCarro.id === id);
+    if (productoEnCarro) {
+      // Posible performance issue. Va a buscar dos veces la lista.
+      actualizarProductoCarrito(producto.id, productoEnCarro.cantidad + 1);
+    } else {
+      setProductosCarro((prev) => [
+        ...prev,
+        { ...producto, cantidad: 1, valorTotalConIva: producto.valorUnitConIva },
+      ]);
+    }
+  };
+
+  const eliminarProductoCarrito = (id: string) => {
+    console.log("eliminarProductoCarrito", id);
+    setProductosCarro((prev) => prev.filter((producto) => producto.id !== id));
+  };
+
+  const actualizarProductoCarrito = (id: string, cantidad: number) => {
+    setProductosCarro((prev) =>
+      prev.map((producto) =>
+        producto.id === id ? { ...producto, cantidad: cantidad, valorTotalConIva: producto.valorUnitConIva*cantidad } : producto
+      )
+    );
+  };
 
   return (
     <>
@@ -19,7 +45,14 @@ export const CrearOrden: React.FC = () => {
         <h2 className="font-medium text-xl text-gray-700">{`OCD ${0.01}`}</h2>
       </header>
       <main className="w-full px-4">
-        <CarritoVentas {...{productosCarro, setProductosCarro}} />
+        <CarritoVentas
+          {...{
+            productosCarro,
+            agregarProductoCarrito,
+            eliminarProductoCarrito,
+            actualizarProductoCarrito,
+          }}
+        />
       </main>
     </>
   );

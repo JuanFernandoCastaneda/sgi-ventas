@@ -5,16 +5,19 @@ import { MenuAgregarProducto } from "./MenuAgregarProducto";
 
 export const CarritoVentas: React.FC<{
   productosCarro: Array<ProductoUI>;
-  setProductosCarro: React.Dispatch<React.SetStateAction<Array<ProductoUI>>>;
-}> = ({ productosCarro, setProductosCarro }) => {
-  const [productosInventario, setProductosInventario] =
-    useState<Array<ProductoDO>>([]);
+  agregarProductoCarrito: (id: string, producto: ProductoDO) => void;
+  eliminarProductoCarrito: (id: string) => void;
+  actualizarProductoCarrito: (id: string, cantidad: number) => void;
+}> = ({ productosCarro, agregarProductoCarrito, eliminarProductoCarrito }) => {
+  const [productosInventario, setProductosInventario] = useState<
+    Array<ProductoDO>
+  >([]);
 
   useEffect(() => {
     const response: Array<ProductoDO> = [
       {
+        id: "1",
         nombre: "Pepito",
-        cantidad: 1,
         iva: 0.16,
         valorUnitSinIva: 1000,
         valorUnitConIva: 1160,
@@ -23,15 +26,19 @@ export const CarritoVentas: React.FC<{
     setProductosInventario(response);
   }, []);
 
-  const agregarProductoCarrito = (id: string) => {
-
-  } 
-
+  const agregarProductoCarritoPorNombre = (nombre: string) => {
+    const producto = productosInventario.find(
+      (producto) => producto.nombre === nombre
+    );
+    if(producto) agregarProductoCarrito(producto.id, producto);
+  };
 
   return (
     <section className="p-4 bg-white rounded-lg shadow-md">
-      <TablaCarritoVentas {...{ productosCarro }} />
-      <MenuAgregarProducto {...{productosInventario}}/>
+      <TablaCarritoVentas {...{ productosCarro, eliminarProductoCarrito }} />
+      <MenuAgregarProducto
+        {...{ productosInventario, agregarProductoCarritoPorNombre }}
+      />
     </section>
   );
 };

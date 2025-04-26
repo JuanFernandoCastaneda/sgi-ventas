@@ -2,7 +2,8 @@ import { ProductoUI } from "../models/producto";
 
 export const TablaCarritoVentas: React.FC<{
   productosCarro: Array<ProductoUI>;
-}> = ({ productosCarro }) => {
+  eliminarProductoCarrito: (id: string) => void;
+}> = ({ productosCarro, eliminarProductoCarrito }) => {
   return (
     <table className="table-fixed w-full border-separate border-spacing-2">
       <thead>
@@ -48,7 +49,7 @@ export const TablaCarritoVentas: React.FC<{
       </thead>
       <tbody>
         {productosCarro.map((producto) => (
-          <tr>
+          <tr key={self.crypto.randomUUID()}>
             <th className="text-left bg-background-gray rounded-md text-font-gray">
               {producto.nombre}
             </th>
@@ -67,8 +68,8 @@ export const TablaCarritoVentas: React.FC<{
             <td className="text-center bg-background-gray rounded-md text-font-gray">
               {producto.valorTotalConIva}
             </td>
-            <td className="text-center rounded-[50%] bg-gray-400 text-white aspect-square">
-              <button>-</button>
+            <td className="text-center rounded-[50%] bg-gray-400 text-white w-full h-full aspect-square">
+              <button onClick={() => eliminarProductoCarrito(producto.id)} className="w-full h-full hover:border hover:border-purple-500">-</button>
             </td>
           </tr>
         ))}
