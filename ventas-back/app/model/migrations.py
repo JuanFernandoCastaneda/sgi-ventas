@@ -1,9 +1,9 @@
 from sqlmodel import SQLModel, Session
 from sqlalchemy import Engine
-from models.productos_model import Producto
-from models.ordenes_model import Orden
-from models.forma_pago_model import FormaPago
-from models.detalles_model import DetalleOrden
+from model.schemas.productos_model import Producto
+from model.schemas.ordenes_model import Orden
+from model.schemas.forma_pago_model import FormaPago
+from model.schemas.detalles_model import DetalleOrden
 from decimal import Decimal
 from datetime import datetime
 

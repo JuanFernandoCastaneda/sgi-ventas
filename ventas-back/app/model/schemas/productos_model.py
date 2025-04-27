@@ -2,7 +2,6 @@ from sqlmodel import SQLModel, Field
 from decimal import Decimal
 from sqlalchemy import CheckConstraint
 from pydantic import computed_field
-from sqlalchemy.ext.hybrid import hybrid_property
 
 """
 No es necesario tener la separación, por lo que no se van a crear Productos desde la API.
@@ -25,8 +24,13 @@ class Producto(ProductoBase, table=True):
     def precio_con_iva(self) -> Decimal:
         return round(self.precio_sin_iva * (1 + self.iva), 3)
 
-class ProductoCantidad(Producto):
+class CantidadProductoCarrito(Producto):
     cantidad: int = Field()
+
+    @computed_field # type: ignore
+    @property
+    def valor_total_sin_iva(self) -> Decimal:
+        return round(self.precio_sin_iva * self.cantidad, 3)
 
     # Type ignore se puede explicar por https://github.com/python/mypy/issues/1362
     @computed_field # type: ignore
