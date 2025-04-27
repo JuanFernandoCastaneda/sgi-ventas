@@ -1,6 +1,7 @@
 from sqlmodel import select
 from dependencies.database import SessionDep
-from models.ordenes_model import FormaPago
+from models.ordenes_model import Orden
+from models.forma_pago_model import FormaPago
 from models.productos_model import ProductoConCantidad, Producto
 from models.detalles_model import DetalleOrden
 from dataclasses import dataclass
