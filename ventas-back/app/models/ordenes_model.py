@@ -11,7 +11,7 @@ class OrdenBase(SQLModel):
     observaciones: str = Field(default="")
     fecha_facturacion: datetime = Field(default=datetime.now())
     id_forma_pago: int = Field(foreign_key="formapago.id")
-    descuento: Decimal = Field(default=0)
+    descuento: Decimal = Field(default="0")
     # Revisar si realmente es necesario subtotal_sin_iva
 
 class Orden(OrdenBase, table=True):
