@@ -14,16 +14,16 @@ async def verOrdenes():
 async def crearOrden():
     pass
 
-@router.get("/{orden_id}")
-async def verOrdenPorId(orden_id: str):
+@router.get("/{id_orden}")
+async def verOrdenPorId(id_orden: str):
     pass
 
 # Falta definir objeto orden acá
-@router.put("/{orden_id}")
-async def reemplazarOrden(orden_id: str):
+@router.put("/{id_orden}")
+async def reemplazarOrden(id_orden: str):
     pass
 
-@router.delete("/{orden_id}")
-async def eliminarOrden(orden_id: str):
+@router.delete("/{id_orden}")
+async def eliminarOrden(id_orden: str):
     pass
 
