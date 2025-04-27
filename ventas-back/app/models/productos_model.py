@@ -23,7 +23,13 @@ class Producto(ProductoBase, table=True):
     @computed_field
     @property
     def precio_con_iva(self) -> Decimal:
-        return self.precio_sin_iva * (1 + self.iva)
+        return round(self.precio_sin_iva * (1 + self.iva), 3)
 
 class ProductoCantidad(Producto):
     cantidad: int = Field()
+
+    # Type ignore se puede explicar por https://github.com/python/mypy/issues/1362
+    @computed_field # type: ignore
+    @property
+    def valor_total_con_iva(self) -> Decimal: 
+        return round(self.precio_con_iva * self.cantidad, 3)
