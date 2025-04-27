@@ -5,6 +5,7 @@ from model.schemas.productos_model import CantidadProductoCarrito
 from dependencies.database import SessionDep
 from logic.logic import ver_orden_por_id as ver_orden_por_id_logic
 from fastapi import HTTPException
+from logic.logic import ver_ordenes as ver_ordenes_logic
 
 router = APIRouter(
     prefix="/ordenes",
@@ -14,7 +15,11 @@ router = APIRouter(
 
 @router.get("/")
 async def ver_ordenes(session: SessionDep):
-    pass
+    """
+    Devuelve todas las ordenes de la base de datos.
+    """
+    ordenes = await ver_ordenes_logic(session)
+    return ordenes
 
 @router.post("/")
 async def crear_orden(session: SessionDep):

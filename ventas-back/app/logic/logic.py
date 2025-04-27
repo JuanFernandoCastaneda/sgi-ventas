@@ -5,6 +5,13 @@ from model.schemas.forma_pago_model import FormaPago
 from model.schemas.productos_model import CantidadProductoCarrito, Producto
 from model.schemas.detalles_model import DetalleOrden
 
+async def ver_ordenes(session: SessionDep) -> list[OrdenConProductos]:
+    """
+    Devuelve todas las ordenes de la base de datos.
+    """
+    ids_ordenes = session.exec(select(Orden.id)).all()
+    return [await ver_orden_por_id(id_orden, session) for id_orden in ids_ordenes]
+
 async def ver_orden_por_id(orden_id: int, session: SessionDep) -> OrdenConProductos:
     """
     Devuelve la orden con el id pasado por parámetro. Incluye la lista de productos dentro de esa orden.
