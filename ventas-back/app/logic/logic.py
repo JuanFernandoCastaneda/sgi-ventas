@@ -2,7 +2,7 @@ from sqlmodel import select
 from dependencies.database import SessionDep
 from models.ordenes_model import Orden
 from models.forma_pago_model import FormaPago
-from models.productos_model import ProductoCantidadPublic, Producto
+from models.productos_model import ProductoCantidad, Producto
 from models.detalles_model import DetalleOrden
 from dataclasses import dataclass
 from datetime import datetime
@@ -16,7 +16,7 @@ class OrdenConProductos():
     fecha_facturacion: datetime
     id_forma_pago: int  
     descuento: Decimal
-    listaProductos: list[ProductoCantidadPublic] 
+    listaProductos: list[ProductoCantidad] 
     subtotal_sin_iva: Decimal
     total_gravado_iva: Decimal
     total_no_gravado_iva: Decimal
@@ -32,7 +32,7 @@ def ver_orden_por_id(orden_id: int, session: SessionDep) -> OrdenConProductos:
     # Puede generar un problema de performance porque lee lista producto varias veces.
     pass
 
-async def ver_productos_orden(id_orden: int, session: SessionDep) -> list[ProductoCantidadPublic] | None:
+async def ver_productos_orden(id_orden: int, session: SessionDep) -> list[ProductoCantidad] | None:
     """
     Devuelve la lista de productos de una orden con el id pasado por parámetro.
     """
@@ -46,6 +46,6 @@ async def ver_productos_orden(id_orden: int, session: SessionDep) -> list[Produc
     listaProductos = []
     for detalle_orden, producto in results:
         # No es necesario hacerle deep copy.
-        productoCarrito = ProductoCantidadPublic(**vars(producto), cantidad=detalle_orden.cantidad, precio_con_iva = producto.precio_sin_iva * (1 + producto.iva))
+        productoCarrito = ProductoCantidad(**vars(producto), cantidad=detalle_orden.cantidad)
         listaProductos.append(productoCarrito)
     return listaProductos

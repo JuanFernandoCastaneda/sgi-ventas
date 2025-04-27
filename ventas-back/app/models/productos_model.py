@@ -20,8 +20,10 @@ class Producto(ProductoBase, table=True):
         CheckConstraint("iva <= 1", name="iva_max_1"),
     )
 
-class ProductoPublic(Producto):
-    precio_con_iva: Decimal = Field(decimal_places=3)
+    @computed_field
+    @property
+    def precio_con_iva(self) -> Decimal:
+        return self.precio_sin_iva * (1 + self.iva)
 
-class ProductoCantidadPublic(ProductoPublic):
+class ProductoCantidad(Producto):
     cantidad: int = Field()

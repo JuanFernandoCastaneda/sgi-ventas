@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from dependencies.database import SessionDep
 from logic.logic import ver_productos_orden as ver_productos_orden_logic
-from models.productos_model import ProductoCantidadPublic
+from models.productos_model import ProductoCantidad
 from dependencies.database import SessionDep
 
 router = APIRouter(
@@ -32,6 +32,6 @@ async def eliminar_orden(id_orden: str, session: SessionDep):
     pass
 
 @router.get("/{id_orden}/productos")
-async def ver_productos_orden(id_orden: int, session: SessionDep) -> list[ProductoCantidadPublic]:
+async def ver_productos_orden(id_orden: int, session: SessionDep) -> list[ProductoCantidad]:
     productos = await ver_productos_orden_logic(id_orden, session)
     return productos
