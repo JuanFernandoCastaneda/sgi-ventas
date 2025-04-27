@@ -2,7 +2,7 @@ from sqlmodel import select
 from dependencies.database import SessionDep
 from models.ordenes_model import Orden
 from models.forma_pago_model import FormaPago
-from models.productos_model import ProductoConCantidad, Producto
+from models.productos_model import ProductoCantidadPublic, Producto
 from models.detalles_model import DetalleOrden
 from dataclasses import dataclass
 from datetime import datetime
@@ -16,7 +16,7 @@ class OrdenConProductos():
     fecha_facturacion: datetime
     id_forma_pago: int  
     descuento: Decimal
-    listaProductos: list[ProductoConCantidad] 
+    listaProductos: list[ProductoCantidadPublic] 
     subtotal_sin_iva: Decimal
     total_gravado_iva: Decimal
     total_no_gravado_iva: Decimal
@@ -24,24 +24,28 @@ class OrdenConProductos():
     valor_total_odc: Decimal
 
 
-def verOrdenPorId(orden_id: int, session: SessionDep) -> OrdenConProductos:
+def ver_orden_por_id(orden_id: int, session: SessionDep) -> OrdenConProductos:
     """
+    Devuelve la orden con el id pasado por parámetro.
     Podría tal vez simplificarse haciendo un join, procesando, y luego haciendo el otro join.
     """
     # Puede generar un problema de performance porque lee lista producto varias veces.
     pass
 
-async def ver_productos_orden(id_orden: int, session: SessionDep) -> list[DetalleOrden] | None:
+async def ver_productos_orden(id_orden: int, session: SessionDep) -> list[ProductoCantidadPublic] | None:
     """
-    Devuelve la lista de productos de una orden.
+    Devuelve la lista de productos de una orden con el id pasado por parámetro.
     """
-    statement = select(DetalleOrden, Producto, FormaPago).where(DetalleOrden.id_producto == Producto.id).where(DetalleOrden.id_orden == id_orden).where(FormaPago.id == Producto.id_forma_pago)
-    results = session.exec(statement)
-    if results.all() == []:
+    orden = session.get(Orden, id_orden)
+    if not orden:
         return None
+
+    statement = select(DetalleOrden, Producto).where(DetalleOrden.id_producto == Producto.id).where(DetalleOrden.id_orden == id_orden)
+    results = session.exec(statement)
+    
     listaProductos = []
     for detalle_orden, producto in results:
         # No es necesario hacerle deep copy.
-        productoConCantidad = ProductoConCantidad(**vars(producto), cantidad=detalle_orden.cantidad, precio_con_iva = producto.precio_sin_iva * (1 + producto.iva))
-        listaProductos.append(productoConCantidad)
+        productoCarrito = ProductoCantidadPublic(**vars(producto), cantidad=detalle_orden.cantidad, precio_con_iva = producto.precio_sin_iva * (1 + producto.iva))
+        listaProductos.append(productoCarrito)
     return listaProductos
