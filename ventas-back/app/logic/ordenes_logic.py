@@ -4,6 +4,7 @@ from model.schemas.ordenes_model import Orden, OrdenConProductos
 from model.schemas.forma_pago_model import FormaPago
 from model.schemas.productos_model import CantidadProductoCarrito, Producto
 from model.schemas.detalles_model import DetalleOrden
+from logic.detalle_orden_logic import crear_o_actualizar_detalle_orden
 
 async def ver_ordenes(session: SessionDep) -> list[OrdenConProductos]:
     """
@@ -21,7 +22,6 @@ async def ver_orden_por_id(orden_id: int, session: SessionDep) -> OrdenConProduc
         return None
     productos_orden = await ver_productos_orden(orden_id, session)
     return OrdenConProductos(**vars(orden), productos=productos_orden)
-
 
 async def ver_productos_orden(id_orden: int, session: SessionDep) -> list[CantidadProductoCarrito] | None:
     """

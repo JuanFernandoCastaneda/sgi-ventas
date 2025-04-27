@@ -11,20 +11,23 @@ class ProductoBase(SQLModel):
     iva: Decimal = Field(default="0", decimal_places=3)
     precio_sin_iva: Decimal = Field(decimal_places=3)
 
+    @computed_field # type: ignore
+    @property
+    def precio_con_iva(self) -> Decimal:
+        return round(self.precio_sin_iva * (1 + self.iva), 3)
+
+
 class Producto(ProductoBase, table=True):
     id: int = Field(primary_key=True)
+
     __table_args__ = (
         CheckConstraint("precio_sin_iva >= 0", name="precio_sin_iva_positive"),
         CheckConstraint("iva >= 0", name="iva_positive"),
         CheckConstraint("iva <= 1", name="iva_max_1"),
     )
 
-    @computed_field
-    @property
-    def precio_con_iva(self) -> Decimal:
-        return round(self.precio_sin_iva * (1 + self.iva), 3)
-
-class CantidadProductoCarrito(Producto):
+class CantidadProductoCarrito(ProductoBase):
+    id: int = Field(primary_key=True)
     cantidad: int = Field()
 
     @computed_field # type: ignore
