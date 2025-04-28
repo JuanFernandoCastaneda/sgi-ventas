@@ -1,17 +1,13 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from app.dependencies.database import SessionDep
-from app.logic.ordenes_logic import ver_productos_orden as ver_productos_orden_logic
-from app.model.schemas.productos_model import CantidadProductoCarrito
-from app.dependencies.database import SessionDep
-from app.logic.ordenes_logic import ver_orden_por_id as ver_orden_por_id_logic
-from fastapi import HTTPException
-from app.logic.ordenes_logic import ver_ordenes as ver_ordenes_logic
+from app.logic.ordenes_logic import (
+    ver_orden_por_id as ver_orden_por_id_logic,
+    ver_ordenes as ver_ordenes_logic,
+    crear_orden as crear_orden_logic,
+    eliminar_orden as eliminar_orden_logica,
+    reemplazar_orden as reemplazar_orden_logica,
+)
 from app.model.schemas.ordenes_model import OrdenConProductos, OrdenConDetalle
-from app.logic.ordenes_logic import crear_orden as crear_orden_logic
-from app.logic.detalle_orden_logic import crear_o_actualizar_detalle_orden as crear_o_actualizar_detalle_orden_logic
-from app.model.schemas.detalles_model import DetalleOrden
-from app.logic.ordenes_logic import eliminar_orden as eliminar_orden_logica
-from app.logic.ordenes_logic import reemplazar_orden as reemplazar_orden_logica
 
 router = APIRouter(
     prefix="/ordenes",
@@ -19,48 +15,93 @@ router = APIRouter(
     responses={404: {"descripción": "No encontrado"}},
 )
 
+
 @router.get("/")
 async def ver_ordenes(session: SessionDep):
     """
-    Devuelve todas las ordenes de la base de datos.
+    Endpoint para ver todas las órdenes registradas.
+
+    :param session: La dependencia de la sesión.
+    :type session: SessionDep
+    :return: Una lista de órdenes.
     """
     ordenes = await ver_ordenes_logic(session)
     return ordenes
 
+
 @router.post("/")
 async def crear_orden(orden: OrdenConDetalle, session: SessionDep) -> OrdenConProductos:
     """
-    Crea una orden en la base de datos.
+    Endpoint para crear una nueva orden.
+
+    :param orden: Los detalles de la orden a crear.
+    :type orden: OrdenConDetalle
+    :param session: La dependencia de la sesión.
+    :type session: SessionDep
+    :return: La orden creada con sus productos.
+    :rtype: OrdenConProductos
+    :raise HTTPException: Si algún producto no existe.
     """
-    # Falta definir objeto orden acá
     nueva_orden = await crear_orden_logic(orden, session)
     if not nueva_orden:
-        raise HTTPException(status_code=404, detail="Se creó la orden pero la lista de productos solo parcialmente. Hay un producto que no existe") 
+        raise HTTPException(
+            status_code=404,
+            detail="Se creó la orden pero la lista de productos solo parcialmente. Hay un producto que no existe",
+        )
     return nueva_orden
+
 
 @router.get("/{id_orden}")
 async def ver_orden_por_id(id_orden: str, session: SessionDep):
     """
-    Devuelve la orden con el id pasado por parámetro. Incluye la lista de productos dentro de esa orden.
+    Endpoint para ver una orden específica junto con sus productos.
+
+    :param id_orden: Identificador de la orden.
+    :type id_orden: str
+    :param session: La dependencia de la sesión.
+    :type session: SessionDep
+    :return: La orden con sus productos.
+    :raise HTTPException: Si no se encuentra la orden.
     """
     orden = await ver_orden_por_id_logic(id_orden, session)
     if orden is None:
         raise HTTPException(status_code=404, detail="Orden no encontrada")
     return orden
 
+
 @router.put("/{id_orden}")
 async def reemplazar_orden(id_orden: str, orden: OrdenConDetalle, session: SessionDep):
     """
-    Reemplaza una orden en la base de datos.
-    No reemplaza los productos de la orden, solo la orden en sí.
+    Endpoint para reemplazar los detalles de una orden existente.
+
+    :param id_orden: Identificador de la orden.
+    :type id_orden: str
+    :param orden: Los nuevos detalles de la orden.
+    :type orden: OrdenConDetalle
+    :param session: La dependencia de la sesión.
+    :type session: SessionDep
+    :return: La orden actualizada.
+    :raise HTTPException: Si no se encuentra la orden.
     """
     orden_actualizada = await reemplazar_orden_logica(id_orden, orden, session)
     if not orden_actualizada:
         raise HTTPException(status_code=404, detail="Orden no encontrada")
     return orden_actualizada
 
+
 @router.delete("/{id_orden}")
 async def eliminar_orden(id_orden: str, session: SessionDep):
+    """
+    Endpoint para eliminar una orden registrada.
+
+    :param id_orden: Identificador de la orden.
+    :type id_orden: str
+    :param session: La dependencia de la sesión.
+    :type session: SessionDep
+    :return: True si la orden fue eliminada.
+    :rtype: bool
+    :raise HTTPException: Si no se encuentra la orden.
+    """
     eliminado = await eliminar_orden_logica(id_orden, session)
     if not eliminado:
         raise HTTPException(status_code=404, detail="Orden no encontrada")
