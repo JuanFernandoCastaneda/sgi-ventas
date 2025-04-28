@@ -6,5 +6,5 @@
 }
 
 body {
-  @apply bg-background-gray w-full h-[3000px];
+  @apply bg-background-gray w-full min-h-screen;
 }

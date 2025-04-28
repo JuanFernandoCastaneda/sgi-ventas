@@ -3,17 +3,42 @@ import { CarritoVentas } from "../components/carritoVentas/CarritoVentas";
 import { InformacionCostoTotal } from "../components/InformacionCostoTotal";
 import { useState } from "react";
 import { useProductosInventario } from "../utils/hooks/useProductosInventario";
+import { useFormaPago } from "../utils/hooks/useFormaPago";
+import { InformacionExtraOrden } from "../components/InformacionExtraOrden";
+import { useCarrito } from "../utils/context/CarritoContext";
 
 export const CrearOrden: React.FC = () => {
   const navigate = useNavigate();
 
   const productosInventario = useProductosInventario();
-
+  const productosCarrito = useCarrito().carroCompras;
+  const { formaPago, cambiarFormaPago, formasPagoDisponibles } = useFormaPago();
   const [observaciones, setObservaciones] = useState<string>("");
   const [fechaFactura, setFechaFactura] = useState<string>(
-    Date.now().toString()
+    new Date().toISOString().split("T")[0]
   );
-  const [formaPago, setFormaPago] = useState<string>();
+
+  const crearOrdenCompra = () => {
+    const body = JSON.stringify({
+      id: -1,
+      productos: JSON.stringify(productosCarrito),
+      id_forma_pago: formaPago?.id || 1,
+      observaciones: observaciones,
+      fecha_facturacion: fechaFactura,
+    });
+    console.log(body);
+    fetch("http://localhost:8000/ordenes", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: body,
+    }).then((response) => {
+      if (response.ok) {
+        console.log("Orden de compra creada");
+      }
+    });
+  };
 
   return (
     <>
@@ -29,6 +54,18 @@ export const CrearOrden: React.FC = () => {
       <main className="w-full px-4">
         <CarritoVentas productosInventario={productosInventario} />
         <InformacionCostoTotal productosInventario={productosInventario} />
+        <InformacionExtraOrden
+          {...{
+            formaPago,
+            cambiarFormaPago,
+            formasPagoDisponibles,
+            observaciones,
+            setObservaciones,
+            fechaFactura,
+            setFechaFactura,
+          }}
+        />
+        <button onClick={() => crearOrdenCompra()}>Crear ODC</button>
       </main>
     </>
   );

@@ -32,24 +32,26 @@ export const InformacionCostoTotal: React.FC<{
     <section className="w-full border-separate border-spacing-2 table-fixed">
       <table>
         <thead>
-          <th scope="column" className="w-1/7 text-left">
-            Subtotal sin IVA
-          </th>
-          <th scope="column" className="w-1/7 text-left">
-            Total gravado con IVA
-          </th>
-          <th scope="column" className="w-1/7 text-left">
-            Total no gravado con IVA
-          </th>
-          <th scope="column" className="w-1/7 text-left">
-            Total IVA
-          </th>
-          <th scope="column" className="w-1/7 text-left">
-            Descuento
-          </th>
-          <th scope="column" className="w-2/7 text-left">
-            Valor total OCD
-          </th>
+          <tr>
+            <th scope="column" className="w-1/7 text-left">
+              Subtotal sin IVA
+            </th>
+            <th scope="column" className="w-1/7 text-left">
+              Total gravado con IVA
+            </th>
+            <th scope="column" className="w-1/7 text-left">
+              Total no gravado con IVA
+            </th>
+            <th scope="column" className="w-1/7 text-left">
+              Total IVA
+            </th>
+            <th scope="column" className="w-1/7 text-left">
+              Descuento
+            </th>
+            <th scope="column" className="w-2/7 text-left">
+              Valor total OCD
+            </th>
+          </tr>
         </thead>
         <tbody>
           <tr>
