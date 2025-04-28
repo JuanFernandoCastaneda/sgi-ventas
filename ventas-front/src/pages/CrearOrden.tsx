@@ -1,9 +1,27 @@
 import { useNavigate } from "react-router";
 import { CarritoVentas } from "../components/carritoVentas/CarritoVentas";
-import { CarritoProvider } from "../context/useCarrito";
+import { InformacionCostoTotal } from "../components/InformacionCostoTotal";
+import { ProductoDO } from "../models/producto";
+import { useEffect, useState } from "react";
 
 export const CrearOrden: React.FC = () => {
   const navigate = useNavigate();
+
+  const [productosInventario, setProductosInventario] = useState<
+    Array<ProductoDO>
+  >([]);
+
+  useEffect(() => {
+    fetch("http://localhost:8000/productos", { method: "GET" }).then(
+      async (response) => {
+        const json = await response.json();
+        if (!response.ok) {
+          throw new Error("Error al obtener los productos");
+        }
+        setProductosInventario(json);
+      }
+    );
+  }, []);
 
   return (
     <>
@@ -17,9 +35,8 @@ export const CrearOrden: React.FC = () => {
         <h2 className="font-medium text-xl text-gray-700">{`OCD ${0.01}`}</h2>
       </header>
       <main className="w-full px-4">
-        <CarritoProvider>
-          <CarritoVentas />
-        </CarritoProvider>
+        <CarritoVentas productosInventario={productosInventario} />
+        <InformacionCostoTotal productosInventario={productosInventario} />
       </main>
     </>
   );

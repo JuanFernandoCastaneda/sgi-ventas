@@ -13,6 +13,7 @@ export const FilaCarritoVentas: React.FC<{
   eliminarProducto,
 }) => {
   const [nuevaCantidad, setNuevaCantidad] = useState(cantidad);
+  const [editando, setEditando] = useState(false);
 
   const typewatch = useRef(
     (function () {
@@ -26,23 +27,31 @@ export const FilaCarritoVentas: React.FC<{
 
   return (
     <tr>
-      <th className="text-left bg-background-gray rounded-md text-font-gray">
+      <th
+        scope="row"
+        className="text-left bg-background-gray rounded-md text-font-gray"
+      >
         {producto.nombre}
       </th>
-      <td className="text-center bg-background-gray rounded-md text-font-gray">
+      <td className="text-center bg-background-gray rounded-md text-font-gray flex flex-col">
         <input
           value={nuevaCantidad}
           type="number"
           min={0}
           step={1}
           onChange={(e) => {
-            setNuevaCantidad(parseInt(e.target.value));
-            typewatch.current(() => {
-              actualizarCantidadProductoCarrito(parseInt(e.target.value));
-            }, 1000);
+            if (!isNaN(parseInt(e.target.value))) {
+              setNuevaCantidad(parseInt(e.target.value));
+              setEditando(true);
+              typewatch.current(() => {
+                actualizarCantidadProductoCarrito(parseInt(e.target.value));
+                setEditando(false);
+              }, 1000);
+            }
           }}
-          className="w-full"
+          className="w-full text-center"
         />
+        <p>{editando && "EDITANDOOO"}</p>
       </td>
       <td className="text-center bg-background-gray rounded-md text-font-gray">
         {producto.iva * 100}%
