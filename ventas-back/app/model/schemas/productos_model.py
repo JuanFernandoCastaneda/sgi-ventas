@@ -17,7 +17,7 @@ class ProductoBase(SQLModel):
     """
 
     nombre: str = Field()
-    iva: Decimal = Field(default=Decimal("0"), decimal_places=3, gt=0, le=1)
+    iva: Decimal = Field(default=Decimal("0"), decimal_places=3, ge=0, le=1)
     precio_sin_iva: Decimal = Field(decimal_places=3, ge=0)
 
     @computed_field  # type: ignore
