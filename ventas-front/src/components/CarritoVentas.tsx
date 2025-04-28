@@ -14,23 +14,22 @@ export const CarritoVentas: React.FC<{
   >([]);
 
   useEffect(() => {
-    const response: Array<ProductoDO> = [
-      {
-        id: "1",
-        nombre: "Pepito",
-        iva: 0.16,
-        valorUnitSinIva: 1000,
-        valorUnitConIva: 1160,
-      },
-    ];
-    setProductosInventario(response);
+    fetch("http://localhost:8000/productos", { method: "GET" }).then(
+      async (response) => {
+        const json = await response.json();
+        if (!response.ok) {
+          throw new Error("Error al obtener los productos");
+        }
+        setProductosInventario(json);
+      }
+    );
   }, []);
 
   const agregarProductoCarritoPorNombre = (nombre: string) => {
     const producto = productosInventario.find(
       (producto) => producto.nombre === nombre
     );
-    if(producto) agregarProductoCarrito(producto.id, producto);
+    if (producto) agregarProductoCarrito(producto.id, producto);
   };
 
   return (

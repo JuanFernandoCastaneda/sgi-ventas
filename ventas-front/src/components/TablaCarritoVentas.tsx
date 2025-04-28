@@ -60,16 +60,21 @@ export const TablaCarritoVentas: React.FC<{
               {producto.iva * 100}%
             </td>
             <td className="text-center bg-background-gray rounded-md text-font-gray">
-              {producto.valorUnitSinIva}
+              {producto.precio_sin_iva}
             </td>
             <td className="text-center bg-background-gray rounded-md text-font-gray">
-              {producto.valorUnitConIva}
+              {producto.precio_con_iva}
             </td>
             <td className="text-center bg-background-gray rounded-md text-font-gray">
               {producto.valorTotalConIva}
             </td>
             <td className="text-center rounded-[50%] bg-gray-400 text-white w-full h-full aspect-square">
-              <button onClick={() => eliminarProductoCarrito(producto.id)} className="w-full h-full hover:border hover:border-purple-500">-</button>
+              <button
+                onClick={() => eliminarProductoCarrito(producto.id)}
+                className="w-full h-full hover:border hover:border-purple-500"
+              >
+                -
+              </button>
             </td>
           </tr>
         ))}
