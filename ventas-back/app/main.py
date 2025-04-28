@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from routers import ordenes_router, productos_router
+from app.routers import ordenes_router, productos_router
 
 app = FastAPI()
 

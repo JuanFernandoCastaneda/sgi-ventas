@@ -1,23 +1,28 @@
 from sqlmodel import SQLModel, Field
 from datetime import datetime
 from decimal import Decimal
-from model.schemas.productos_model import CantidadProductoCarrito
 from pydantic import computed_field
 from sqlalchemy import CheckConstraint
+from app.model.schemas.productos_model import CantidadProductoCarrito
+from app.model.schemas.detalles_model import DetalleOrden
 
 class OrdenBase(SQLModel):
     observaciones: str = Field(default="")
     fecha_facturacion: datetime = Field(default=datetime.now())
     id_forma_pago: int = Field(foreign_key="formapago.id")
-    descuento: Decimal = Field(default="0")
+    descuento: Decimal = Field(default="0", decimal_places=3)
 
 class Orden(OrdenBase, table=True):
-    id: int = Field(primary_key=True)
+    id: int | None = Field(default=None, primary_key=True)
     
     __table_args__ = (
         CheckConstraint("descuento >= 0", name="descuento_positivo"),
         CheckConstraint("descuento <= 1", name="descuento_max_1"),
     )
+
+class OrdenConDetalle(OrdenBase):
+    id: int = Field(primary_key=True)
+    detalles: list[DetalleOrden] = Field(default=[])
 
 class OrdenConProductos(OrdenBase):
     id: int = Field(primary_key=True)

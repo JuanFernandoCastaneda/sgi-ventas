@@ -18,7 +18,7 @@ class ProductoBase(SQLModel):
 
 
 class Producto(ProductoBase, table=True):
-    id: int = Field(primary_key=True)
+    id: int | None = Field(default=None, primary_key=True)
 
     __table_args__ = (
         CheckConstraint("precio_sin_iva >= 0", name="precio_sin_iva_positive"),

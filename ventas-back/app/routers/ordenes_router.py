@@ -1,16 +1,15 @@
 from fastapi import APIRouter
-from dependencies.database import SessionDep
-from logic.ordenes_logic import ver_productos_orden as ver_productos_orden_logic
-from model.schemas.productos_model import CantidadProductoCarrito
-from dependencies.database import SessionDep
-from logic.ordenes_logic import ver_orden_por_id as ver_orden_por_id_logic
+from app.dependencies.database import SessionDep
+from app.logic.ordenes_logic import ver_productos_orden as ver_productos_orden_logic
+from app.model.schemas.productos_model import CantidadProductoCarrito
+from app.dependencies.database import SessionDep
+from app.logic.ordenes_logic import ver_orden_por_id as ver_orden_por_id_logic
 from fastapi import HTTPException
-from logic.ordenes_logic import ver_ordenes as ver_ordenes_logic
-from model.schemas.ordenes_model import Orden
-from model.schemas.ordenes_model import OrdenConProductos
-from logic.ordenes_logic import crear_orden as crear_orden_logic
-from logic.detalle_orden_logic import crear_o_actualizar_detalle_orden as crear_o_actualizar_detalle_orden_logic
-from model.schemas.detalles_model import DetalleOrden
+from app.logic.ordenes_logic import ver_ordenes as ver_ordenes_logic
+from app.model.schemas.ordenes_model import OrdenConProductos, OrdenConDetalle
+from app.logic.ordenes_logic import crear_orden as crear_orden_logic
+from app.logic.detalle_orden_logic import crear_o_actualizar_detalle_orden as crear_o_actualizar_detalle_orden_logic
+from app.model.schemas.detalles_model import DetalleOrden
 
 router = APIRouter(
     prefix="/ordenes",
@@ -27,19 +26,25 @@ async def ver_ordenes(session: SessionDep):
     return ordenes
 
 @router.post("/")
-async def crear_orden(orden: OrdenConProductos, session: SessionDep) -> OrdenConProductos:
+async def crear_orden(orden: OrdenConDetalle, session: SessionDep) -> OrdenConProductos:
     """
     Crea una orden en la base de datos.
     """
     # Falta definir objeto orden acá
-    return crear_orden_logic(orden, session)
+    nueva_orden = await crear_orden_logic(orden, session)
+    if not nueva_orden:
+        raise HTTPException(status_code=404, detail="Se creó la orden pero la lista de productos tuvo un error") 
+    return nueva_orden
 
 @router.post("/{id_orden}/productos/{id_producto}")
 async def agregar_producto_orden(id_orden: int, id_producto: int, cantidad: int, session: SessionDep):
     """
     Agrega un producto a una orden.
     """
-    return await crear_o_actualizar_detalle_orden_logic(DetalleOrden(id_producto=id_producto, cantidad=cantidad, id_orden=id_orden), session)
+    nuevo_detalle = await crear_o_actualizar_detalle_orden_logic(DetalleOrden(id_producto=id_producto, cantidad=cantidad, id_orden=id_orden), session)
+    if not nuevo_detalle:
+        raise HTTPException(status_code=404, detail="Orden o producto no encontrados")
+    return nuevo_detalle
     
 
 @router.get("/{id_orden}")
