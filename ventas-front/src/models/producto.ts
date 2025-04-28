@@ -1,12 +1,12 @@
 export type ProductoDO = {
-  id: string;
+  id: number;
   nombre: string;
   iva: number;
   precio_sin_iva: number;
   precio_con_iva: number;
 };
 
-export type ProductoUI = ProductoDO & {
+export type DetalleOrden = {
+  id_producto: number;
   cantidad: number;
-  valorTotalConIva: number;
 };
