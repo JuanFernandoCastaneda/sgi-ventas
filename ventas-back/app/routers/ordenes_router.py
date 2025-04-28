@@ -48,7 +48,6 @@ async def ver_orden_por_id(id_orden: str, session: SessionDep):
         raise HTTPException(status_code=404, detail="Orden no encontrada")
     return orden
 
-# Falta definir objeto orden acá
 @router.put("/{id_orden}")
 async def reemplazar_orden(id_orden: str, orden: OrdenConDetalle, session: SessionDep):
     """
@@ -66,20 +65,3 @@ async def eliminar_orden(id_orden: str, session: SessionDep):
     if not eliminado:
         raise HTTPException(status_code=404, detail="Orden no encontrada")
     return True
-
-@router.get("/{id_orden}/productos")
-async def ver_productos_orden(id_orden: int, session: SessionDep) -> list[CantidadProductoCarrito]:
-    productos = await ver_productos_orden_logic(id_orden, session)
-    if productos is None:
-        raise HTTPException(status_code=404, detail="Orden no encontrada")
-    return productos
-
-@router.post("/{id_orden}/productos/{id_producto}")
-async def agregar_producto_orden(id_orden: int, id_producto: int, cantidad: int, session: SessionDep):
-    """
-    Agrega un producto a una orden.
-    """
-    nuevo_detalle = await crear_o_actualizar_detalle_orden_logic(DetalleOrden(id_producto=id_producto, cantidad=cantidad, id_orden=id_orden), session)
-    if not nuevo_detalle:
-        raise HTTPException(status_code=404, detail="Orden o producto no encontrados")
-    return nuevo_detalle
