@@ -18,12 +18,12 @@ class ProductoBase(SQLModel):
 
     nombre: str = Field()
     iva: Decimal = Field(default=Decimal("0"), decimal_places=3, ge=0, le=1)
-    precio_sin_iva: Decimal = Field(decimal_places=3, ge=0)
+    precio_sin_iva: Decimal = Field(decimal_places=0, ge=0)
 
     @computed_field  # type: ignore
     @property
     def precio_con_iva(self) -> Decimal:
-        return round(self.precio_sin_iva * (1 + self.iva), 3)
+        return round(self.precio_sin_iva * (1 + self.iva), 0)
 
 
 class Producto(ProductoBase, table=True):
@@ -62,10 +62,10 @@ class CantidadProductoCarrito(ProductoBase):
     @computed_field  # type: ignore
     @property
     def valor_total_sin_iva(self) -> Decimal:
-        return round(self.precio_sin_iva * self.cantidad, 3)
+        return round(self.precio_sin_iva * self.cantidad, 0)
 
     # Type ignore se puede explicar por https://github.com/python/mypy/issues/1362
     @computed_field  # type: ignore
     @property
     def valor_total_con_iva(self) -> Decimal:
-        return round(self.precio_con_iva * self.cantidad, 3)
+        return round(self.precio_con_iva * self.cantidad, 0)
