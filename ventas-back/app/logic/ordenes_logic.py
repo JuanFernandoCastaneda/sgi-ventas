@@ -57,3 +57,34 @@ async def ver_productos_orden(id_orden: int, session: SessionDep) -> list[Cantid
         productoCarrito = CantidadProductoCarrito(**vars(producto), cantidad=detalle_orden.cantidad)
         listaProductos.append(productoCarrito)
     return listaProductos
+
+async def eliminar_orden(id_orden: int, session: SessionDep) -> bool:
+    """
+    Elimina una orden de la base de datos.
+    """
+    orden = session.get(Orden, id_orden)
+    if orden is None:
+        return False
+    session.delete(orden)
+    detalles = session.exec(select(DetalleOrden).where(DetalleOrden.id_orden == id_orden)).all()
+    for detalle in detalles:
+        session.delete(detalle)
+    session.commit()
+    return True
+
+async def reemplazar_orden(id_orden: int, orden: Orden, session: SessionDep) -> Orden | None:
+    """
+    Reemplaza una orden de la base de datos.
+    No reemplaza los productos de la orden.
+    """
+    orden_a_reemplazar = session.get(Orden, id_orden)
+    if orden_a_reemplazar is None:
+        return None
+    orden_a_reemplazar.observaciones = orden.observaciones
+    orden_a_reemplazar.fecha_facturacion = orden.fecha_facturacion
+    orden_a_reemplazar.id_forma_pago = orden.id_forma_pago
+    orden_a_reemplazar.descuento = orden.descuento
+    session.add(orden_a_reemplazar)
+    session.commit()
+    session.refresh(orden_a_reemplazar)
+    return orden_a_reemplazar
