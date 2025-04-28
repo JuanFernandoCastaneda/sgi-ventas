@@ -3,7 +3,7 @@ import { Navigate, Route, Routes } from "react-router";
 import { CrearOrden } from "./pages/CrearOrden";
 import { ListaOrdenes } from "./pages/ListaOrdenes";
 import { VerOrden } from "./pages/VerOrden";
-import { CarritoProvider } from "./context/useCarrito";
+import { CarritoProvider } from "./utils/context/CarritoContext";
 
 function App() {
   return (

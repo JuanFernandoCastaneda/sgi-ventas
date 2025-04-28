@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, ReactNode } from "react";
-import { DetalleOrden } from "../models/producto";
+import { DetalleOrden } from "../../models/producto";
 
 // Define the shape of the context
 interface CarritoContextType {

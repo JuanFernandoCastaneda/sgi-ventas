@@ -1,27 +1,19 @@
 import { useNavigate } from "react-router";
 import { CarritoVentas } from "../components/carritoVentas/CarritoVentas";
 import { InformacionCostoTotal } from "../components/InformacionCostoTotal";
-import { ProductoDO } from "../models/producto";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useProductosInventario } from "../utils/hooks/useProductosInventario";
 
 export const CrearOrden: React.FC = () => {
   const navigate = useNavigate();
 
-  const [productosInventario, setProductosInventario] = useState<
-    Array<ProductoDO>
-  >([]);
+  const productosInventario = useProductosInventario();
 
-  useEffect(() => {
-    fetch("http://localhost:8000/productos", { method: "GET" }).then(
-      async (response) => {
-        const json = await response.json();
-        if (!response.ok) {
-          throw new Error("Error al obtener los productos");
-        }
-        setProductosInventario(json);
-      }
-    );
-  }, []);
+  const [observaciones, setObservaciones] = useState<string>("");
+  const [fechaFactura, setFechaFactura] = useState<string>(
+    Date.now().toString()
+  );
+  const [formaPago, setFormaPago] = useState<string>();
 
   return (
     <>

@@ -6,7 +6,7 @@ import {
   ComboboxPopover,
   ComboboxProvider,
 } from "@ariakit/react";
-import { useCarrito } from "../../context/useCarrito";
+import { useCarrito } from "../../utils/context/CarritoContext";
 
 export const MenuAgregarProducto: React.FC<{
   productosInventario: Array<ProductoDO>;

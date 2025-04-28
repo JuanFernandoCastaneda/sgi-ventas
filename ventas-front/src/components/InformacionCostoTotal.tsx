@@ -1,4 +1,4 @@
-import { useCarrito } from "../context/useCarrito";
+import { useCarrito } from "../utils/context/CarritoContext";
 import { ProductoDO } from "../models/producto";
 
 export const InformacionCostoTotal: React.FC<{
