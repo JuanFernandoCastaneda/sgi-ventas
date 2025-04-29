@@ -1,6 +1,7 @@
 from fastapi import APIRouter
 from app.dependencies.database import SessionDep
-from app.logic.reportes_logic import ver_reportes as ver_reportes_logic
+from app.logic.reportes_logic import generar_reporte
+from fastapi.responses import FileResponse
 
 router = APIRouter(
     prefix="/reportes",
@@ -18,4 +19,5 @@ async def ver_reportes(session: SessionDep):
     :type session: SessionDep
     :return: Una lista de reportes.
     """
-    return await ver_reportes_logic(session)
+    reporte = await generar_reporte(session)
+    return FileResponse(reporte["filename"])

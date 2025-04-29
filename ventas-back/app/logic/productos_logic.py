@@ -1,4 +1,4 @@
-from app.model.schemas.productos_model import Producto
+from app.model.schemas.productos_model import Producto, CantidadProductoCarrito
 from app.dependencies.database import SessionDep
 from sqlmodel import select
 from app.model.schemas.detalles_model import DetalleOrden
@@ -16,13 +16,13 @@ async def ver_productos(session: SessionDep) -> list[Producto]:
     return session.exec(select(Producto)).all()
 
 
-async def ver_top3(session: SessionDep) -> list[dict]:
+async def ver_top3(session: SessionDep) -> list[CantidadProductoCarrito]:
     """
     Lógica para obtener los 3 productos más vendidos con su cantidad total vendida.
 
     :param session: La dependencia de la sesión.
     :type session: SessionDep
-    :return: Una lista de diccionarios con el producto y su cantidad total vendida.
+    :return: Una lista de productos con su cantidad total vendida.
     """
     statement = (
         select(Producto, func.sum(DetalleOrden.cantidad).label("total_vendido"))
@@ -34,5 +34,10 @@ async def ver_top3(session: SessionDep) -> list[dict]:
     results = session.exec(statement)
     listaProductos = []
     for producto, total_vendido in results:
-        listaProductos.append({"producto": producto, "total_vendido": total_vendido})
+        listaProductos.append(
+            CantidadProductoCarrito(
+                **vars(producto),
+                cantidad=total_vendido,
+            )
+        )
     return listaProductos
