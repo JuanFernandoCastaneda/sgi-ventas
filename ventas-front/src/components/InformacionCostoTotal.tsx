@@ -1,9 +1,12 @@
 import { useCarrito } from "../utils/context/CarritoContext";
 import { ProductoDO } from "../models/producto";
+import { formatearComoDinero } from "../utils/functions/formatearDinero";
 
 export const InformacionCostoTotal: React.FC<{
   productosInventario: Array<ProductoDO>;
-}> = ({ productosInventario }) => {
+  descuento: number;
+  setDescuento: Function;
+}> = ({ productosInventario, descuento, setDescuento }) => {
   const carritoHandler = useCarrito();
   const carrito = carritoHandler.carroCompras;
 
@@ -27,6 +30,19 @@ export const InformacionCostoTotal: React.FC<{
       producto.iva == 0 ? detalleOrden.cantidad * producto.precio_con_iva : 0;
     valorTotalOCD += detalleOrden.cantidad * producto.precio_con_iva;
   });
+
+  const manejarDescuento = (descuento: number) => {
+    if (typeof descuento !== "number") return;
+    if (isNaN(descuento)) {
+      setDescuento(0);
+    } else if (descuento <= 0) {
+      setDescuento(0);
+    } else if (descuento > 100) {
+      setDescuento(100);
+    } else {
+      setDescuento(descuento);
+    }
+  };
 
   return (
     <section className="w-full py-2">
@@ -56,22 +72,32 @@ export const InformacionCostoTotal: React.FC<{
         <tbody>
           <tr>
             <td className="text-center rounded-md bg-white text-font-gray py-1">
-              {subtotalSinIVA}
+              {formatearComoDinero(subtotalSinIVA)}
             </td>
             <td className="text-center rounded-md bg-white text-font-gray py-1">
-              {totalGravadoConIVA}
+              {formatearComoDinero(totalGravadoConIVA)}
             </td>
             <td className="text-center rounded-md bg-white text-font-gray py-1">
-              {totalNoGravadoConIVA}
+              {formatearComoDinero(totalNoGravadoConIVA)}
             </td>
             <td className="text-center rounded-md bg-white text-font-gray py-1">
-              {valorTotalOCD - subtotalSinIVA}
+              {formatearComoDinero(valorTotalOCD - subtotalSinIVA)}
             </td>
             <td className="text-center rounded-md bg-white text-font-gray py-1">
-              0
+              <input
+                type="number"
+                minLength={0}
+                min={0}
+                max={100}
+                value={descuento}
+                onChange={(e) => manejarDescuento(parseInt(e.target.value))}
+                className="w-full h-full text-center rounded-md"
+              />
             </td>
             <td className="text-center rounded-md bg-white text-font-gray py-1">
-              {valorTotalOCD}
+              {formatearComoDinero(
+                valorTotalOCD - (valorTotalOCD * descuento) / 100
+              )}
             </td>
           </tr>
         </tbody>

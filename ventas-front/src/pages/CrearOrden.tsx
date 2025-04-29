@@ -17,6 +17,7 @@ export const CrearOrden: React.FC = () => {
   const [fechaFactura, setFechaFactura] = useState<string>(
     new Date().toISOString().split("T")[0]
   );
+  const [descuento, setDescuento] = useState<number>(0);
 
   const crearOrdenCompra = () => {
     const body = JSON.stringify({
@@ -25,6 +26,7 @@ export const CrearOrden: React.FC = () => {
       id_forma_pago: formaPago?.id || 1,
       observaciones: observaciones,
       fecha_facturacion: fechaFactura,
+      descuento: descuento,
     });
     console.log(body);
     fetch("http://localhost:8000/ordenes", {
@@ -49,11 +51,15 @@ export const CrearOrden: React.FC = () => {
         >
           {"<"}
         </button>
-        <h2 className="font-medium text-xl text-gray-700">{`OCD ${0.01}`}</h2>
+        <h2 className="font-medium text-xl text-gray-700">{`Crear OCD`}</h2>
       </header>
       <main className="w-full px-4">
         <CarritoVentas productosInventario={productosInventario} />
-        <InformacionCostoTotal productosInventario={productosInventario} />
+        <InformacionCostoTotal
+          productosInventario={productosInventario}
+          descuento={descuento}
+          setDescuento={setDescuento}
+        />
         <InformacionExtraOrden
           {...{
             formaPago,
@@ -68,7 +74,7 @@ export const CrearOrden: React.FC = () => {
         <div className="mt-6 mb-10 flex flex-row justify-center h-10">
           <button
             onClick={() => crearOrdenCompra()}
-            className="py-1 px-2 outline-2 text-font-gray rounded-md outline-font-hover-purple hover:bg-font-hover-purple hover:text-white"
+            className="py-1 px-2 outline-2 text-font-gray rounded-md outline-font-hover-purple hover:bg-font-hover-purple hover:text-white font-medium"
           >
             Crear ODC
           </button>
