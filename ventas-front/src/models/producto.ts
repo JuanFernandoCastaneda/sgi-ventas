@@ -9,6 +9,10 @@ export type ProductoDO = {
   precio_con_iva: number;
 };
 
+export type ProductoDOCompleto = ProductoDO & {
+  cantidad: number;
+};
+
 /**
  * Modelo de detalle de orden usado internamente
  */
