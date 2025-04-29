@@ -1,27 +1,8 @@
 import { useNavigate, useParams } from "react-router";
 import { useEffect, useState } from "react";
-import { OrdenDO, OrdenDOProductosCompleto } from "../models/orden";
+import { OrdenDOProductosCompleto } from "../models/orden";
 import { formatearComoDinero } from "../utils/functions/formatearDinero";
-
-interface InfoAttributeProps {
-  label: string;
-  value: string | number;
-  formatAsMoney?: boolean;
-}
-
-/**
- * Componente que muestra un atributo de la orden con su etiqueta y valor.
- */
-const InfoAttribute: React.FC<InfoAttributeProps> = ({
-  label,
-  value,
-  formatAsMoney = false,
-}) => (
-  <p className="text-gray-700">
-    <span className="font-medium">{label}:</span>{" "}
-    {formatAsMoney ? formatearComoDinero(value as number) : value}
-  </p>
-);
+import { InfoAtributo } from "../components/InfoAtributo";
 
 /**
  * Componente que representa la vista detallada de una orden.
@@ -73,30 +54,30 @@ export const VerOrden: React.FC = () => {
           <h3 className="text-xl font-medium text-gray-700">Resumen</h3>
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <InfoAttribute
+              <InfoAtributo
                 label="Subtotal sin IVA"
                 value={orden.subtotal_sin_iva}
                 formatAsMoney
               />
-              <InfoAttribute
+              <InfoAtributo
                 label="Total gravado IVA"
                 value={orden.total_gravado_iva}
                 formatAsMoney
               />
-              <InfoAttribute
+              <InfoAtributo
                 label="Total no gravado IVA"
                 value={orden.total_no_gravado_iva}
                 formatAsMoney
               />
             </div>
             <div className="space-y-2">
-              <InfoAttribute label="Descuento" value={`${orden.descuento}%`} />
-              <InfoAttribute
+              <InfoAtributo label="Descuento" value={`${orden.descuento}%`} />
+              <InfoAtributo
                 label="Valor Total"
                 value={orden.valor_total}
                 formatAsMoney
               />
-              <InfoAttribute
+              <InfoAtributo
                 label="Total IVA"
                 value={orden.total_iva}
                 formatAsMoney
@@ -104,7 +85,7 @@ export const VerOrden: React.FC = () => {
             </div>
           </div>
           <div className="border-t pt-4">
-            <InfoAttribute
+            <InfoAtributo
               label="Observaciones"
               value={orden.observaciones || "Sin observaciones"}
             />

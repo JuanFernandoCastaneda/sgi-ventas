@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { OrdenDO } from "../models/orden";
 import { formatearComoDinero } from "../utils/functions/formatearDinero";
+import { BotonDescargaTop3 } from "../components/BotonDescargaTop3";
 
 /**
  * Componente que representa la página de lista de ordenes.
@@ -33,6 +34,7 @@ export const ListaOrdenes: React.FC = () => {
         >
           Nueva ODC
         </button>
+        <BotonDescargaTop3 />
       </header>
       <main className="w-full px-4">
         <div className="flex flex-col gap-4">

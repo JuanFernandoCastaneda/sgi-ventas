@@ -25,7 +25,7 @@ export const CrearOrden: React.FC = () => {
   const crearOrdenCompra = () => {
     const body = JSON.stringify({
       id: -1,
-      productos: JSON.stringify(productosCarrito),
+      detalles: productosCarrito,
       id_forma_pago: formaPago?.id || 1,
       observaciones: observaciones,
       fecha_facturacion: fechaFactura,
