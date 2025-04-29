@@ -19,7 +19,7 @@ El backend está en la carpeta ventas-back/. Para correrlo:
    Una vez instaladas las dependencias, puedes iniciar el servidor con:
 
    ```bash
-   uvicorn app.main:app --reload
+   fastapi run app/main.py
    ```
 
    El backend estará disponible en `http://localhost:8000`.
