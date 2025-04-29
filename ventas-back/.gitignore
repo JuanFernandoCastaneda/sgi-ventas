@@ -29,5 +29,3 @@ __pycache__
 database.db
 
 .pytest_cache
-
-reports
