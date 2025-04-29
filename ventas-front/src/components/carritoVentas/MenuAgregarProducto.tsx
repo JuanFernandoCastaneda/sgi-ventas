@@ -14,13 +14,14 @@ export const MenuAgregarProducto: React.FC<{
   const [productoPorAgregar, setProductoPorAgregar] = useState<string>("");
   const [toggleBuscador, setToggleBuscador] = useState(false);
   const agregarProducto = useCarrito().agregarProducto;
+  const [error, setError] = useState<string | null>(null);
 
   const agregar = (nombre: string) => {
     const producto = productosInventario.find(
       (producto) => producto.nombre === nombre
     );
     if (!producto) {
-      alert("No debería pasar");
+      setError("Tienes que ingresar un producto");
       return;
     }
     agregarProducto(producto.id, 1);
@@ -34,37 +35,47 @@ export const MenuAgregarProducto: React.FC<{
         <>
           <ComboboxProvider
             setValue={(nombre) =>
-              startTransition(() => setProductoPorAgregar(nombre))
+              startTransition(() => {
+                setProductoPorAgregar(nombre);
+                setError(null);
+              })
             }
           >
             <Combobox
               placeholder="Busca el nombre"
               blurActiveItemOnClick={true}
+              className="w-80 rounded-md p-1"
             />
-            <ComboboxPopover className="w-full">
+            <ComboboxPopover className="w-80 bg-white rounded-md shadow-md border-1 border-gray-200 py-1">
               {productosInventario.map((producto) => (
                 <ComboboxItem
                   key={producto.id}
                   value={producto.nombre}
-                  className="w-full hover:border-purple-500 hover:border"
+                  className="w-full text-font-gray px-1"
                 >
-                  {producto.nombre}
+                  <p className="w-full rounded-md px-2 hover:bg-font-hover-purple hover:text-white">
+                    {producto.nombre}
+                  </p>
                 </ComboboxItem>
               ))}
             </ComboboxPopover>
           </ComboboxProvider>
           <button
             onClick={() => agregar(productoPorAgregar)}
-            className="hover:border hover:border-purple-500"
+            className="text-font-gray hover:text-font-hover-purple md:ml-4"
           >
             Agregar
           </button>
         </>
       ) : (
-        <button onClick={() => setToggleBuscador(true)}>
-          Agregar nuevo producto
+        <button
+          onClick={() => setToggleBuscador(true)}
+          className="font-medium text-font-gray hover:text-font-hover-purple hover:font-medium flex flex-row align-center outline-1 outline-font-gray rounded-xl py-1 px-2 hover:outline-font-hover-purple"
+        >
+          + Agregar nuevo producto
         </button>
       )}
+      {error && <p className="text-red-500">{error}</p>}
     </div>
   );
 };

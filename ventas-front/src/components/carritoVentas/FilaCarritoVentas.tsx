@@ -29,7 +29,7 @@ export const FilaCarritoVentas: React.FC<{
     <tr>
       <th
         scope="row"
-        className="text-left bg-background-gray rounded-md text-font-gray"
+        className="text-left bg-background-gray rounded-md text-font-gray py-1 px-2"
       >
         {producto.nombre}
       </th>
@@ -49,28 +49,28 @@ export const FilaCarritoVentas: React.FC<{
               }, 1000);
             }
           }}
-          className="w-full text-center"
+          className="w-full text-center rounded-md py-1 px-2"
         />
         <p>{editando && "EDITANDOOO"}</p>
       </td>
-      <td className="text-center bg-background-gray rounded-md text-font-gray">
+      <td className="text-center bg-background-gray rounded-md text-font-gray py-1 px-2">
         {producto.iva * 100}%
       </td>
-      <td className="text-center bg-background-gray rounded-md text-font-gray">
+      <td className="text-center bg-background-gray rounded-md text-font-gray py-1 px-2">
         {producto.precio_sin_iva}
       </td>
-      <td className="text-center bg-background-gray rounded-md text-font-gray">
+      <td className="text-center bg-background-gray rounded-md text-font-gray py-1 px-2">
         {producto.precio_con_iva}
       </td>
-      <td className="text-center bg-background-gray rounded-md text-font-gray">
+      <td className="text-center bg-background-gray rounded-md text-font-gray py-1 px-2">
         {producto.precio_con_iva * cantidad}
       </td>
-      <td className="text-center rounded-[50%] bg-gray-400 text-white w-full h-full aspect-square">
+      <td className="text-center w-full h-full aspect-square py-1 px-2">
         <button
           onClick={() => eliminarProducto()}
-          className="w-full h-full hover:border hover:border-purple-500"
+          className="size-6 font-medium bg-gray-400 ratio-1/1 rounded-[50%] hover:bg-font-hover-purple text-white"
         >
-          -
+          <span className="text-center align-middle">-</span>
         </button>
       </td>
     </tr>

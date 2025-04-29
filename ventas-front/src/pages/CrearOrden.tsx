@@ -65,7 +65,14 @@ export const CrearOrden: React.FC = () => {
             setFechaFactura,
           }}
         />
-        <button onClick={() => crearOrdenCompra()}>Crear ODC</button>
+        <div className="mt-6 mb-10 flex flex-row justify-center h-10">
+          <button
+            onClick={() => crearOrdenCompra()}
+            className="py-1 px-2 outline-2 text-font-gray rounded-md outline-font-hover-purple hover:bg-font-hover-purple hover:text-white"
+          >
+            Crear ODC
+          </button>
+        </div>
       </main>
     </>
   );

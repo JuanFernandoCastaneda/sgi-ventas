@@ -29,8 +29,8 @@ export const InformacionCostoTotal: React.FC<{
   });
 
   return (
-    <section className="w-full border-separate border-spacing-2 table-fixed">
-      <table>
+    <section className="w-full py-2">
+      <table className="border-separate border-spacing-2 table-fixed">
         <thead>
           <tr>
             <th scope="column" className="w-1/7 text-left">
@@ -55,12 +55,24 @@ export const InformacionCostoTotal: React.FC<{
         </thead>
         <tbody>
           <tr>
-            <td className="text-center">{subtotalSinIVA}</td>
-            <td className="text-center">{totalGravadoConIVA}</td>
-            <td className="text-center">{totalNoGravadoConIVA}</td>
-            <td className="text-center">{valorTotalOCD - subtotalSinIVA}</td>
-            <td className="text-center">0</td>
-            <td className="text-center">{valorTotalOCD}</td>
+            <td className="text-center rounded-md bg-white text-font-gray py-1">
+              {subtotalSinIVA}
+            </td>
+            <td className="text-center rounded-md bg-white text-font-gray py-1">
+              {totalGravadoConIVA}
+            </td>
+            <td className="text-center rounded-md bg-white text-font-gray py-1">
+              {totalNoGravadoConIVA}
+            </td>
+            <td className="text-center rounded-md bg-white text-font-gray py-1">
+              {valorTotalOCD - subtotalSinIVA}
+            </td>
+            <td className="text-center rounded-md bg-white text-font-gray py-1">
+              0
+            </td>
+            <td className="text-center rounded-md bg-white text-font-gray py-1">
+              {valorTotalOCD}
+            </td>
           </tr>
         </tbody>
       </table>
