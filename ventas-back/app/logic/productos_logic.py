@@ -1,6 +1,8 @@
 from app.model.schemas.productos_model import Producto
 from app.dependencies.database import SessionDep
 from sqlmodel import select
+from app.model.schemas.detalles_model import DetalleOrden
+from sqlalchemy import func, desc
 
 
 async def ver_productos(session: SessionDep) -> list[Producto]:
@@ -12,3 +14,25 @@ async def ver_productos(session: SessionDep) -> list[Producto]:
     :return: Una lista de productos.
     """
     return session.exec(select(Producto)).all()
+
+
+async def ver_top3(session: SessionDep) -> list[dict]:
+    """
+    Lógica para obtener los 3 productos más vendidos con su cantidad total vendida.
+
+    :param session: La dependencia de la sesión.
+    :type session: SessionDep
+    :return: Una lista de diccionarios con el producto y su cantidad total vendida.
+    """
+    statement = (
+        select(Producto, func.sum(DetalleOrden.cantidad).label("total_vendido"))
+        .join(DetalleOrden, DetalleOrden.id_producto == Producto.id)
+        .group_by(Producto.id)
+        .order_by(desc("total_vendido"))
+        .limit(3)
+    )
+    results = session.exec(statement)
+    listaProductos = []
+    for producto, total_vendido in results:
+        listaProductos.append({"producto": producto, "total_vendido": total_vendido})
+    return listaProductos
