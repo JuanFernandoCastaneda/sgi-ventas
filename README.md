@@ -47,6 +47,7 @@ El frontend está en ventas-front/. Para correrlo:
 ## Notas
 
 - El backend y el frontend están configurados para ejecutarse en `localhost`. Ambos servidores (frontend y backend) deben estar corriendo para que la app funcione.
+- Las migraciones se hacen automáticamente por el archivo del back que se encuentra en `app/model/migrations.py`. Este archivo importa los modelos que se encuentran en `app/model/schemas/*_model.py` y con eso permite que SQLModel los genere. Los constraints de las tablas están dentro de estos archivos `*_model.py`. 
 
 ## Decisiones de Diseño
 
