@@ -54,7 +54,8 @@ async def crear_detalle_orden(
     )
     if existente:
         return "Ya existe ese producto en esa orden"
-
+    if detalle_orden.cantidad <= 0:
+        return "La cantidad debe ser mayor a 0"
     session.add(detalle_orden)
     session.commit()
     session.refresh(detalle_orden)

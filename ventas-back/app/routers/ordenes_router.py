@@ -43,11 +43,14 @@ async def crear_orden(orden: OrdenConDetalle, session: SessionDep) -> OrdenConPr
     :raise HTTPException: Si algún producto no existe.
     """
     nueva_orden = await crear_orden_logic(orden, session)
-    if not nueva_orden:
-        raise HTTPException(
-            status_code=404,
-            detail="Se creó la orden pero la lista de productos solo parcialmente. Hay un producto que no existe",
-        )
+    if type(nueva_orden) == str:
+        if nueva_orden == "La cantidad debe ser mayor a 0":
+            raise HTTPException(status_code=422, detail=nueva_orden)
+        else:
+            raise HTTPException(
+                status_code=404,
+                detail=nueva_orden,
+            )
     return nueva_orden
 
 

@@ -39,7 +39,7 @@ async def ver_orden_por_id(orden_id: int, session: SessionDep) -> OrdenConProduc
 
 async def crear_orden(
     orden: OrdenConDetalle, session: SessionDep
-) -> OrdenConProductos | None:
+) -> OrdenConProductos | str:
     """
     Crea una nueva orden en la base de datos junto con sus detalles y productos asociados.
 
@@ -60,17 +60,17 @@ async def crear_orden(
     session.commit()
     session.refresh(orden_sin_productos)
 
+    print(orden_sin_productos)
+
     for cantidad_productos_carrito in orden.detalles:
-        nuevo_detalle = await crear_detalle_orden(
-            DetalleOrden(
-                id_producto=cantidad_productos_carrito.id_producto,
-                cantidad=cantidad_productos_carrito.cantidad,
-                id_orden=orden_sin_productos.id,
-            ),
-            session,
+        detalle_orden = DetalleOrden(
+            id_producto=cantidad_productos_carrito.id_producto,
+            cantidad=cantidad_productos_carrito.cantidad,
+            id_orden=orden_sin_productos.id,
         )
-        if not nuevo_detalle:
-            return None
+        nuevo_detalle = await crear_detalle_orden(detalle_orden, session)
+        if type(nuevo_detalle) == str:
+            return nuevo_detalle
 
     return await ver_orden_por_id(orden_sin_productos.id, session)
 
