@@ -10,3 +10,7 @@ export type DetalleOrden = {
   id_producto: number;
   cantidad: number;
 };
+
+export type DetalleOrdenDO = DetalleOrden & {
+  id_orden: number;
+};
