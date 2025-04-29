@@ -1,18 +1,25 @@
 import "./App.css";
-import { Route, Routes } from "react-router";
-import { Home } from "./pages/Home";
+import { Navigate, Route, Routes } from "react-router";
 import { CrearOrden } from "./pages/CrearOrden";
 import { ListaOrdenes } from "./pages/ListaOrdenes";
-import { DetalleOrden } from "./pages/DetalleOrden";
+import { VerOrden } from "./pages/VerOrden";
+import { CarritoProvider } from "./utils/context/CarritoContext";
 
 function App() {
   return (
     <Routes>
-      <Route index element={<Home/>} />
+      <Route index element={<Navigate to="/ordenes" />} />
       <Route path="ordenes">
-        <Route index element={<ListaOrdenes/>}/>
-        <Route path=":id" element={<DetalleOrden/>} />
-        <Route path="crearOrden" element={<CrearOrden/>} />
+        <Route index element={<ListaOrdenes />} />
+        <Route path=":id" element={<VerOrden />} />
+        <Route
+          path="crearOrden"
+          element={
+            <CarritoProvider>
+              <CrearOrden />
+            </CarritoProvider>
+          }
+        />
       </Route>
     </Routes>
   );
