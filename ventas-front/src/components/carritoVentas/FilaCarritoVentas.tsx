@@ -16,6 +16,9 @@ export const FilaCarritoVentas: React.FC<{
   actualizarCantidadProductoCarrito,
   eliminarProducto,
 }) => {
+  /**
+   * Lógica que se encarga de manejar la cantidad de un producto en el carrito (y la espera a que el usuario termine).
+   */
   const [nuevaCantidad, setNuevaCantidad] = useState(cantidad);
   const [editando, setEditando] = useState(false);
 

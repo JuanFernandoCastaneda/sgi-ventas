@@ -38,10 +38,12 @@ export const CrearOrden: React.FC = () => {
         "Content-Type": "application/json",
       },
       body: body,
-    }).then((response) => {
+    }).then(async (response) => {
       if (response.ok) {
         console.log("Orden de compra creada");
       }
+      const json = await response.json();
+      navigate(`/ordenes/${json.id}`);
     });
   };
 
