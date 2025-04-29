@@ -8,6 +8,9 @@ import {
 } from "@ariakit/react";
 import { useCarrito } from "../../utils/context/CarritoContext";
 
+/**
+ * Componente que representa el menú y los botones para agregar productos al carrito.
+ */
 export const MenuAgregarProducto: React.FC<{
   productosInventario: Array<ProductoDO>;
 }> = ({ productosInventario }) => {

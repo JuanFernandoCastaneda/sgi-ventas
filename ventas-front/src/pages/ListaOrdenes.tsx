@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
-import { Navigate, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { OrdenDO } from "../models/orden";
 import { formatearComoDinero } from "../utils/functions/formatearDinero";
 
+/**
+ * Componente que representa la página de lista de ordenes.
+ */
 export const ListaOrdenes: React.FC = () => {
   const navigate = useNavigate();
   const [listaOrdenes, setListaOrdenes] = useState<OrdenDO[]>([]);

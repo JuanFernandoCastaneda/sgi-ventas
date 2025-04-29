@@ -2,6 +2,9 @@ import { useRef, useState } from "react";
 import { ProductoDO } from "../../models/producto";
 import { formatearComoDinero } from "../../utils/functions/formatearDinero";
 
+/**
+ * Componente que representa una fila de la tabla del carrito de ventas.
+ */
 export const FilaCarritoVentas: React.FC<{
   producto: ProductoDO;
   cantidad: number;

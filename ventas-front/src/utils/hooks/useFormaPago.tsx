@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { FormaPago } from "../../models/formaPago";
 
+/**
+ * Hook para obtener las formas de pago
+ * @returns las formas de pago disponibles, la forma de pago seleccionada y la función para cambiar la forma de pago
+ */
 export const useFormaPago = () => {
   const [formaPago, setFormaPago] = useState<FormaPago | null>(null);
   const [formasPagoDisponibles, setFormasPagoDisponibles] = useState<

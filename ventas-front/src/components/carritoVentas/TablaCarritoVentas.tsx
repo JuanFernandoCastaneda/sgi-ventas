@@ -2,6 +2,9 @@ import { useCarrito } from "../../utils/context/CarritoContext";
 import { ProductoDO } from "../../models/producto";
 import { FilaCarritoVentas } from "./FilaCarritoVentas";
 
+/**
+ * Componente que representa el carrito de compras actual en forma de tabla.
+ */
 export const TablaCarritoVentas: React.FC<{
   productosInventario: Array<ProductoDO>;
 }> = ({ productosInventario }) => {

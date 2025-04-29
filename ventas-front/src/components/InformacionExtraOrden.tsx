@@ -1,5 +1,8 @@
 import { FormaPago } from "../models/formaPago";
 
+/**
+ * Componente que representa la información no relacionada con el carrita de una ODP.
+ */
 export const InformacionExtraOrden: React.FC<{
   formaPago: FormaPago | null;
   cambiarFormaPago: Function;

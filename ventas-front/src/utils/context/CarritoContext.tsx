@@ -1,7 +1,6 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 import { DetalleOrden } from "../../models/producto";
 
-// Define the shape of the context
 interface CarritoContextType {
   carroCompras: DetalleOrden[];
   agregarProducto: (id: number, cantidad: number) => void;
@@ -10,12 +9,13 @@ interface CarritoContextType {
   vaciarCarrito: () => void;
 }
 
-// Create the context
 export const CarritoContext = createContext<CarritoContextType | undefined>(
   undefined
 );
 
-// Provider component
+/**
+ * Provider para el carrito de compras
+ */
 export const CarritoProvider = ({ children }: { children: ReactNode }) => {
   const [carroCompras, setCarroCompras] = useState<DetalleOrden[]>([]);
 
@@ -63,7 +63,10 @@ export const CarritoProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-// Custom hook to use the context
+/**
+ * Hook para obtener el carrito de compras
+ * @returns el carro de compras y las funciones para modificarlo
+ */
 export const useCarrito = () => {
   const context = useContext(CarritoContext);
   if (!context) {

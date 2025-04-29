@@ -1,10 +1,12 @@
 import { DetalleOrdenDO } from "./producto";
 
+/**
+ * Modelo de orden que se recibe del backend
+ */
 export type OrdenDO = {
   id: number;
   fecha_facturacion: string;
   id_forma_pago: number;
-  total: number;
   productos: DetalleOrdenDO[];
   descuento: number;
   observaciones: string;

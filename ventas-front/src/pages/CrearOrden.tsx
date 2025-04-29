@@ -7,6 +7,9 @@ import { useFormaPago } from "../utils/hooks/useFormaPago";
 import { InformacionExtraOrden } from "../components/InformacionExtraOrden";
 import { useCarrito } from "../utils/context/CarritoContext";
 
+/**
+ * Componente que representa la página entera de crear una orden.
+ */
 export const CrearOrden: React.FC = () => {
   const navigate = useNavigate();
 

@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { ProductoDO } from "../../models/producto";
 
+/**
+ * Hook para obtener los productos del inventario.
+ * @returns los productos del inventario
+ */
 export const useProductosInventario = () => {
   const [productosInventario, setProductosInventario] = useState<
     Array<ProductoDO>

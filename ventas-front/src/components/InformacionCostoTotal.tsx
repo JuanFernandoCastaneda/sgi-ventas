@@ -2,6 +2,9 @@ import { useCarrito } from "../utils/context/CarritoContext";
 import { ProductoDO } from "../models/producto";
 import { formatearComoDinero } from "../utils/functions/formatearDinero";
 
+/**
+ * Componente que representa la información del costo asociado al carrito.
+ */
 export const InformacionCostoTotal: React.FC<{
   productosInventario: Array<ProductoDO>;
   descuento: number;
