@@ -22,6 +22,15 @@ export const CrearOrden: React.FC = () => {
   );
   const [descuento, setDescuento] = useState<number>(0);
 
+  const aStringDecimal = (numero: number) => {
+    let encoding = numero.toString();
+    const cantidadCerosFaltante = 2 - encoding.length;
+    if (cantidadCerosFaltante > 0) {
+      encoding = "0".repeat(cantidadCerosFaltante) + encoding;
+    }
+    return encoding.slice(0, -2) + "." + encoding.slice(-2);
+  };
+
   const crearOrdenCompra = () => {
     const body = JSON.stringify({
       id: -1,
@@ -29,7 +38,7 @@ export const CrearOrden: React.FC = () => {
       id_forma_pago: formaPago?.id || 1,
       observaciones: observaciones,
       fecha_facturacion: fechaFactura,
-      descuento: descuento,
+      descuento: aStringDecimal(descuento),
     });
     console.log(body);
     fetch("http://localhost:8000/ordenes", {
