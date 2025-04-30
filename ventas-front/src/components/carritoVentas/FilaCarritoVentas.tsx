@@ -48,14 +48,16 @@ export const FilaCarritoVentas: React.FC<{
             min={0}
             step={1}
             onChange={(e) => {
-              if (!isNaN(parseInt(e.target.value))) {
-                setNuevaCantidad(parseInt(e.target.value));
-                setEditando(true);
-                typewatch.current(() => {
-                  actualizarCantidadProductoCarrito(parseInt(e.target.value));
-                  setEditando(false);
-                }, 1000);
+              let input = parseInt(e.target.value);
+              if (isNaN(input)) {
+                input = nuevaCantidad;
               }
+              setNuevaCantidad(input);
+              setEditando(true);
+              typewatch.current(() => {
+                actualizarCantidadProductoCarrito(parseInt(e.target.value));
+                setEditando(false);
+              }, 1000);
             }}
             className="w-full text-center rounded-md py-1 px-2"
           />
