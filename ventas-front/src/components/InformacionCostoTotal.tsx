@@ -1,6 +1,7 @@
 import { useCarrito } from "../utils/context/CarritoContext";
 import { ProductoDO } from "../models/producto";
 import { formatearComoDinero } from "../utils/functions/formatearDinero";
+import { CampoEditable } from "./CampoEditable";
 
 /**
  * Componente que representa la información del costo asociado al carrito.

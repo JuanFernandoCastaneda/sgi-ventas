@@ -1,6 +1,6 @@
-import { useRef, useState } from "react";
 import { ProductoDO } from "../../models/producto";
 import { formatearComoDinero } from "../../utils/functions/formatearDinero";
+import { CampoEditable } from "../CampoEditable";
 
 /**
  * Componente que representa una fila de la tabla del carrito de ventas.
@@ -19,18 +19,6 @@ export const FilaCarritoVentas: React.FC<{
   /**
    * Lógica que se encarga de manejar la cantidad de un producto en el carrito (y la espera a que el usuario termine).
    */
-  const [nuevaCantidad, setNuevaCantidad] = useState(cantidad);
-  const [editando, setEditando] = useState(false);
-
-  const typewatch = useRef(
-    (function () {
-      var timer = 0;
-      return function (callback: Function, ms: number) {
-        clearTimeout(timer);
-        timer = setTimeout(callback, ms);
-      };
-    })()
-  );
 
   return (
     <>
@@ -42,24 +30,20 @@ export const FilaCarritoVentas: React.FC<{
           {producto.nombre}
         </th>
         <td className="text-center bg-background-gray rounded-md text-font-gray flex flex-col">
-          <input
-            value={nuevaCantidad}
-            type="number"
-            min={0}
-            step={1}
-            onChange={(e) => {
-              let input = parseInt(e.target.value);
-              if (isNaN(input)) {
-                input = nuevaCantidad;
-              }
-              setNuevaCantidad(input);
-              setEditando(true);
-              typewatch.current(() => {
-                actualizarCantidadProductoCarrito(parseInt(e.target.value));
-                setEditando(false);
-              }, 1000);
+          <CampoEditable
+            valorOriginal={cantidad.toString()}
+            transformarAInputValido={(_, nuevoValor) => {
+              if (nuevoValor == "") return ["0", ""];
+              if (!/^\d+$/.test(nuevoValor))
+                return [
+                  nuevoValor.replace(/[^\d]/g, ""),
+                  "Solo puedes ingresar números enteros",
+                ];
+              return [nuevoValor, ""];
             }}
-            className="w-full text-center rounded-md py-1 px-2"
+            actualizarValor={(nuevoValor) =>
+              actualizarCantidadProductoCarrito(parseInt(nuevoValor))
+            }
           />
         </td>
         <td className="text-center bg-background-gray rounded-md text-font-gray py-1 px-2">
@@ -83,13 +67,6 @@ export const FilaCarritoVentas: React.FC<{
           </button>
         </td>
       </tr>
-      {editando && (
-        <tr>
-          <td colSpan={7} className="text-center">
-            <p className="text-green-500">Editando...</p>
-          </td>
-        </tr>
-      )}
     </>
   );
 };
