@@ -13,7 +13,7 @@ import { useCarrito } from "../utils/context/CarritoContext";
 export const CrearOrden: React.FC = () => {
   const navigate = useNavigate();
 
-  const productosInventario = useProductosInventario();
+  const productosInventario = useProductosInventario() || [];
   const productosCarrito = useCarrito().carroCompras;
   const { formaPago, cambiarFormaPago, formasPagoDisponibles } = useFormaPago();
   const [observaciones, setObservaciones] = useState<string>("");
