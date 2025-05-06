@@ -1,18 +1,20 @@
 import { useCarrito } from "../../utils/context/CarritoContext";
-import { ProductoDO } from "../../models/producto";
 import { FilaCarritoVentas } from "./FilaCarritoVentas";
+import { useQuery } from "@tanstack/react-query";
+import { productQueryOptions } from "../../utils/tanstackQueryOptions/productQueryOptions";
 
 /**
  * Componente que representa el carrito de compras actual en forma de tabla.
  */
-export const TablaCarritoVentas: React.FC<{
-  productosInventario: Array<ProductoDO>;
-}> = ({ productosInventario }) => {
+export const TablaCarritoVentas: React.FC<{}> = ({}) => {
   const carritoHandler = useCarrito();
 
   const carritoVentas = carritoHandler.carroCompras;
   const eliminarProducto = carritoHandler.eliminarProducto;
   const actualizarCantidadProducto = carritoHandler.actualizarCantidadProducto;
+
+  const { data } = useQuery(productQueryOptions());
+  const productosInventario = data || [];
 
   return (
     <table className="table-fixed w-full border-separate border-spacing-2">

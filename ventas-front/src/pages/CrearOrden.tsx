@@ -2,7 +2,6 @@ import { useNavigate } from "react-router";
 import { CarritoVentas } from "../components/carritoVentas/CarritoVentas";
 import { InformacionCostoTotal } from "../components/InformacionCostoTotal";
 import { useState } from "react";
-import { useProductosInventario } from "../utils/hooks/useProductosInventario";
 import { useFormaPago } from "../utils/hooks/useFormaPago";
 import { InformacionExtraOrden } from "../components/InformacionExtraOrden";
 import { useCarrito } from "../utils/context/CarritoContext";
@@ -12,8 +11,6 @@ import { useCarrito } from "../utils/context/CarritoContext";
  */
 export const CrearOrden: React.FC = () => {
   const navigate = useNavigate();
-
-  const productosInventario = useProductosInventario() || [];
   const productosCarrito = useCarrito().carroCompras;
   const { formaPago, cambiarFormaPago, formasPagoDisponibles } = useFormaPago();
   const [observaciones, setObservaciones] = useState<string>("");
@@ -68,9 +65,8 @@ export const CrearOrden: React.FC = () => {
         <h2 className="font-medium text-xl text-gray-700">{`Crear OCD`}</h2>
       </header>
       <main className="w-full px-4">
-        <CarritoVentas productosInventario={productosInventario} />
+        <CarritoVentas />
         <InformacionCostoTotal
-          productosInventario={productosInventario}
           descuento={descuento}
           setDescuento={setDescuento}
         />

@@ -1,10 +1,11 @@
 import { queryOptions } from "@tanstack/react-query";
 import { ProductoDO } from "../../models/producto";
 
-export const createProductQueryOptions = () => {
+export const productQueryOptions = () => {
   return queryOptions({
     queryKey: ["products"],
     queryFn: getProducts,
+    staleTime: 3000, // No hace una petición nueva si hubo una activa los últimos 5 segundos (útil para no fetchear simultáneamente más de una cosa).
   });
 };
 

@@ -1,15 +1,18 @@
 import { useCarrito } from "../utils/context/CarritoContext";
-import { ProductoDO } from "../models/producto";
 import { formatearComoDinero } from "../utils/functions/formatearDinero";
+import { useQuery } from "@tanstack/react-query";
+import { productQueryOptions } from "../utils/tanstackQueryOptions/productQueryOptions";
 
 /**
  * Componente que representa la información del costo asociado al carrito.
  */
 export const InformacionCostoTotal: React.FC<{
-  productosInventario: Array<ProductoDO>;
   descuento: number;
   setDescuento: Function;
-}> = ({ productosInventario, descuento, setDescuento }) => {
+}> = ({ descuento, setDescuento }) => {
+  const { data } = useQuery(productQueryOptions());
+  const productosInventario = data || [];
+
   const carritoHandler = useCarrito();
   const carrito = carritoHandler.carroCompras;
 
