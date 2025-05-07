@@ -7,17 +7,11 @@ import { TablaCarritoVentas } from "./TablaCarritoVentas";
  *
  * Dentro tiene la tabla de productos y el menu para agregar productos.
  */
-export const CarritoVentas: React.FC<{
-  productosInventario: Array<ProductoDO>;
-}> = ({ productosInventario }) => {
+export const CarritoVentas: React.FC<{}> = ({}) => {
   return (
     <section className="p-4 bg-white rounded-lg shadow-md">
-      <TablaCarritoVentas
-        {...{
-          productosInventario,
-        }}
-      />
-      <MenuAgregarProducto {...{ productosInventario }} />
+      <TablaCarritoVentas />
+      <MenuAgregarProducto />
     </section>
   );
 };

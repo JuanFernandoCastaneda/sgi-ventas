@@ -2,7 +2,6 @@ import { useNavigate } from "react-router";
 import { CarritoVentas } from "../components/carritoVentas/CarritoVentas";
 import { InformacionCostoTotal } from "../components/InformacionCostoTotal";
 import { useState } from "react";
-import { useProductosInventario } from "../utils/hooks/useProductosInventario";
 import { useFormaPago } from "../utils/hooks/useFormaPago";
 import { InformacionExtraOrden } from "../components/InformacionExtraOrden";
 import { useCarrito } from "../utils/context/CarritoContext";
@@ -12,8 +11,6 @@ import { useCarrito } from "../utils/context/CarritoContext";
  */
 export const CrearOrden: React.FC = () => {
   const navigate = useNavigate();
-
-  const productosInventario = useProductosInventario();
   const productosCarrito = useCarrito().carroCompras;
   const { formaPago, cambiarFormaPago, formasPagoDisponibles } = useFormaPago();
   const [observaciones, setObservaciones] = useState<string>("");
@@ -22,6 +19,15 @@ export const CrearOrden: React.FC = () => {
   );
   const [descuento, setDescuento] = useState<number>(0);
 
+  const aStringDecimal = (numero: number) => {
+    let encoding = numero.toString();
+    const cantidadCerosFaltante = 2 - encoding.length;
+    if (cantidadCerosFaltante > 0) {
+      encoding = "0".repeat(cantidadCerosFaltante) + encoding;
+    }
+    return encoding.slice(0, -2) + "." + encoding.slice(-2);
+  };
+
   const crearOrdenCompra = () => {
     const body = JSON.stringify({
       id: -1,
@@ -29,7 +35,7 @@ export const CrearOrden: React.FC = () => {
       id_forma_pago: formaPago?.id || 1,
       observaciones: observaciones,
       fecha_facturacion: fechaFactura,
-      descuento: descuento,
+      descuento: aStringDecimal(descuento),
     });
     console.log(body);
     fetch("http://localhost:8000/ordenes", {
@@ -59,9 +65,8 @@ export const CrearOrden: React.FC = () => {
         <h2 className="font-medium text-xl text-gray-700">{`Crear OCD`}</h2>
       </header>
       <main className="w-full px-4">
-        <CarritoVentas productosInventario={productosInventario} />
+        <CarritoVentas />
         <InformacionCostoTotal
-          productosInventario={productosInventario}
           descuento={descuento}
           setDescuento={setDescuento}
         />
