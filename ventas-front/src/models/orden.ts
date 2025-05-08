@@ -1,4 +1,4 @@
-import { DetalleOrdenDO, ProductoDO, ProductoDOCompleto } from "./producto";
+import { DetalleOrdenDO, ProductoDOCompleto } from "./producto";
 
 /**
  * Modelo de orden que se recibe del backend

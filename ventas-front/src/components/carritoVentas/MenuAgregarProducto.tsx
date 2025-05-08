@@ -5,9 +5,9 @@ import {
   ComboboxPopover,
   ComboboxProvider,
 } from "@ariakit/react";
-import { useCarrito } from "../../utils/context/CarritoContext";
 import { useQuery } from "@tanstack/react-query";
 import { productQueryOptions } from "../../utils/tanstackQueryOptions/productQueryOptions";
+import { useStoreAplicacion } from "../../utils/context/CarritoZustand";
 
 /**
  * Componente que representa el menú y los botones para agregar productos al carrito.
@@ -15,7 +15,7 @@ import { productQueryOptions } from "../../utils/tanstackQueryOptions/productQue
 export const MenuAgregarProducto: React.FC<{}> = ({}) => {
   const [productoPorAgregar, setProductoPorAgregar] = useState<string>("");
   const [toggleBuscador, setToggleBuscador] = useState(false);
-  const agregarProducto = useCarrito().agregarProducto;
+  const agregarProducto = useStoreAplicacion((state) => state.agregarProducto);
   const [error, setError] = useState<string | null>(null);
 
   const { data } = useQuery(productQueryOptions());
@@ -29,7 +29,7 @@ export const MenuAgregarProducto: React.FC<{}> = ({}) => {
       setError("Tienes que ingresar un producto");
       return;
     }
-    agregarProducto(producto.id, 1);
+    agregarProducto(producto.id);
     setProductoPorAgregar("");
     setToggleBuscador(false);
   };
