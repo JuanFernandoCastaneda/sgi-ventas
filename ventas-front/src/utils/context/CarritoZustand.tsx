@@ -5,9 +5,14 @@ type StoreType = {
   modificarCantidadProducto: (id: number, nuevaCantidad: number) => void;
   eliminarProducto: (id: number) => void;
   agregarProducto: (id: number) => void;
+  // -----
+  editandoCampo: boolean;
+  dejarDeEditar: () => void;
+  empezarAEditar: () => void;
 };
 
-export const useStore = create<StoreType>((set) => ({
+export const useStoreAplicacion = create<StoreType>((set) => ({
+  // Carrito
   carrito: new Map(),
   modificarCantidadProducto: (id, nuevaCantidad) =>
     set((state) => {
@@ -27,13 +32,23 @@ export const useStore = create<StoreType>((set) => ({
     }),
   agregarProducto: (id) =>
     set((state) => {
-      const cantidadAntigua = state.carrito.get(id);
       const carritoActualizado = new Map(state.carrito);
-      carritoActualizado.set(id, cantidadAntigua ? cantidadAntigua + 1 : 0);
+      const cantidadAntigua = state.carrito.get(id);
+      carritoActualizado.set(id, cantidadAntigua ? cantidadAntigua + 1 : 1);
       return { carrito: carritoActualizado };
     }),
   vaciarCarrito: () =>
     set((_) => {
       return { carrito: new Map() };
     }),
+  // Edición
+  editandoCampo: false,
+  dejarDeEditar: () =>
+    set((_) => ({
+      editandoCampo: false,
+    })),
+  empezarAEditar: () =>
+    set((_) => ({
+      editandoCampo: true,
+    })),
 }));

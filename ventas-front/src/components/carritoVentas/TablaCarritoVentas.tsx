@@ -1,17 +1,19 @@
-import { useCarrito } from "../../utils/context/CarritoContext";
 import { FilaCarritoVentas } from "./FilaCarritoVentas";
 import { useQuery } from "@tanstack/react-query";
 import { productQueryOptions } from "../../utils/tanstackQueryOptions/productQueryOptions";
+import { useStoreAplicacion } from "../../utils/context/CarritoZustand";
 
 /**
  * Componente que representa el carrito de compras actual en forma de tabla.
  */
 export const TablaCarritoVentas: React.FC<{}> = ({}) => {
-  const carritoHandler = useCarrito();
-
-  const carritoVentas = carritoHandler.carroCompras;
-  const eliminarProducto = carritoHandler.eliminarProducto;
-  const actualizarCantidadProducto = carritoHandler.actualizarCantidadProducto;
+  const carritoVentas = useStoreAplicacion((state) => state.carrito);
+  const eliminarProducto = useStoreAplicacion(
+    (state) => state.eliminarProducto
+  );
+  const actualizarCantidadProducto = useStoreAplicacion(
+    (state) => state.modificarCantidadProducto
+  );
 
   const { data } = useQuery(productQueryOptions());
   const productosInventario = data || [];
@@ -60,21 +62,19 @@ export const TablaCarritoVentas: React.FC<{}> = ({}) => {
         </tr>
       </thead>
       <tbody>
-        {carritoVentas.map((detalleOrden) => {
+        {Array.from(carritoVentas, ([id, cantidad]) => {
           const producto = productosInventario.find(
-            (producto) => producto.id === detalleOrden.id_producto
+            (producto) => producto.id === id
           );
           if (!producto) return <p>Error</p>;
           return (
             <FilaCarritoVentas
               key={self.crypto.randomUUID()}
               producto={producto}
-              cantidad={detalleOrden.cantidad}
-              eliminarProducto={() =>
-                eliminarProducto(detalleOrden.id_producto)
-              }
+              cantidad={cantidad}
+              eliminarProducto={() => eliminarProducto(id)}
               actualizarCantidadProductoCarrito={(cantidad) =>
-                actualizarCantidadProducto(detalleOrden.id_producto, cantidad)
+                actualizarCantidadProducto(id, cantidad)
               }
             />
           );
