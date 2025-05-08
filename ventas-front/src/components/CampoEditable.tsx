@@ -52,7 +52,7 @@ export const CampoEditable: React.FC<{
       dejarDeEditar();
       actualizarValor(targetValueValido);
       setMensajeError("");
-    }, 1000);
+    }, 500);
   };
 
   return (

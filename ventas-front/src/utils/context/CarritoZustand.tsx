@@ -5,6 +5,7 @@ type StoreType = {
   modificarCantidadProducto: (id: number, nuevaCantidad: number) => void;
   eliminarProducto: (id: number) => void;
   agregarProducto: (id: number) => void;
+  vaciarCarrito: () => void;
   // -----
   editandoCampo: boolean;
   dejarDeEditar: () => void;

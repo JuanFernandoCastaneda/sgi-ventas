@@ -13,6 +13,7 @@ export const BotonEnviarOrden: React.FC<{
 
   const productosCarrito = useStoreAplicacion((state) => state.carrito);
   const editandoCampo = useStoreAplicacion((state) => state.editandoCampo);
+  const vaciarCarrito = useStoreAplicacion((state) => state.vaciarCarrito);
 
   const aStringDecimal = (numero: number) => {
     let encoding = numero.toString();
@@ -46,6 +47,7 @@ export const BotonEnviarOrden: React.FC<{
         console.log("Orden de compra creada");
       }
       const json = await response.json();
+      vaciarCarrito();
       navigate(`/ordenes/${json.id}`);
     });
   };
