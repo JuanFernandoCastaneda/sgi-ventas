@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useFormaPago } from "../utils/hooks/useFormaPago";
 import { InformacionExtraOrden } from "../components/InformacionExtraOrden";
 import { useStoreAplicacion } from "../utils/context/CarritoZustand";
+import { DetalleOrden } from "../models/producto";
 
 /**
  * Componente que representa la página entera de crear una orden.
@@ -31,7 +32,9 @@ export const CrearOrden: React.FC = () => {
   const crearOrdenCompra = () => {
     const body = JSON.stringify({
       id: -1,
-      detalles: productosCarrito,
+      detalles: Array.from(productosCarrito, ([id, cantidad]) => {
+        return { id_producto: id, cantidad: cantidad } as DetalleOrden;
+      }),
       id_forma_pago: formaPago?.id || 1,
       observaciones: observaciones,
       fecha_facturacion: fechaFactura,
