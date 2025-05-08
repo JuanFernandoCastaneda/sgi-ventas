@@ -8,12 +8,6 @@ import { useStoreAplicacion } from "../../utils/context/CarritoZustand";
  */
 export const TablaCarritoVentas: React.FC<{}> = ({}) => {
   const carritoVentas = useStoreAplicacion((state) => state.carrito);
-  const eliminarProducto = useStoreAplicacion(
-    (state) => state.eliminarProducto
-  );
-  const actualizarCantidadProducto = useStoreAplicacion(
-    (state) => state.modificarCantidadProducto
-  );
 
   const { data } = useQuery(productQueryOptions());
   const productosInventario = data || [];
@@ -72,10 +66,6 @@ export const TablaCarritoVentas: React.FC<{}> = ({}) => {
               key={self.crypto.randomUUID()}
               producto={producto}
               cantidad={cantidad}
-              eliminarProducto={() => eliminarProducto(id)}
-              actualizarCantidadProductoCarrito={(cantidad) =>
-                actualizarCantidadProducto(id, cantidad)
-              }
             />
           );
         })}

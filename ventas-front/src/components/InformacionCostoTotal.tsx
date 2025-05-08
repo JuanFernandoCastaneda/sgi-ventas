@@ -1,7 +1,7 @@
-import { useCarrito } from "../utils/context/CarritoContext";
 import { formatearComoDinero } from "../utils/functions/formatearDinero";
 import { useQuery } from "@tanstack/react-query";
 import { productQueryOptions } from "../utils/tanstackQueryOptions/productQueryOptions";
+import { useStoreAplicacion } from "../utils/context/CarritoZustand";
 
 /**
  * Componente que representa la información del costo asociado al carrito.
@@ -13,28 +13,24 @@ export const InformacionCostoTotal: React.FC<{
   const { data } = useQuery(productQueryOptions());
   const productosInventario = data || [];
 
-  const carritoHandler = useCarrito();
-  const carrito = carritoHandler.carroCompras;
+  const carrito = useStoreAplicacion((state) => state.carrito);
 
   let subtotalSinIVA = 0;
   let totalGravadoConIVA = 0;
   let totalNoGravadoConIVA = 0;
   let valorTotalOCD = 0;
 
-  carrito.forEach((detalleOrden) => {
-    const producto = productosInventario.find(
-      (producto) => producto.id === detalleOrden.id_producto
-    );
+  carrito.forEach((cantidad, id) => {
+    const producto = productosInventario.find((producto) => producto.id === id);
     if (!producto) {
-      alert("No debería pasar");
-      return;
+      return <p>Error encontrando producto en el inventario</p>;
     }
-    subtotalSinIVA += detalleOrden.cantidad * producto.precio_sin_iva;
+    subtotalSinIVA += cantidad * producto.precio_sin_iva;
     totalGravadoConIVA +=
-      producto.iva > 0 ? detalleOrden.cantidad * producto.precio_con_iva : 0;
+      producto.iva > 0 ? cantidad * producto.precio_con_iva : 0;
     totalNoGravadoConIVA +=
-      producto.iva == 0 ? detalleOrden.cantidad * producto.precio_con_iva : 0;
-    valorTotalOCD += detalleOrden.cantidad * producto.precio_con_iva;
+      producto.iva == 0 ? cantidad * producto.precio_con_iva : 0;
+    valorTotalOCD += cantidad * producto.precio_con_iva;
   });
 
   const manejarDescuento = (descuento: number) => {

@@ -4,14 +4,14 @@ import { InformacionCostoTotal } from "../components/InformacionCostoTotal";
 import { useState } from "react";
 import { useFormaPago } from "../utils/hooks/useFormaPago";
 import { InformacionExtraOrden } from "../components/InformacionExtraOrden";
-import { useCarrito } from "../utils/context/CarritoContext";
+import { useStoreAplicacion } from "../utils/context/CarritoZustand";
 
 /**
  * Componente que representa la página entera de crear una orden.
  */
 export const CrearOrden: React.FC = () => {
   const navigate = useNavigate();
-  const productosCarrito = useCarrito().carroCompras;
+  const productosCarrito = useStoreAplicacion((state) => state.carrito);
   const { formaPago, cambiarFormaPago, formasPagoDisponibles } = useFormaPago();
   const [observaciones, setObservaciones] = useState<string>("");
   const [fechaFactura, setFechaFactura] = useState<string>(

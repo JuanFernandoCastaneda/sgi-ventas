@@ -1,4 +1,5 @@
 import { ProductoDO } from "../../models/producto";
+import { useStoreAplicacion } from "../../utils/context/CarritoZustand";
 import { formatearComoDinero } from "../../utils/functions/formatearDinero";
 import { CampoEditable } from "../CampoEditable";
 
@@ -8,17 +9,17 @@ import { CampoEditable } from "../CampoEditable";
 export const FilaCarritoVentas: React.FC<{
   producto: ProductoDO;
   cantidad: number;
-  actualizarCantidadProductoCarrito: (cantidad: number) => void;
-  eliminarProducto: () => void;
-}> = ({
-  producto,
-  cantidad,
-  actualizarCantidadProductoCarrito,
-  eliminarProducto,
-}) => {
+}> = ({ producto, cantidad }) => {
   /**
    * Lógica que se encarga de manejar la cantidad de un producto en el carrito (y la espera a que el usuario termine).
    */
+
+  const eliminarProducto = useStoreAplicacion(
+    (state) => state.eliminarProducto
+  );
+  const actualizarCantidadProducto = useStoreAplicacion(
+    (state) => state.modificarCantidadProducto
+  );
 
   return (
     <>
@@ -42,7 +43,7 @@ export const FilaCarritoVentas: React.FC<{
               return [nuevoValor, ""];
             }}
             actualizarValor={(nuevoValor) =>
-              actualizarCantidadProductoCarrito(parseInt(nuevoValor))
+              actualizarCantidadProducto(producto.id, parseInt(nuevoValor))
             }
           />
         </td>
@@ -60,7 +61,7 @@ export const FilaCarritoVentas: React.FC<{
         </td>
         <td className="text-center w-full h-full aspect-square py-1 px-2">
           <button
-            onClick={() => eliminarProducto()}
+            onClick={() => eliminarProducto(producto.id)}
             className="size-6 font-medium bg-gray-400 ratio-1/1 rounded-[50%] hover:bg-font-hover-purple text-white"
           >
             <span className="text-center align-middle">-</span>
