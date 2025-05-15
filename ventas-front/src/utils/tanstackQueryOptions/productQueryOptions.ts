@@ -1,6 +1,10 @@
 import { queryOptions } from "@tanstack/react-query";
 import { ProductoDO } from "../../models/producto";
 
+/**
+ * Options for the query that retreives the products.
+ * @returns Check tanstack-query documentation to see all possible values.
+ */
 export const productQueryOptions = () => {
   return queryOptions({
     queryKey: ["products"],
@@ -9,6 +13,10 @@ export const productQueryOptions = () => {
   });
 };
 
+/**
+ * Private method that handles the query option behaviour of asking for the products.
+ * @returns Json with all the products available. For now returns them as a whole, not paginated.
+ */
 const getProducts = async (): Promise<Array<ProductoDO>> => {
   const response = await fetch("http://localhost:8000/productos", {
     method: "GET",

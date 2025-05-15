@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FormaPago } from "../../models/formaPago";
+import { useQuery } from "@tanstack/react-query";
+import { paymentInfoQueryOptions } from "../tanstackQueryOptions/paymentInfoOptions";
 
 /**
  * Hook para obtener las formas de pago
@@ -7,25 +9,10 @@ import { FormaPago } from "../../models/formaPago";
  */
 export const useFormaPago = () => {
   const [formaPago, setFormaPago] = useState<FormaPago | null>(null);
-  const [formasPagoDisponibles, setFormasPagoDisponibles] = useState<
-    FormaPago[]
-  >([]);
-
-  useEffect(() => {
-    fetch("http://localhost:8000/formas_pago", {
-      method: "GET",
-    }).then(async (response) => {
-      if (response.ok) {
-        const data = await response.json();
-        setFormasPagoDisponibles(data);
-      } else {
-        console.error("Error pidiendo formas de pago");
-      }
-    });
-  }, []);
+  const { data: formasPagoDisponibles } = useQuery(paymentInfoQueryOptions());
 
   const cambiarFormaPago = (idNuevaForma: number): FormaPago | null => {
-    const formaPagoSeleccionada = formasPagoDisponibles.find(
+    const formaPagoSeleccionada = formasPagoDisponibles?.find(
       (forma) => forma.id === idNuevaForma
     );
     if (formaPagoSeleccionada) {
