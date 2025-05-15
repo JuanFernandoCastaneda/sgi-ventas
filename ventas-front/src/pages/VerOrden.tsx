@@ -28,8 +28,6 @@ export const VerOrden: React.FC = () => {
     return <div>Cargando...</div>;
   }
 
-  console.log("Orden", orden);
-
   return (
     <>
       <header className="w-full px-4 bg-inherit h-18 flex items-center justify-between">
