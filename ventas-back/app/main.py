@@ -7,12 +7,14 @@ from app.routers import (
     reporte_router,
 )
 from fastapi.middleware.cors import CORSMiddleware
+import os
 
 app = FastAPI()
 
 origins = [
-    "http://localhost:5173",
+    os.environ.get("FRONTEND_IP", "http://localhost:5172"),
 ]
+print(origins)
 
 app.add_middleware(
     CORSMiddleware,
