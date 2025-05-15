@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { useStoreAplicacion } from "../utils/context/CarritoZustand";
 
 export const CampoEditable: React.FC<{
   valorOriginal: string;
@@ -21,7 +22,9 @@ export const CampoEditable: React.FC<{
   type,
 }) => {
   const [nuevaCantidad, setNuevaCantidad] = useState(valorOriginal);
-  const [editando, setEditando] = useState(false);
+  const editando = useStoreAplicacion((state) => state.editandoCampo);
+  const empezarAEditar = useStoreAplicacion((state) => state.empezarAEditar);
+  const dejarDeEditar = useStoreAplicacion((state) => state.dejarDeEditar);
   const [mensajeError, setMensajeError] = useState("");
 
   const typewatch = useRef(
@@ -42,14 +45,14 @@ export const CampoEditable: React.FC<{
     );
     setNuevaCantidad(targetValueValido);
     setMensajeError(mensajeDeError);
-    setEditando(true);
+    empezarAEditar();
 
     // Únicamente actualizar el valor cuando el usuario termine de editar (1 segundo después de dejar de tipar) y dejar de mostrar mensaje de error o de edición.
     typewatch.current(() => {
-      setEditando(false);
+      dejarDeEditar();
       actualizarValor(targetValueValido);
       setMensajeError("");
-    }, 1000);
+    }, 500);
   };
 
   return (

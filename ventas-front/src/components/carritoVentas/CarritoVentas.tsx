@@ -1,4 +1,3 @@
-import { ProductoDO } from "../../models/producto";
 import { MenuAgregarProducto } from "./MenuAgregarProducto";
 import { TablaCarritoVentas } from "./TablaCarritoVentas";
 

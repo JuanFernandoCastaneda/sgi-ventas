@@ -110,10 +110,12 @@ export const VerOrden: React.FC = () => {
                   <td className="py-2">{producto.cantidad}</td>
                   <td className="py-2">{producto.iva * 100}%</td>
                   <td className="py-2">
-                    {formatearComoDinero(producto.precio_sin_iva)}
+                    {formatearComoDinero(producto.precio_con_iva)}
                   </td>
                   <td className="py-2">
-                    {formatearComoDinero(producto.precio_con_iva)}
+                    {formatearComoDinero(
+                      producto.precio_con_iva * producto.cantidad
+                    )}
                   </td>
                 </tr>
               ))}
