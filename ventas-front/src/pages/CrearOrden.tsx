@@ -36,10 +36,10 @@ export const CrearOrden: React.FC = () => {
           setDescuento={setDescuento}
         />
         <InformacionExtraOrden
+          formasPagoDisponibles={formasPagoDisponibles || []}
           {...{
             formaPago,
             cambiarFormaPago,
-            formasPagoDisponibles,
             observaciones,
             setObservaciones,
             fechaFactura,

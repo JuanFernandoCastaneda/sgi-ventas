@@ -42,7 +42,6 @@ export const VerOrden: React.FC = () => {
         </div>
         {orden && !isError && (
           <span className="text-sm text-gray-500">
-            <span>Orden: {orden.toString()}</span>
             Fecha: {orden.fecha_facturacion.split("T")[0]}
           </span>
         )}
