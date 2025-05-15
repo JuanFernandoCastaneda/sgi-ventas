@@ -36,7 +36,7 @@ export const BotonEnviarOrden: React.FC<{
       descuento: aStringDecimal(descuento),
     });
     console.log(body);
-    fetch("http://localhost:8000/ordenes", {
+    fetch(`${import.meta.env.VITE_BACKEND_IP}/ordenes`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

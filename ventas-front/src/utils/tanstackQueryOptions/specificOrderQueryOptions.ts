@@ -30,9 +30,12 @@ export const specificOrderQueryOptions = (id: number) => {
 const getOrderById = async (
   id: number
 ): Promise<OrdenDOProductosCompleto | null> => {
-  const response = await fetch(`http://localhost:8000/ordenes/${id}`, {
-    method: "GET",
-  });
+  const response = await fetch(
+    `${import.meta.env.VITE_BACKEND_IP}/ordenes/${id}`,
+    {
+      method: "GET",
+    }
+  );
   if (!response.ok) {
     // Relaunch an error for Tanstack to use.
     const statusCode = await response.status;

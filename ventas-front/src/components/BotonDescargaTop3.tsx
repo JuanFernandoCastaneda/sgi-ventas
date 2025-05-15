@@ -8,9 +8,12 @@ export const BotonDescargaTop3: React.FC = () => {
       onClick={async () => {
         try {
           setIsDownloading(true);
-          const response = await fetch("http://localhost:8000/reportes", {
-            method: "GET",
-          });
+          const response = await fetch(
+            `${import.meta.env.VITE_BACKEND_IP}/reportes`,
+            {
+              method: "GET",
+            }
+          );
           const blob = await response.blob();
           const url = window.URL.createObjectURL(blob);
           const a = document.createElement("a");

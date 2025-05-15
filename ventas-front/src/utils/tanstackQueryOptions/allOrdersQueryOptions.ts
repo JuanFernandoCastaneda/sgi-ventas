@@ -22,7 +22,7 @@ export const allOrdersQueryOptions = () => {
  * @returns Json with the order info or null if no order was found.
  */
 const getOrders = async (): Promise<Array<OrdenDOProductosCompleto>> => {
-  const response = await fetch(`http://localhost:8000/ordenes/`, {
+  const response = await fetch(`${import.meta.env.VITE_BACKEND_IP}/ordenes/`, {
     method: "GET",
   });
   if (!response.ok) {
