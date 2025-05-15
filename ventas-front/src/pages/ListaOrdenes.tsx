@@ -1,28 +1,15 @@
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { OrdenDO } from "../models/orden";
 import { formatearComoDinero } from "../utils/functions/formatearDinero";
 import { BotonDescargaTop3 } from "../components/BotonDescargaTop3";
+import { useQuery } from "@tanstack/react-query";
+import { allOrdersQueryOptions } from "../utils/tanstackQueryOptions/allOrdersQueryOptions";
 
 /**
  * Componente que representa la página de lista de ordenes.
  */
 export const ListaOrdenes: React.FC = () => {
   const navigate = useNavigate();
-  const [listaOrdenes, setListaOrdenes] = useState<OrdenDO[]>([]);
-
-  useEffect(() => {
-    fetch("http://localhost:8000/ordenes", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setListaOrdenes(data);
-      });
-  }, []);
+  const { data: listaOrdenes } = useQuery(allOrdersQueryOptions());
 
   return (
     <>
@@ -38,7 +25,7 @@ export const ListaOrdenes: React.FC = () => {
       </header>
       <main className="w-full px-4">
         <div className="flex flex-col gap-4">
-          {listaOrdenes.map((orden) => (
+          {listaOrdenes?.map((orden) => (
             <div
               key={orden.id}
               className="bg-white rounded-md p-4 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
