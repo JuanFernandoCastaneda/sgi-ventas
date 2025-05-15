@@ -1,10 +1,9 @@
-import "./App.css";
 import { Navigate, Route, Routes } from "react-router";
 import { CrearOrden } from "./pages/CrearOrden";
 import { ListaOrdenes } from "./pages/ListaOrdenes";
 import { VerOrden } from "./pages/VerOrden";
 
-function App() {
+export function Routing() {
   return (
     <Routes>
       <Route index element={<Navigate to="/ordenes" />} />
@@ -16,5 +15,3 @@ function App() {
     </Routes>
   );
 }
-
-export default App;
