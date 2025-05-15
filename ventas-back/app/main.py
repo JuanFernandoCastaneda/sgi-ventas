@@ -8,13 +8,17 @@ from app.routers import (
 )
 from fastapi.middleware.cors import CORSMiddleware
 import os
+from dotenv import load_dotenv
 
 app = FastAPI()
+
+load_dotenv()  # take environment variables
 
 origins = [
     os.environ.get("FRONTEND_IP"),
 ]
-print(origins)
+
+print(os.environ.get("PAPAS"))
 
 app.add_middleware(
     CORSMiddleware,
