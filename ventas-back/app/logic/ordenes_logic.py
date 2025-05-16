@@ -2,7 +2,7 @@ from sqlmodel import select
 from app.dependencies.database import SessionDep
 from app.model.schemas.ordenes_model import Orden, OrdenConProductos, OrdenConDetalle
 from app.model.schemas.productos_model import CantidadProductoCarrito, Producto
-from app.model.schemas.detalles_model import DetalleOrden
+from app.model.schemas.detalles_model import Carrito
 from app.logic.detalle_orden_logic import crear_detalle_orden
 
 
@@ -63,7 +63,7 @@ async def crear_orden(
     print(orden_sin_productos)
 
     for cantidad_productos_carrito in orden.detalles:
-        detalle_orden = DetalleOrden(
+        detalle_orden = Carrito(
             id_producto=cantidad_productos_carrito.id_producto,
             cantidad=cantidad_productos_carrito.cantidad,
             id_orden=orden_sin_productos.id,
@@ -93,9 +93,9 @@ async def ver_productos_orden(
         return None
 
     statement = (
-        select(DetalleOrden, Producto)
-        .where(DetalleOrden.id_producto == Producto.id)
-        .where(DetalleOrden.id_orden == id_orden)
+        select(Carrito, Producto)
+        .where(Carrito.id_producto == Producto.id)
+        .where(Carrito.id_orden == id_orden)
     )
     results = session.exec(statement)
 
@@ -124,9 +124,7 @@ async def eliminar_orden(id_orden: int, session: SessionDep) -> bool:
     if orden is None:
         return False
     session.delete(orden)
-    detalles = session.exec(
-        select(DetalleOrden).where(DetalleOrden.id_orden == id_orden)
-    ).all()
+    detalles = session.exec(select(Carrito).where(Carrito.id_orden == id_orden)).all()
     for detalle in detalles:
         session.delete(detalle)
     session.commit()

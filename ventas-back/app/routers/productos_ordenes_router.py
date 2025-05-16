@@ -5,7 +5,7 @@ from app.logic.detalle_orden_logic import (
     parchar_detalle_orden as parchar_producto_orden_logic,
 )
 from app.logic.ordenes_logic import ver_productos_orden as ver_productos_orden_logic
-from app.model.schemas.detalles_model import DetalleOrden
+from app.model.schemas.detalles_model import Carrito
 from app.model.schemas.productos_model import CantidadProductoCarrito
 from typing import Annotated
 
@@ -42,7 +42,7 @@ async def agregar_producto_orden(
     id_producto: int,
     cantidad: Annotated[int, Query(ge=0)],
     session: SessionDep,
-) -> DetalleOrden:
+) -> Carrito:
     """
     Endpoint para agregar un producto a una orden existente.
 
@@ -55,11 +55,11 @@ async def agregar_producto_orden(
     :param session: La dependencia de la sesión.
     :type session: SessionDep
     :return: El detalle de la orden con el producto agregado.
-    :rtype: DetalleOrden
+    :rtype: Carrito
     :raises HTTPException: Si no existe la orden o el producto.
     """
     nuevo_detalle = await crear_detalle_orden_logic(
-        DetalleOrden(id_producto=id_producto, cantidad=cantidad, id_orden=id_orden),
+        Carrito(id_producto=id_producto, cantidad=cantidad, id_orden=id_orden),
         session,
     )
     if type(nuevo_detalle) == str:
@@ -73,7 +73,7 @@ async def parchar_producto_orden(
     id_producto: int,
     cantidad_nueva: Annotated[int, Query(ge=0)],
     session: SessionDep,
-) -> DetalleOrden:
+) -> Carrito:
     """
     Endpoint para actualizar la cantidad de un producto en una orden existente.
 
@@ -86,7 +86,7 @@ async def parchar_producto_orden(
     :param session: La dependencia de la sesión.
     :type session: SessionDep
     :return: El detalle de la orden actualizado.
-    :rtype: DetalleOrden
+    :rtype: Carrito
     :raises HTTPException: Si no existe la orden o el producto.
     """
     nuevo_detalle = await parchar_producto_orden_logic(

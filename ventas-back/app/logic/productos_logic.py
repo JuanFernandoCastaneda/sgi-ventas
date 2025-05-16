@@ -1,7 +1,7 @@
 from app.model.schemas.productos_model import Producto, CantidadProductoCarrito
 from app.dependencies.database import SessionDep
 from sqlmodel import select
-from app.model.schemas.detalles_model import DetalleOrden
+from app.model.schemas.detalles_model import Carrito
 from sqlalchemy import func, desc
 
 
@@ -25,8 +25,8 @@ async def ver_top3(session: SessionDep) -> list[CantidadProductoCarrito]:
     :return: Una lista de productos con su cantidad total vendida.
     """
     statement = (
-        select(Producto, func.sum(DetalleOrden.cantidad).label("total_vendido"))
-        .join(DetalleOrden, DetalleOrden.id_producto == Producto.id)
+        select(Producto, func.sum(Carrito.cantidad).label("total_vendido"))
+        .join(Carrito, Carrito.id_producto == Producto.id)
         .group_by(Producto.id)
         .order_by(desc("total_vendido"))
         .limit(3)

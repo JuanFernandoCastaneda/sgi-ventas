@@ -1,7 +1,7 @@
 from app.model.schemas.forma_pago_model import FormaPago
 from app.model.schemas.productos_model import Producto
 from app.model.schemas.ordenes_model import Orden
-from app.model.schemas.detalles_model import DetalleOrden
+from app.model.schemas.detalles_model import Carrito
 from decimal import Decimal
 from datetime import datetime
 
@@ -45,8 +45,8 @@ ordenes = [
 ]
 
 detalles_orden = [
-    DetalleOrden(id_orden=1, id_producto=1, cantidad=2),
-    DetalleOrden(id_orden=1, id_producto=2, cantidad=1),
-    DetalleOrden(id_orden=2, id_producto=3, cantidad=5),
-    DetalleOrden(id_orden=3, id_producto=1, cantidad=10),
+    Carrito(id_orden=1, id_producto=1, cantidad=2),
+    Carrito(id_orden=1, id_producto=2, cantidad=1),
+    Carrito(id_orden=2, id_producto=3, cantidad=5),
+    Carrito(id_orden=3, id_producto=1, cantidad=10),
 ]

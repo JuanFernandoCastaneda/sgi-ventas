@@ -4,7 +4,7 @@ from decimal import Decimal
 from pydantic import computed_field
 from sqlalchemy import CheckConstraint
 from app.model.schemas.productos_model import CantidadProductoCarrito
-from app.model.schemas.detalles_model import DetalleOrden
+from app.model.schemas.detalles_model import Carrito
 
 
 class OrdenBase(SQLModel):
@@ -53,7 +53,7 @@ class OrdenConDetalle(OrdenBase):
     """
 
     id: int = Field(primary_key=True)
-    detalles: list[DetalleOrden] = Field(default=[])
+    detalles: list[Carrito] = Field(default=[])
 
 
 class OrdenConProductos(OrdenBase):
@@ -118,4 +118,4 @@ class OrdenConProductos(OrdenBase):
     @computed_field  # type: ignore
     @property
     def total_iva(self) -> Decimal:
-        return round(self.valor_total - self.subtotal_sin_iva, 0) 
+        return round(self.valor_total - self.subtotal_sin_iva, 0)

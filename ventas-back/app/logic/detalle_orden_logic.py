@@ -1,12 +1,12 @@
 from app.model.schemas.productos_model import Producto
-from app.model.schemas.detalles_model import DetalleOrden
+from app.model.schemas.detalles_model import Carrito
 from app.model.schemas.ordenes_model import Orden
 from app.dependencies.database import SessionDep
 
 
 async def parchar_detalle_orden(
     id_orden: int, id_producto: int, cantidad_nueva: int, session: SessionDep
-) -> DetalleOrden | str:
+) -> Carrito | str:
     """
     Reemplaza el atributo cantidad en el detalle de una orden en la base de datos.
 
@@ -22,7 +22,7 @@ async def parchar_detalle_orden(
     existe_producto = session.get(Producto, id_producto)
     if not existe_producto:
         return "No existe el producto"
-    detalle_orden = session.get(DetalleOrden, (id_producto, id_orden))
+    detalle_orden = session.get(Carrito, (id_producto, id_orden))
     if not detalle_orden:
         return "No se había ordenado el producto en la orden"
 
@@ -34,8 +34,8 @@ async def parchar_detalle_orden(
 
 
 async def crear_detalle_orden(
-    detalle_orden: DetalleOrden, session: SessionDep
-) -> DetalleOrden | str:
+    detalle_orden: Carrito, session: SessionDep
+) -> Carrito | str:
     """
     Crea un detalle de orden en la base de datos.
 
@@ -50,7 +50,7 @@ async def crear_detalle_orden(
     if not existe_orden:
         return "La orden no existe"
     existente = session.get(
-        DetalleOrden, (detalle_orden.id_producto, detalle_orden.id_orden)
+        Carrito, (detalle_orden.id_producto, detalle_orden.id_orden)
     )
     if existente:
         return "Ya existe ese producto en esa orden"
