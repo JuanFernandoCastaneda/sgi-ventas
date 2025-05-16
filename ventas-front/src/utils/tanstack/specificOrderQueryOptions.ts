@@ -1,6 +1,6 @@
 import { queryOptions } from "@tanstack/react-query";
-import { OrdenDOProductosCompleto } from "../../models/orden";
 import { HttpError } from "../errors/HttpError";
+import { OrdenDOProductosCompleto } from "../models/orden";
 
 /**
  * Options for the query that retreives a specific order.

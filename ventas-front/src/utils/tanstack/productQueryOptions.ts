@@ -1,5 +1,5 @@
 import { queryOptions } from "@tanstack/react-query";
-import { ProductoDO } from "../../models/producto";
+import { ProductoDO } from "../models/producto";
 
 /**
  * Options for the query that retreives the products.
