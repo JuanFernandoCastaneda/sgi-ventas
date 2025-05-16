@@ -6,7 +6,7 @@ import {
   ComboboxProvider,
 } from "@ariakit/react";
 import { useQuery } from "@tanstack/react-query";
-import { productQueryOptions } from "../../utils/tanstackQueryOptions/productQueryOptions";
+import { productQueryOptions } from "../../utils/tanstack/productQueryOptions";
 import { useStoreAplicacion } from "../../utils/context/CarritoZustand";
 
 /**

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FormaPago } from "../models/formaPago";
 import { useQuery } from "@tanstack/react-query";
-import { paymentInfoQueryOptions } from "../tanstackQueryOptions/paymentInfoOptions";
+import { paymentInfoQueryOptions } from "../tanstack/paymentInfoOptions";
 
 /**
  * Hook para obtener las formas de pago
