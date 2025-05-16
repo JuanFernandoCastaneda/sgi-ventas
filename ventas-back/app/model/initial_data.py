@@ -1,7 +1,7 @@
 from app.model.schemas.forma_pago_model import FormaPago
 from app.model.schemas.productos_model import Producto
 from app.model.schemas.ordenes_model import Orden
-from app.model.schemas.detalles_model import Carrito
+from app.model.schemas.carrito_model import Carrito
 from decimal import Decimal
 from datetime import datetime
 

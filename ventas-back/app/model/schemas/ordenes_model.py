@@ -3,8 +3,8 @@ from datetime import datetime
 from decimal import Decimal
 from pydantic import computed_field
 from sqlalchemy import CheckConstraint
-from app.model.schemas.productos_model import CantidadProductoCarrito
-from app.model.schemas.detalles_model import Carrito
+from app.model.schemas.productos_model import ProductoConCantidad
+from app.model.schemas.carrito_model import Carrito
 
 
 class OrdenBase(SQLModel):
@@ -73,7 +73,7 @@ class OrdenConProductos(OrdenBase):
 
     id: int = Field(primary_key=True)
 
-    productos: list[CantidadProductoCarrito] = Field(default=[])
+    productos: list[ProductoConCantidad] = Field(default=[])
 
     @computed_field  # type: ignore
     @property

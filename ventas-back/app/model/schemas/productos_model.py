@@ -44,7 +44,7 @@ class Producto(ProductoBase, table=True):
     )
 
 
-class CantidadProductoCarrito(ProductoBase):
+class ProductoConCantidad(ProductoBase):
     """
     Modelo que representa un producto en un carrito con su cantidad.
 

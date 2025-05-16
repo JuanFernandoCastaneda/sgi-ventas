@@ -1,8 +1,8 @@
 from sqlmodel import select
 from app.dependencies.database import SessionDep
 from app.model.schemas.ordenes_model import Orden, OrdenConProductos, OrdenConDetalle
-from app.model.schemas.productos_model import CantidadProductoCarrito, Producto
-from app.model.schemas.detalles_model import Carrito
+from app.model.schemas.productos_model import ProductoConCantidad, Producto
+from app.model.schemas.carrito_model import Carrito
 from app.logic.detalle_orden_logic import crear_detalle_orden
 
 
@@ -77,7 +77,7 @@ async def crear_orden(
 
 async def ver_productos_orden(
     id_orden: int, session: SessionDep
-) -> list[CantidadProductoCarrito] | None:
+) -> list[ProductoConCantidad] | None:
     """
     Obtiene los productos asociados a una orden específica.
 
@@ -86,7 +86,7 @@ async def ver_productos_orden(
     :param session: Sesión de base de datos activa.
     :type session: SessionDep
     :return: Lista de productos con sus cantidades si la orden existe, de lo contrario None.
-    :rtype: list[CantidadProductoCarrito] | None
+    :rtype: list[ProductoConCantidad] | None
     """
     orden = session.get(Orden, id_orden)
     if orden is None:
@@ -102,7 +102,7 @@ async def ver_productos_orden(
     listaProductos = []
     for detalle_orden, producto in results:
         # No es necesario hacerle deep copy.
-        productoCarrito = CantidadProductoCarrito(
+        productoCarrito = ProductoConCantidad(
             **vars(producto), cantidad=detalle_orden.cantidad
         )
         listaProductos.append(productoCarrito)

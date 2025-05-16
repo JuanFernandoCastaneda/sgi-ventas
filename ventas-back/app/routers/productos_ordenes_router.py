@@ -5,8 +5,8 @@ from app.logic.detalle_orden_logic import (
     parchar_detalle_orden as parchar_producto_orden_logic,
 )
 from app.logic.ordenes_logic import ver_productos_orden as ver_productos_orden_logic
-from app.model.schemas.detalles_model import Carrito
-from app.model.schemas.productos_model import CantidadProductoCarrito
+from app.model.schemas.carrito_model import Carrito
+from app.model.schemas.productos_model import ProductoConCantidad
 from typing import Annotated
 
 router = APIRouter(
@@ -18,7 +18,7 @@ router = APIRouter(
 @router.get("/{id_orden}/productos")
 async def ver_productos_orden(
     id_orden: int, session: SessionDep
-) -> list[CantidadProductoCarrito]:
+) -> list[ProductoConCantidad]:
     """
     Endpoint para obtener todos los productos de una orden específica.
 
@@ -27,7 +27,7 @@ async def ver_productos_orden(
     :param session: La dependencia de la sesión.
     :type session: SessionDep
     :return: Lista de productos con sus cantidades asociadas a la orden.
-    :rtype: list[CantidadProductoCarrito]
+    :rtype: list[ProductoConCantidad]
     :raises HTTPException: Si la orden no existe.
     """
     productos = await ver_productos_orden_logic(id_orden, session)

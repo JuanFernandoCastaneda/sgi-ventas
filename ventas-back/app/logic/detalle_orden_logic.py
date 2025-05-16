@@ -1,5 +1,5 @@
 from app.model.schemas.productos_model import Producto
-from app.model.schemas.detalles_model import Carrito
+from app.model.schemas.carrito_model import Carrito
 from app.model.schemas.ordenes_model import Orden
 from app.dependencies.database import SessionDep
 
