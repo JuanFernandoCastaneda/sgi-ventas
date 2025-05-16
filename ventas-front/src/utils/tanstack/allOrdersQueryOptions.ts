@@ -1,6 +1,9 @@
 import { queryOptions } from "@tanstack/react-query";
 import { OrdenDOProductosCompleto } from "../models/orden";
 import { HttpError } from "../errors/HttpError";
+import { queryClient } from "./queryClient";
+
+const queryKey = ["orders"];
 
 /**
  * Options for the query that retreives all orders.
@@ -8,7 +11,7 @@ import { HttpError } from "../errors/HttpError";
  */
 export const allOrdersQueryOptions = () => {
   return queryOptions({
-    queryKey: ["orders"],
+    queryKey: queryKey,
     queryFn: () => getOrders(),
     // Low stale time because it would be opportune to update all times needed.
     staleTime: 1000 * 20,
@@ -32,4 +35,10 @@ const getOrders = async (): Promise<Array<OrdenDOProductosCompleto>> => {
     throw new HttpError(message, statusCode);
   }
   return response.json();
+};
+
+export const refetchAllOrders = async () => {
+  await queryClient.refetchQueries({
+    queryKey: queryKey,
+  });
 };

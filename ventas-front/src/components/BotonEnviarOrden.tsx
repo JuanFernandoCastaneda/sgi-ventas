@@ -2,6 +2,7 @@ import { useNavigate } from "react-router";
 import { useStoreAplicacion } from "../utils/context/CarritoZustand";
 import { FormaPago } from "../utils/models/formaPago";
 import { postOrdenCompra } from "../utils/models/httpMethodsOrden";
+import { refetchAllOrders } from "../utils/tanstack/allOrdersQueryOptions";
 
 export const BotonEnviarOrden: React.FC<{
   idOrden?: number;
@@ -30,6 +31,7 @@ export const BotonEnviarOrden: React.FC<{
       const json = await response.json();
       vaciarCarrito();
       navigate(`/ordenes/${json.id}`);
+      refetchAllOrders();
     });
   };
 
