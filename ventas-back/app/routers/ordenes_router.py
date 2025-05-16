@@ -76,6 +76,7 @@ async def ver_orden_por_id(id_orden: str, session: SessionDep):
 async def reemplazar_orden(id_orden: str, orden: OrdenConDetalle, session: SessionDep):
     """
     Endpoint para reemplazar los detalles de una orden existente.
+    No reemplaza la lista de sus productos, solo la información complementaria.
 
     :param id_orden: Identificador de la orden.
     :type id_orden: str

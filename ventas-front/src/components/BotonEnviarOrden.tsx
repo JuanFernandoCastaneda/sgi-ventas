@@ -1,9 +1,7 @@
 import { useNavigate } from "react-router";
 import { useStoreAplicacion } from "../utils/context/CarritoZustand";
-import { aStringDecimal } from "../utils/functions/stringADecimal";
 import { FormaPago } from "../utils/models/formaPago";
-import { DetalleOrden } from "../utils/models/producto";
-import { postOrdenCompra } from "../utils/models/editarCrearOrden";
+import { postOrdenCompra } from "../utils/models/httpMethodsOrden";
 
 export const BotonEnviarOrden: React.FC<{
   idOrden?: number;
@@ -39,7 +37,7 @@ export const BotonEnviarOrden: React.FC<{
     <div className="mt-6 mb-10 flex flex-row justify-center h-10">
       {editandoCampo ? (
         <span className="text-orange-500">
-          Espera a que la orden de compra termine de editarse para crearla
+          Espera a que la orden de compra termine de editarse para guardarla
         </span>
       ) : (
         <button
