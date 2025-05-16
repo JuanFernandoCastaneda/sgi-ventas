@@ -1,6 +1,6 @@
 from app.model.schemas.productos_model import Producto, ProductoConCantidad
 from app.dependencies.database import SessionDep
-from sqlmodel import select
+from sqlmodel import select, col
 from app.model.schemas.carrito_model import Carrito
 from sqlalchemy import func, desc
 
@@ -13,7 +13,7 @@ async def ver_productos(session: SessionDep) -> list[Producto]:
     :type session: SessionDep
     :return: Una lista de productos.
     """
-    return session.exec(select(Producto)).all()
+    return list(session.exec(select(Producto)).all())
 
 
 async def ver_top3(session: SessionDep) -> list[ProductoConCantidad]:
@@ -24,13 +24,26 @@ async def ver_top3(session: SessionDep) -> list[ProductoConCantidad]:
     :type session: SessionDep
     :return: Una lista de productos con su cantidad total vendida.
     """
+
     statement = (
         select(Producto, func.sum(Carrito.cantidad).label("total_vendido"))
-        .join(Carrito, Carrito.id_producto == Producto.id)
-        .group_by(Producto.id)
+        .where(Producto.id == Carrito.id_producto)
+        .group_by(col(Producto.id))
         .order_by(desc("total_vendido"))
         .limit(3)
     )
+
+    """
+    More SQLAlchemy like way of solving it
+    statement = (
+        select(Producto, func.sum(Carrito.cantidad).label("total_vendido"))
+        .join(Carrito, col(Carrito.id_producto) == Producto.id)
+        .group_by(col(Producto.id))
+        .order_by(desc("total_vendido"))
+        .limit(3)
+    )
+    """
+
     results = session.exec(statement)
     listaProductos = []
     for producto, total_vendido in results:

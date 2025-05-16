@@ -62,7 +62,7 @@ async def agregar_producto_orden(
         Carrito(id_producto=id_producto, cantidad=cantidad, id_orden=id_orden),
         session,
     )
-    if type(nuevo_detalle) == str:
+    if isinstance(nuevo_detalle, str):
         raise HTTPException(status_code=404, detail=nuevo_detalle)
     return nuevo_detalle
 
@@ -92,6 +92,6 @@ async def parchar_producto_orden(
     nuevo_detalle = await parchar_producto_orden_logic(
         id_orden, id_producto, cantidad_nueva, session
     )
-    if type(nuevo_detalle) == str:
+    if isinstance(nuevo_detalle, str):
         raise HTTPException(status_code=404, detail=nuevo_detalle)
     return nuevo_detalle

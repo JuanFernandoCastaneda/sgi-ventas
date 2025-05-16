@@ -43,7 +43,7 @@ async def crear_orden(orden: OrdenConDetalle, session: SessionDep) -> OrdenConPr
     :raise HTTPException: Si algún producto no existe.
     """
     nueva_orden = await crear_orden_logic(orden, session)
-    if type(nueva_orden) == str:
+    if isinstance(nueva_orden, str):
         if nueva_orden == "La cantidad debe ser mayor a 0":
             raise HTTPException(status_code=422, detail=nueva_orden)
         else:
@@ -55,7 +55,7 @@ async def crear_orden(orden: OrdenConDetalle, session: SessionDep) -> OrdenConPr
 
 
 @router.get("/{id_orden}")
-async def ver_orden_por_id(id_orden: str, session: SessionDep):
+async def ver_orden_por_id(id_orden: int, session: SessionDep):
     """
     Endpoint para ver una orden específica junto con sus productos.
 
@@ -73,7 +73,7 @@ async def ver_orden_por_id(id_orden: str, session: SessionDep):
 
 
 @router.put("/{id_orden}")
-async def reemplazar_orden(id_orden: str, orden: OrdenConDetalle, session: SessionDep):
+async def reemplazar_orden(id_orden: int, orden: OrdenConDetalle, session: SessionDep):
     """
     Endpoint para reemplazar los detalles de una orden existente.
     No reemplaza la lista de sus productos, solo la información complementaria.
@@ -94,7 +94,7 @@ async def reemplazar_orden(id_orden: str, orden: OrdenConDetalle, session: Sessi
 
 
 @router.delete("/{id_orden}")
-async def eliminar_orden(id_orden: str, session: SessionDep):
+async def eliminar_orden(id_orden: int, session: SessionDep):
     """
     Endpoint para eliminar una orden registrada.
 

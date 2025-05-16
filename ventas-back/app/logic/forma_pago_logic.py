@@ -13,4 +13,4 @@ async def ver_formas_pago(session: SessionDep) -> list[FormaPago]:
     :rtype: list[str]
     """
     statement = select(FormaPago)
-    return session.exec(statement).all()
+    return list(session.exec(statement).all())

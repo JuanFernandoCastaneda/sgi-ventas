@@ -14,11 +14,9 @@ app = FastAPI()
 
 load_dotenv()  # take environment variables
 
-origins = [
-    os.environ.get("FRONTEND_IP"),
-]
+frontend_ip = os.environ.get("FRONTEND_IP")
 
-print(os.environ.get("PAPAS"))
+origins = [frontend_ip] if frontend_ip != None else []
 
 app.add_middleware(
     CORSMiddleware,

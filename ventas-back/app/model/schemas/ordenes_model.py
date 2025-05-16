@@ -78,36 +78,40 @@ class OrdenConProductos(OrdenBase):
     @computed_field  # type: ignore
     @property
     def subtotal_sin_iva(self) -> Decimal:
-        return round(
-            sum([producto.valor_total_sin_iva for producto in self.productos]), 0
+        return Decimal(
+            round(sum([producto.valor_total_sin_iva for producto in self.productos]), 0)
         )
 
     @computed_field  # type: ignore
     @property
     def total_gravado_iva(self) -> Decimal:
-        return round(
-            sum(
-                [
-                    producto.valor_total_con_iva
-                    for producto in self.productos
-                    if producto.iva > 0
-                ]
-            ),
-            0,
+        return Decimal(
+            round(
+                sum(
+                    [
+                        producto.valor_total_con_iva
+                        for producto in self.productos
+                        if producto.iva > 0
+                    ]
+                ),
+                0,
+            )
         )
 
     @computed_field  # type: ignore
     @property
     def total_no_gravado_iva(self) -> Decimal:
-        return round(
-            sum(
-                [
-                    producto.valor_total_con_iva
-                    for producto in self.productos
-                    if producto.iva == 0
-                ]
-            ),
-            0,
+        return Decimal(
+            round(
+                sum(
+                    [
+                        producto.valor_total_con_iva
+                        for producto in self.productos
+                        if producto.iva == 0
+                    ]
+                ),
+                0,
+            )
         )
 
     @computed_field  # type: ignore
