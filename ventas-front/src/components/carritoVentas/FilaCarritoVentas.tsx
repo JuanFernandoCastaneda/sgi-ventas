@@ -1,6 +1,6 @@
-import { ProductoDO } from "../../models/producto";
 import { useStoreAplicacion } from "../../utils/context/CarritoZustand";
 import { formatearComoDinero } from "../../utils/functions/formatearDinero";
+import { ProductoDO } from "../../utils/models/producto";
 import { CampoEditable } from "../CampoEditable";
 
 /**

@@ -1,5 +1,5 @@
 import { queryOptions } from "@tanstack/react-query";
-import { OrdenDOProductosCompleto } from "../../models/orden";
+import { OrdenDOProductosCompleto } from "../models/orden";
 import { HttpError } from "../errors/HttpError";
 
 /**

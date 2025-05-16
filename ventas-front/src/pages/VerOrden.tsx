@@ -41,9 +41,12 @@ export const VerOrden: React.FC = () => {
           <h2 className="font-medium text-xl text-gray-700">{`OCD #${orden?.id}`}</h2>
         </div>
         {orden && !isError && (
-          <span className="text-sm text-gray-500">
-            Fecha: {orden.fecha_facturacion.split("T")[0]}
-          </span>
+          <>
+            <span className="text-sm text-gray-500">
+              Fecha: {orden.fecha_facturacion.split("T")[0]}
+            </span>
+            <button onClick={() => navigate(`editar`)}>Editar</button>
+          </>
         )}
       </header>
       <main className="w-full p-4 space-y-4">

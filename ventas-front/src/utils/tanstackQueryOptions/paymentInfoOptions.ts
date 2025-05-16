@@ -1,5 +1,5 @@
 import { queryOptions } from "@tanstack/react-query";
-import { FormaPago } from "../../models/formaPago";
+import { FormaPago } from "../models/formaPago";
 
 /**
  * Options for the query that retreives the payment options.
