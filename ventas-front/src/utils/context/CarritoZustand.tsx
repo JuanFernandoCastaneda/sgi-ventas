@@ -1,6 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
 import { create } from "zustand";
-import { paymentInfoQueryOptions } from "../tanstack/paymentInfoOptions";
 import { FormaPago } from "../models/formaPago";
 
 type StoreType = {
@@ -18,8 +16,6 @@ type StoreType = {
   cambiarFormasPagoDisponibles: (
     nuevasFormasPagoDisponibles: Array<FormaPago>
   ) => void;
-  formaPagoElegida: FormaPago | null;
-  cambiarFormaPagoElegida: (idNuevaFormaPago: number) => void;
 };
 
 export const useStoreAplicacion = create<StoreType>((set) => ({
@@ -70,16 +66,4 @@ export const useStoreAplicacion = create<StoreType>((set) => ({
     set((_) => ({
       formasPagoDisponibles: nuevasFormasPagoDisponibles,
     })),
-  formaPagoElegida: null,
-  cambiarFormaPagoElegida: (idNuevaFormaPago: number) =>
-    set((state) => {
-      const formaPagoSeleccionada = state.formasPagoDisponibles?.find(
-        (forma) => forma.id === idNuevaFormaPago
-      );
-      if (formaPagoSeleccionada) {
-        return { formaPagoElegida: formaPagoSeleccionada };
-      } else {
-        return { formaPagoElegida: null };
-      }
-    }),
 }));
