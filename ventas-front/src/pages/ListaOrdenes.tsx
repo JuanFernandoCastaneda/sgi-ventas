@@ -2,7 +2,7 @@ import { useNavigate } from "react-router";
 import { formatearComoDinero } from "../utils/functions/formatearDinero";
 import { BotonDescargaTop3 } from "../components/BotonDescargaTop3";
 import { useQuery } from "@tanstack/react-query";
-import { allOrdersQueryOptions } from "../utils/tanstackQueryOptions/allOrdersQueryOptions";
+import { allOrdersQueryOptions } from "../utils/tanstack/allOrdersQueryOptions";
 
 /**
  * Componente que representa la página de lista de ordenes.
@@ -45,7 +45,7 @@ export const ListaOrdenes: React.FC = () => {
                     {formatearComoDinero(orden.valor_total)}
                   </p>
                   <p className="text-sm text-gray-500">
-                    {orden.productos.length} productos
+                    {orden.informacionCompletaProductos.length} productos
                   </p>
                 </div>
               </div>

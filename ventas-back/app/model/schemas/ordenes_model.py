@@ -3,8 +3,8 @@ from datetime import datetime
 from decimal import Decimal
 from pydantic import computed_field
 from sqlalchemy import CheckConstraint
-from app.model.schemas.productos_model import CantidadProductoCarrito
-from app.model.schemas.detalles_model import DetalleOrden
+from app.model.schemas.productos_model import ProductoConCantidad
+from app.model.schemas.carrito_model import FilaCarrito
 
 
 class OrdenBase(SQLModel):
@@ -42,21 +42,21 @@ class Orden(OrdenBase, table=True):
     )
 
 
-class OrdenConDetalle(OrdenBase):
+class OrdenConProductosCreate(OrdenBase):
     """
-    Modelo que representa una orden con detalles.
+    Modelo que representa una orden con productos.
 
     Extiende de: OrdenBase
 
     :ivar id: Identificador único de la orden.
-    :ivar detalles: Lista de detalles asociados a la orden.
+    :ivar productos: Lista de productos asociados a la orden.
     """
 
     id: int = Field(primary_key=True)
-    detalles: list[DetalleOrden] = Field(default=[])
+    carrito: list[FilaCarrito] = Field(default=[])
 
 
-class OrdenConProductos(OrdenBase):
+class OrdenConProductosPublic(OrdenBase):
     """
     Modelo que representa una orden con productos.
 
@@ -73,41 +73,53 @@ class OrdenConProductos(OrdenBase):
 
     id: int = Field(primary_key=True)
 
-    productos: list[CantidadProductoCarrito] = Field(default=[])
+    informacionCompletaProductos: list[ProductoConCantidad] = Field(default=[])
 
     @computed_field  # type: ignore
     @property
     def subtotal_sin_iva(self) -> Decimal:
-        return round(
-            sum([producto.valor_total_sin_iva for producto in self.productos]), 0
+        return Decimal(
+            round(
+                sum(
+                    [
+                        producto.valor_total_sin_iva
+                        for producto in self.informacionCompletaProductos
+                    ]
+                ),
+                0,
+            )
         )
 
     @computed_field  # type: ignore
     @property
     def total_gravado_iva(self) -> Decimal:
-        return round(
-            sum(
-                [
-                    producto.valor_total_con_iva
-                    for producto in self.productos
-                    if producto.iva > 0
-                ]
-            ),
-            0,
+        return Decimal(
+            round(
+                sum(
+                    [
+                        producto.valor_total_con_iva
+                        for producto in self.informacionCompletaProductos
+                        if producto.iva > 0
+                    ]
+                ),
+                0,
+            )
         )
 
     @computed_field  # type: ignore
     @property
     def total_no_gravado_iva(self) -> Decimal:
-        return round(
-            sum(
-                [
-                    producto.valor_total_con_iva
-                    for producto in self.productos
-                    if producto.iva == 0
-                ]
-            ),
-            0,
+        return Decimal(
+            round(
+                sum(
+                    [
+                        producto.valor_total_con_iva
+                        for producto in self.informacionCompletaProductos
+                        if producto.iva == 0
+                    ]
+                ),
+                0,
+            )
         )
 
     @computed_field  # type: ignore
@@ -118,4 +130,4 @@ class OrdenConProductos(OrdenBase):
     @computed_field  # type: ignore
     @property
     def total_iva(self) -> Decimal:
-        return round(self.valor_total - self.subtotal_sin_iva, 0) 
+        return round(self.valor_total - self.subtotal_sin_iva, 0)

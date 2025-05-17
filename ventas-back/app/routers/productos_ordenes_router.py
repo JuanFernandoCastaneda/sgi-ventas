@@ -1,12 +1,12 @@
 from fastapi import APIRouter, Query, HTTPException
 from app.dependencies.database import SessionDep
-from app.logic.detalle_orden_logic import (
-    crear_detalle_orden as crear_detalle_orden_logic,
-    parchar_detalle_orden as parchar_producto_orden_logic,
+from app.logic.carrito_logic import (
+    crear_fila_carrito as crear_fila_carrito_logic,
+    parchar_fila_carrito as parchar_producto_orden_logic,
 )
 from app.logic.ordenes_logic import ver_productos_orden as ver_productos_orden_logic
-from app.model.schemas.detalles_model import DetalleOrden
-from app.model.schemas.productos_model import CantidadProductoCarrito
+from app.model.schemas.carrito_model import FilaCarrito
+from app.model.schemas.productos_model import ProductoConCantidad
 from typing import Annotated
 
 router = APIRouter(
@@ -18,7 +18,7 @@ router = APIRouter(
 @router.get("/{id_orden}/productos")
 async def ver_productos_orden(
     id_orden: int, session: SessionDep
-) -> list[CantidadProductoCarrito]:
+) -> list[ProductoConCantidad]:
     """
     Endpoint para obtener todos los productos de una orden específica.
 
@@ -27,7 +27,7 @@ async def ver_productos_orden(
     :param session: La dependencia de la sesión.
     :type session: SessionDep
     :return: Lista de productos con sus cantidades asociadas a la orden.
-    :rtype: list[CantidadProductoCarrito]
+    :rtype: list[ProductoConCantidad]
     :raises HTTPException: Si la orden no existe.
     """
     productos = await ver_productos_orden_logic(id_orden, session)
@@ -42,7 +42,7 @@ async def agregar_producto_orden(
     id_producto: int,
     cantidad: Annotated[int, Query(ge=0)],
     session: SessionDep,
-) -> DetalleOrden:
+) -> FilaCarrito:
     """
     Endpoint para agregar un producto a una orden existente.
 
@@ -55,14 +55,14 @@ async def agregar_producto_orden(
     :param session: La dependencia de la sesión.
     :type session: SessionDep
     :return: El detalle de la orden con el producto agregado.
-    :rtype: DetalleOrden
+    :rtype: FilaCarrito
     :raises HTTPException: Si no existe la orden o el producto.
     """
-    nuevo_detalle = await crear_detalle_orden_logic(
-        DetalleOrden(id_producto=id_producto, cantidad=cantidad, id_orden=id_orden),
+    nuevo_detalle = await crear_fila_carrito_logic(
+        FilaCarrito(id_producto=id_producto, cantidad=cantidad, id_orden=id_orden),
         session,
     )
-    if type(nuevo_detalle) == str:
+    if isinstance(nuevo_detalle, str):
         raise HTTPException(status_code=404, detail=nuevo_detalle)
     return nuevo_detalle
 
@@ -73,7 +73,7 @@ async def parchar_producto_orden(
     id_producto: int,
     cantidad_nueva: Annotated[int, Query(ge=0)],
     session: SessionDep,
-) -> DetalleOrden:
+) -> FilaCarrito:
     """
     Endpoint para actualizar la cantidad de un producto en una orden existente.
 
@@ -86,12 +86,12 @@ async def parchar_producto_orden(
     :param session: La dependencia de la sesión.
     :type session: SessionDep
     :return: El detalle de la orden actualizado.
-    :rtype: DetalleOrden
+    :rtype: FilaCarrito
     :raises HTTPException: Si no existe la orden o el producto.
     """
     nuevo_detalle = await parchar_producto_orden_logic(
         id_orden, id_producto, cantidad_nueva, session
     )
-    if type(nuevo_detalle) == str:
+    if isinstance(nuevo_detalle, str):
         raise HTTPException(status_code=404, detail=nuevo_detalle)
     return nuevo_detalle

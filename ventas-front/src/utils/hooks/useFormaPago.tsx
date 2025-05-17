@@ -1,15 +1,16 @@
-import { useState } from "react";
-import { FormaPago } from "../../models/formaPago";
-import { useQuery } from "@tanstack/react-query";
-import { paymentInfoQueryOptions } from "../tanstackQueryOptions/paymentInfoOptions";
+import { useEffect, useState } from "react";
+import { FormaPago } from "../models/formaPago";
+import { useStoreAplicacion } from "../context/CarritoZustand";
 
 /**
  * Hook para obtener las formas de pago
  * @returns las formas de pago disponibles, la forma de pago seleccionada y la función para cambiar la forma de pago
  */
-export const useFormaPago = () => {
+export const useFormaPago = (idFormaPagoInicial?: number) => {
+  const formasPagoDisponibles = useStoreAplicacion(
+    (state) => state.formasPagoDisponibles
+  );
   const [formaPago, setFormaPago] = useState<FormaPago | null>(null);
-  const { data: formasPagoDisponibles } = useQuery(paymentInfoQueryOptions());
 
   const cambiarFormaPago = (idNuevaForma: number): FormaPago | null => {
     const formaPagoSeleccionada = formasPagoDisponibles?.find(
@@ -22,6 +23,11 @@ export const useFormaPago = () => {
       return formaPago;
     }
   };
+
+  useEffect(() => {
+    // Initialize the payment type if given by param.
+    cambiarFormaPago(idFormaPagoInicial || 1);
+  }, []);
 
   return { formaPago, cambiarFormaPago, formasPagoDisponibles };
 };

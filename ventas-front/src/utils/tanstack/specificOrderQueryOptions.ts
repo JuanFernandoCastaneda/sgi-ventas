@@ -1,6 +1,7 @@
 import { queryOptions } from "@tanstack/react-query";
-import { OrdenDOProductosCompleto } from "../../models/orden";
 import { HttpError } from "../errors/HttpError";
+import { OrdenConProductosPublic } from "../models/orden";
+import { queryClient } from "./queryClient";
 
 /**
  * Options for the query that retreives a specific order.
@@ -9,7 +10,7 @@ import { HttpError } from "../errors/HttpError";
  */
 export const specificOrderQueryOptions = (id: number) => {
   return queryOptions({
-    queryKey: ["order", { id }],
+    queryKey: ["order", id],
     queryFn: () => getOrderById(id),
     // Low stale time because it would be opportune to update all times needed.
     staleTime: 1000 * 20,
@@ -29,10 +30,13 @@ export const specificOrderQueryOptions = (id: number) => {
  */
 const getOrderById = async (
   id: number
-): Promise<OrdenDOProductosCompleto | null> => {
-  const response = await fetch(`http://localhost:8000/ordenes/${id}`, {
-    method: "GET",
-  });
+): Promise<OrdenConProductosPublic | null> => {
+  const response = await fetch(
+    `${import.meta.env.VITE_BACKEND_IP}/ordenes/${id}`,
+    {
+      method: "GET",
+    }
+  );
   if (!response.ok) {
     // Relaunch an error for Tanstack to use.
     const statusCode = await response.status;
@@ -40,4 +44,10 @@ const getOrderById = async (
     throw new HttpError(message, statusCode);
   }
   return response.json();
+};
+
+export const refetchSpecificOrder = async (order_id: number) => {
+  await queryClient.refetchQueries({
+    queryKey: ["order", order_id],
+  });
 };

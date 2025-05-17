@@ -1,5 +1,5 @@
 import { queryOptions } from "@tanstack/react-query";
-import { FormaPago } from "../../models/formaPago";
+import { FormaPago } from "../models/formaPago";
 
 /**
  * Options for the query that retreives the payment options.
@@ -21,8 +21,11 @@ export const paymentInfoQueryOptions = () => {
  */
 
 const getPaymentOptions = async (): Promise<Array<FormaPago>> => {
-  const response = await fetch("http://localhost:8000/formas_pago", {
-    method: "GET",
-  });
+  const response = await fetch(
+    `${import.meta.env.VITE_BACKEND_IP}/formas_pago/`,
+    {
+      method: "GET",
+    }
+  );
   return response.json();
 };

@@ -14,16 +14,10 @@ export type ProductoDOCompleto = ProductoDO & {
 };
 
 /**
- * Modelo de detalle de orden usado internamente
- */
-export type DetalleOrden = {
-  id_producto: number;
-  cantidad: number;
-};
-
-/**
  * Modelo de detalle de orden que se recibe del backend
  */
-export type DetalleOrdenDO = DetalleOrden & {
+export type DetalleOrdenDO = {
   id_orden: number;
+  id_producto: number;
+  cantidad: number;
 };

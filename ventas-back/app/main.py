@@ -7,12 +7,16 @@ from app.routers import (
     reporte_router,
 )
 from fastapi.middleware.cors import CORSMiddleware
+import os
+from dotenv import load_dotenv
 
 app = FastAPI()
 
-origins = [
-    "http://localhost:5173",
-]
+load_dotenv()  # take environment variables
+
+frontend_ip = os.environ.get("FRONTEND_IP")
+
+origins = [frontend_ip] if frontend_ip != None else []
 
 app.add_middleware(
     CORSMiddleware,

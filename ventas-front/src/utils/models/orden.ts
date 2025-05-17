@@ -7,7 +7,7 @@ export type OrdenDO = {
   id: number;
   fecha_facturacion: string;
   id_forma_pago: number;
-  productos: DetalleOrdenDO[];
+  carrito: DetalleOrdenDO[];
   descuento: number;
   observaciones: string;
   subtotal_sin_iva: number;
@@ -17,11 +17,11 @@ export type OrdenDO = {
   valor_total: number;
 };
 
-export type OrdenDOProductosCompleto = {
+export type OrdenConProductosPublic = {
   id: number;
   fecha_facturacion: string;
   id_forma_pago: number;
-  productos: ProductoDOCompleto[];
+  informacionCompletaProductos: ProductoDOCompleto[];
   descuento: number;
   observaciones: string;
   subtotal_sin_iva: number;

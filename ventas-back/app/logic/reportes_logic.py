@@ -44,7 +44,7 @@ async def generar_reporte(session: SessionDep):
             [
                 item.nombre,
                 f"${item.precio_con_iva:.2f}",
-                item.cantidad,
+                str(item.cantidad),
                 f"${item.valor_total_con_iva:.2f}",
             ]
         )

@@ -1,7 +1,7 @@
-from app.model.schemas.productos_model import Producto, CantidadProductoCarrito
+from app.model.schemas.productos_model import Producto, ProductoConCantidad
 from app.dependencies.database import SessionDep
-from sqlmodel import select
-from app.model.schemas.detalles_model import DetalleOrden
+from sqlmodel import select, col
+from app.model.schemas.carrito_model import FilaCarrito
 from sqlalchemy import func, desc
 
 
@@ -13,10 +13,10 @@ async def ver_productos(session: SessionDep) -> list[Producto]:
     :type session: SessionDep
     :return: Una lista de productos.
     """
-    return session.exec(select(Producto)).all()
+    return list(session.exec(select(Producto)).all())
 
 
-async def ver_top3(session: SessionDep) -> list[CantidadProductoCarrito]:
+async def ver_top3(session: SessionDep) -> list[ProductoConCantidad]:
     """
     Lógica para obtener los 3 productos más vendidos con su cantidad total vendida.
 
@@ -24,18 +24,31 @@ async def ver_top3(session: SessionDep) -> list[CantidadProductoCarrito]:
     :type session: SessionDep
     :return: Una lista de productos con su cantidad total vendida.
     """
+
     statement = (
-        select(Producto, func.sum(DetalleOrden.cantidad).label("total_vendido"))
-        .join(DetalleOrden, DetalleOrden.id_producto == Producto.id)
-        .group_by(Producto.id)
+        select(Producto, func.sum(FilaCarrito.cantidad).label("total_vendido"))
+        .where(Producto.id == FilaCarrito.id_producto)
+        .group_by(col(Producto.id))
         .order_by(desc("total_vendido"))
         .limit(3)
     )
+
+    """
+    More SQLAlchemy like way of solving it
+    statement = (
+        select(Producto, func.sum(FilaCarrito.cantidad).label("total_vendido"))
+        .join(FilaCarrito, col(FilaCarrito.id_producto) == Producto.id)
+        .group_by(col(Producto.id))
+        .order_by(desc("total_vendido"))
+        .limit(3)
+    )
+    """
+
     results = session.exec(statement)
     listaProductos = []
     for producto, total_vendido in results:
         listaProductos.append(
-            CantidadProductoCarrito(
+            ProductoConCantidad(
                 **vars(producto),
                 cantidad=total_vendido,
             )

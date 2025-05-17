@@ -1,6 +1,6 @@
 import { FilaCarritoVentas } from "./FilaCarritoVentas";
 import { useQuery } from "@tanstack/react-query";
-import { productQueryOptions } from "../../utils/tanstackQueryOptions/productQueryOptions";
+import { productQueryOptions } from "../../utils/tanstack/productQueryOptions";
 import { useStoreAplicacion } from "../../utils/context/CarritoZustand";
 
 /**
@@ -60,7 +60,7 @@ export const TablaCarritoVentas: React.FC<{}> = ({}) => {
           const producto = productosInventario.find(
             (producto) => producto.id === id
           );
-          if (!producto) return <p>Error</p>;
+          if (!producto) return;
           return (
             <FilaCarritoVentas
               key={self.crypto.randomUUID()}

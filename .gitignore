@@ -1,3 +1,5 @@
 reports/
 **/*.db
 .vscode
+*.env
+!*.env.example
