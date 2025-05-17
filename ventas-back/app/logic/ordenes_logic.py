@@ -1,3 +1,4 @@
+from typing import Sequence
 from sqlmodel import select
 from app.dependencies.database import SessionDep
 from app.model.schemas.ordenes_model import Orden, OrdenConProductos, OrdenConDetalle
@@ -16,10 +17,18 @@ async def ver_ordenes(session: SessionDep) -> list[OrdenConProductos]:
     :rtype: list[OrdenConProductos]
     """
     ids_ordenes = session.exec(select(Orden.id)).all()
-    return [await ver_orden_por_id(id_orden, session) for id_orden in ids_ordenes]
+    # Literally had to do this because Python typing doesn't work on subtypes of collections.
+    ordenes = [
+        await ver_orden_por_id(id_orden, session)
+        for id_orden in ids_ordenes
+        if id_orden != None
+    ]
+    return [orden for orden in ordenes if orden is not None]
 
 
-async def ver_orden_por_id(orden_id: int, session: SessionDep) -> OrdenConProductos:
+async def ver_orden_por_id(
+    orden_id: int, session: SessionDep
+) -> OrdenConProductos | None:
     """
     Devuelve una orden específica con sus productos asociados.
 
@@ -31,9 +40,9 @@ async def ver_orden_por_id(orden_id: int, session: SessionDep) -> OrdenConProduc
     :rtype: OrdenConProductos | None
     """
     orden = session.get(Orden, orden_id)
-    if orden is None:
-        return None
     productos_orden = await ver_productos_orden(orden_id, session)
+    if productos_orden is None or orden is None:
+        return None
     return OrdenConProductos(**vars(orden), productos=productos_orden)
 
 
@@ -59,8 +68,9 @@ async def crear_orden(
     session.add(orden_sin_productos)
     session.commit()
     session.refresh(orden_sin_productos)
-
-    print(orden_sin_productos)
+    assert (
+        orden_sin_productos.id is not None
+    ), "There was an error updating on DB the order"
 
     for cantidad_productos_carrito in orden.detalles:
         detalle_orden = Carrito(
@@ -72,7 +82,10 @@ async def crear_orden(
         if type(nuevo_detalle) == str:
             return nuevo_detalle
 
-    return await ver_orden_por_id(orden_sin_productos.id, session)
+    created_order = await ver_orden_por_id(orden_sin_productos.id, session)
+    if not created_order:
+        return "La orden fue borrada por alguien más recién creada"
+    return created_order
 
 
 async def ver_productos_orden(
