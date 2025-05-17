@@ -4,7 +4,6 @@ import { InfoAtributo } from "../components/InfoAtributo";
 import { useQuery } from "@tanstack/react-query";
 import { specificOrderQueryOptions } from "../utils/tanstack/specificOrderQueryOptions";
 import { descuentoANumber } from "../utils/functions/stringADecimal";
-import { useFormaPago } from "../utils/hooks/useFormaPago";
 import { cambiarFormaPago } from "../utils/functions/formaPagoPorId";
 import { useStoreAplicacion } from "../utils/context/CarritoZustand";
 

@@ -15,14 +15,19 @@ El backend está en la carpeta ventas-back/. Para correrlo:
    pip install -r requirements.txt
    ```
 
-2. **Ejecutar el servidor**:
-   Una vez instaladas las dependencias, puedes iniciar el servidor con:
+2. **Archivo .env**:
+   Es necesario darle al backend la dirección del frontend para que este permita la conexión. Esto se hace a través de un archivo `.env`.
+
+   Hay un archivo llamado `.env.example` que tiene la estructura necesaria para el archivo env real. Puedes basarte en este o solo renombrarlo a `.env`.
+
+3. **Ejecutar el servidor**:
+   Una vez instaladas las dependencias y configurado el archivo `.env`, puedes iniciar el servidor con:
 
    ```bash
    fastapi run app/main.py
    ```
 
-   El backend estará disponible en `http://localhost:8000`.
+   El backend en local estará disponible en `http://localhost:8000`.
 
 ## Frontend: Vite + React
 
@@ -35,8 +40,13 @@ El frontend está en ventas-front/. Para correrlo:
    pnpm install
    ```
 
-2. **Ejecutar el servidor de desarrollo**:
-   Una vez instaladas las dependencias, puedes iniciar el servidor de desarrollo con:
+2. **Archivo .env**:
+   Es necesario darle al frontend la dirección desde la cual va a acceder al backend. Esto se hace a través de un archivo `.env`.
+
+   Hay un archivo llamado `.env.example` que tiene la estructura necesaria para el archivo env real. Puedes basarte en este o solo renombrarlo a `.env`.
+
+3. **Ejecutar el servidor de desarrollo**:
+   Una vez instaladas las dependencias y configurado el archivo `.env`, puedes iniciar el servidor de desarrollo con:
 
    ```bash
    pnpm dev
@@ -44,10 +54,18 @@ El frontend está en ventas-front/. Para correrlo:
 
    El frontend estará disponible en `http://localhost:5173`.
 
+## Alternativa rápida para correr el proyecto
+
+Si estás usando una terminal de gnome, puedes hacer uso del archivo bash `run_dev.sh` para correr automáticamente el proyecto una vez instaladas las dependencias. Este script reinicia la base de datos cada vez que se ejecuta.
+
+```bash
+source run_dev.sh
+```
+
 ## Notas
 
 - El backend y el frontend están configurados para ejecutarse en `localhost`. Ambos servidores (frontend y backend) deben estar corriendo para que la app funcione.
-- Las migraciones se hacen automáticamente por el archivo del back que se encuentra en `app/model/migrations.py`. Este archivo importa los modelos que se encuentran en `app/model/schemas/*_model.py` y con eso permite que SQLModel los genere. Los constraints de las tablas están dentro de estos archivos `*_model.py`. 
+- Las migraciones se hacen automáticamente por el archivo del back que se encuentra en `app/model/migrations.py`. Este archivo importa los modelos que se encuentran en `app/model/schemas/*_model.py` y con eso permite que SQLModel los genere. Los constraints de las tablas están dentro de estos archivos `*_model.py`.
 
 ## Decisiones de Diseño
 
