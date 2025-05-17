@@ -60,7 +60,7 @@ export const TablaCarritoVentas: React.FC<{}> = ({}) => {
           const producto = productosInventario.find(
             (producto) => producto.id === id
           );
-          if (!producto) return <p>Error</p>;
+          if (!producto) return;
           return (
             <FilaCarritoVentas
               key={self.crypto.randomUUID()}

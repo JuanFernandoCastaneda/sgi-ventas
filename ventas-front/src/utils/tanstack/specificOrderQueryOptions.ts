@@ -1,6 +1,7 @@
 import { queryOptions } from "@tanstack/react-query";
 import { HttpError } from "../errors/HttpError";
 import { OrdenConProductosPublic } from "../models/orden";
+import { queryClient } from "./queryClient";
 
 /**
  * Options for the query that retreives a specific order.
@@ -9,7 +10,7 @@ import { OrdenConProductosPublic } from "../models/orden";
  */
 export const specificOrderQueryOptions = (id: number) => {
   return queryOptions({
-    queryKey: ["order", { id }],
+    queryKey: ["order", id],
     queryFn: () => getOrderById(id),
     // Low stale time because it would be opportune to update all times needed.
     staleTime: 1000 * 20,
@@ -43,4 +44,10 @@ const getOrderById = async (
     throw new HttpError(message, statusCode);
   }
   return response.json();
+};
+
+export const refetchSpecificOrder = async (order_id: number) => {
+  await queryClient.refetchQueries({
+    queryKey: ["order", order_id],
+  });
 };

@@ -18,13 +18,13 @@ async def parchar_fila_carrito(
     """
     existe_orden = session.get(Orden, id_orden)
     if not existe_orden:
-        return "No existe la orden"
+        return "carrito_logic - parchar_fila_carrito - No existe la orden"
     existe_producto = session.get(Producto, id_producto)
     if not existe_producto:
-        return "No existe el producto"
-    detalle_orden = session.get(FilaCarrito, (id_producto, id_orden))
+        return "carrito_logic - parchar_fila_carrito - No existe el producto"
+    detalle_orden = session.get(FilaCarrito, (id_orden, id_producto))
     if not detalle_orden:
-        return "No se había ordenado el producto en la orden"
+        return f"carrito_logic - parchar_fila_carrito - No se había ordenado el producto {id_producto} en la orden {id_orden}"
 
     detalle_orden.cantidad = cantidad_nueva
     session.add(detalle_orden)
@@ -43,19 +43,21 @@ async def crear_fila_carrito(
     :param session: La dependencia de la sesión de la base de datos.
     :return: El detalle de orden creado o un mensaje de error si no existe la orden o el producto.
     """
-    existe_producto = session.get(Producto, detalle_orden.id_producto)
+    id_orden = detalle_orden.id_orden
+    id_producto = detalle_orden.id_producto
+    existe_producto = session.get(Producto, id_producto)
     if not existe_producto:
-        return "El producto no existe"
-    existe_orden = session.get(Orden, detalle_orden.id_orden)
+        return f"carrito_logic - crear_fila_carrito - El producto con id {id_producto} no existe"
+    existe_orden = session.get(Orden, id_orden)
     if not existe_orden:
-        return "La orden no existe"
-    existente = session.get(
-        FilaCarrito, (detalle_orden.id_producto, detalle_orden.id_orden)
-    )
+        return (
+            f"carrito_logic - crear_fila_carrito - La orden con id {id_orden} no existe"
+        )
+    existente = session.get(FilaCarrito, (id_orden, id_producto))
     if existente:
-        return "Ya existe ese producto en esa orden"
+        return f"carrito_logic - crear_fila_carrito - Ya existe el producto {id_producto} en la orden {id_orden}"
     if detalle_orden.cantidad <= 0:
-        return "La cantidad debe ser mayor a 0"
+        return "carrito_logic - crear_fila_carrito - La cantidad debe ser mayor a 0"
     session.add(detalle_orden)
     session.commit()
     session.refresh(detalle_orden)

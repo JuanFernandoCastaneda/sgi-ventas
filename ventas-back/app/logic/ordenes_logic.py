@@ -174,38 +174,50 @@ async def reemplazar_orden(
     # Data in Order table
     orden_a_reemplazar = session.get(Orden, id_orden)
     if orden_a_reemplazar is None:
-        return "No hay una orden con ese id"
+        return "ordenes_logic - reemplazar_orden - No se encontró la orden con ese id"
     orden_a_reemplazar.observaciones = orden.observaciones
     orden_a_reemplazar.fecha_facturacion = orden.fecha_facturacion
     orden_a_reemplazar.id_forma_pago = orden.id_forma_pago
     orden_a_reemplazar.descuento = orden.descuento
+    print("BEFORE", orden.descuento)
+
     session.add(orden_a_reemplazar)
     session.commit()
     session.refresh(orden_a_reemplazar)
+    print("AFTER", orden_a_reemplazar.descuento)
 
     # Data in FilaCarrito table
     ids_productos_carrito_antiguo = session.exec(
         select(FilaCarrito.id_producto).where(FilaCarrito.id_orden == id_orden)
     ).all()
 
-    for id_producto_antiguo in ids_productos_carrito_antiguo:
-        same_product_in_new_carrito = next(
-            (
-                id_producto_nuevo
-                for id_producto_nuevo in orden.carrito
-                if id_producto_nuevo == id_producto_antiguo
-            ),
-            None,
-        )
-        if same_product_in_new_carrito == None:
-            await eliminar_fila_carrito(id_orden, id_producto_antiguo, session)
-        else:
-            await parchar_fila_carrito(
+    for fila_carrito in orden.carrito:
+        if fila_carrito.id_producto in ids_productos_carrito_antiguo:
+            response = await parchar_fila_carrito(
                 id_orden,
-                id_producto_antiguo,
-                same_product_in_new_carrito.cantidad,
+                fila_carrito.id_producto,
+                fila_carrito.cantidad,
                 session,
             )
+            if isinstance(response, str):
+                return response
+
+            # Delete the ones that are being updated from the list of old ones.
+            ids_productos_carrito_antiguo = [
+                id_antiguo
+                for id_antiguo in ids_productos_carrito_antiguo
+                if id_antiguo != fila_carrito.id_producto
+            ]
+        else:
+            response = await crear_fila_carrito(fila_carrito, session)
+            if isinstance(response, str):
+                return response
+
+    # Delete the filasCarrito that weren't updated and thus must be deleted.
+    for id_por_eliminar in ids_productos_carrito_antiguo:
+        response = await eliminar_fila_carrito(id_orden, id_por_eliminar, session)
+        if isinstance(response, str):
+            return response
 
     updated_order = await ver_orden_por_id(id_orden, session)
     if not updated_order:

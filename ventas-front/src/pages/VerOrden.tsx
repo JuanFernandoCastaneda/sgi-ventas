@@ -3,6 +3,10 @@ import { formatearComoDinero } from "../utils/functions/formatearDinero";
 import { InfoAtributo } from "../components/InfoAtributo";
 import { useQuery } from "@tanstack/react-query";
 import { specificOrderQueryOptions } from "../utils/tanstack/specificOrderQueryOptions";
+import { descuentoANumber } from "../utils/functions/stringADecimal";
+import { useFormaPago } from "../utils/hooks/useFormaPago";
+import { cambiarFormaPago } from "../utils/functions/formaPagoPorId";
+import { useStoreAplicacion } from "../utils/context/CarritoZustand";
 
 /**
  * Componente que representa la vista detallada de una orden.
@@ -24,6 +28,14 @@ export const VerOrden: React.FC = () => {
     isError,
   } = useQuery(specificOrderQueryOptions(parseInt(id)));
 
+  const formasPagoDisponibles = useStoreAplicacion(
+    (state) => state.formasPagoDisponibles
+  );
+  const formaPago = cambiarFormaPago(
+    orden?.id_forma_pago || 1,
+    formasPagoDisponibles
+  );
+
   if (isPending) {
     return <div>Cargando...</div>;
   }
@@ -33,7 +45,7 @@ export const VerOrden: React.FC = () => {
       <header className="w-full px-4 bg-inherit h-18 flex items-center justify-between">
         <div className="flex items-center gap-4">
           <button
-            onClick={() => navigate(-1)}
+            onClick={() => navigate("/ordenes", { replace: true })}
             className="bg-inherit p-2 text-gray-500 text-4xl font-stretch-50%"
           >
             {"<"}
@@ -45,7 +57,12 @@ export const VerOrden: React.FC = () => {
             <span className="text-sm text-gray-500">
               Fecha: {orden.fecha_facturacion.split("T")[0]}
             </span>
-            <button onClick={() => navigate(`editar`)}>Editar</button>
+            <button
+              onClick={() => navigate(`editar`)}
+              className="py-1 px-2 outline-2 text-font-gray rounded-md outline-font-hover-purple hover:bg-font-hover-purple hover:text-white font-medium"
+            >
+              Editar orden
+            </button>
           </>
         )}
       </header>
@@ -73,11 +90,15 @@ export const VerOrden: React.FC = () => {
                     value={orden.total_no_gravado_iva}
                     formatAsMoney
                   />
+                  <InfoAtributo
+                    label="Forma pago"
+                    value={formaPago?.tipo || ""}
+                  />
                 </div>
                 <div className="space-y-2">
                   <InfoAtributo
                     label="Descuento"
-                    value={`${orden.descuento}%`}
+                    value={`${descuentoANumber(orden.descuento)}%`}
                   />
                   <InfoAtributo
                     label="Valor Total"

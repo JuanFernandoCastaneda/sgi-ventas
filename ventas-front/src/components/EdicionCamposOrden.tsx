@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useFormaPago } from "../utils/hooks/useFormaPago";
 import { InformacionExtraOrden } from "../components/InformacionExtraOrden";
 import { BotonEnviarOrden } from "../components/BotonEnviarOrden";
+import { descuentoANumber } from "../utils/functions/stringADecimal";
 
 /**
  * Componente que representa la página entera de crear una orden.
@@ -32,7 +33,9 @@ export const EdicionCamposOrden: React.FC<{
   const [fechaFactura, setFechaFactura] = useState<string>(
     fechaFacturaInicial || new Date().toISOString().split("T")[0]
   );
-  const [descuento, setDescuento] = useState<number>(descuentoInicial || 0);
+  const [descuento, setDescuento] = useState<number>(
+    descuentoInicial ? descuentoANumber(descuentoInicial) : 0
+  );
 
   return (
     <>
@@ -65,6 +68,7 @@ export const EdicionCamposOrden: React.FC<{
           }}
         />
         <BotonEnviarOrden
+          idOrden={orderId}
           {...{ formaPago, observaciones, fechaFactura, descuento }}
         />
       </main>

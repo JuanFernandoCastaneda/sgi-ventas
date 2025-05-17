@@ -18,8 +18,11 @@ export const productQueryOptions = () => {
  * @returns Json with all the products available. For now returns them as a whole, not paginated.
  */
 const getProducts = async (): Promise<Array<ProductoDO>> => {
-  const response = await fetch(`${import.meta.env.VITE_BACKEND_IP}/productos`, {
-    method: "GET",
-  });
+  const response = await fetch(
+    `${import.meta.env.VITE_BACKEND_IP}/productos/`,
+    {
+      method: "GET",
+    }
+  );
   return response.json();
 };

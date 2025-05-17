@@ -1,4 +1,7 @@
+import { useQuery } from "@tanstack/react-query";
 import { create } from "zustand";
+import { paymentInfoQueryOptions } from "../tanstack/paymentInfoOptions";
+import { FormaPago } from "../models/formaPago";
 
 type StoreType = {
   carrito: Map<number, number>;
@@ -10,6 +13,13 @@ type StoreType = {
   editandoCampo: boolean;
   dejarDeEditar: () => void;
   empezarAEditar: () => void;
+  // ----
+  formasPagoDisponibles: Array<FormaPago>;
+  cambiarFormasPagoDisponibles: (
+    nuevasFormasPagoDisponibles: Array<FormaPago>
+  ) => void;
+  formaPagoElegida: FormaPago | null;
+  cambiarFormaPagoElegida: (idNuevaFormaPago: number) => void;
 };
 
 export const useStoreAplicacion = create<StoreType>((set) => ({
@@ -52,4 +62,24 @@ export const useStoreAplicacion = create<StoreType>((set) => ({
     set((_) => ({
       editandoCampo: true,
     })),
+  // Formas pago
+  formasPagoDisponibles: [],
+  cambiarFormasPagoDisponibles: (
+    nuevasFormasPagoDisponibles: Array<FormaPago>
+  ) =>
+    set((_) => ({
+      formasPagoDisponibles: nuevasFormasPagoDisponibles,
+    })),
+  formaPagoElegida: null,
+  cambiarFormaPagoElegida: (idNuevaFormaPago: number) =>
+    set((state) => {
+      const formaPagoSeleccionada = state.formasPagoDisponibles?.find(
+        (forma) => forma.id === idNuevaFormaPago
+      );
+      if (formaPagoSeleccionada) {
+        return { formaPagoElegida: formaPagoSeleccionada };
+      } else {
+        return { formaPagoElegida: null };
+      }
+    }),
 }));

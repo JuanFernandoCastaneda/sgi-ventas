@@ -22,7 +22,7 @@ export const paymentInfoQueryOptions = () => {
 
 const getPaymentOptions = async (): Promise<Array<FormaPago>> => {
   const response = await fetch(
-    `${import.meta.env.VITE_BACKEND_IP}/formas_pago`,
+    `${import.meta.env.VITE_BACKEND_IP}/formas_pago/`,
     {
       method: "GET",
     }

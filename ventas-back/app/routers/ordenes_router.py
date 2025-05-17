@@ -80,7 +80,7 @@ async def ver_orden_por_id(id_orden: int, session: SessionDep):
 @router.put("/{id_orden}")
 async def reemplazar_orden(
     id_orden: int, orden: OrdenConProductosCreate, session: SessionDep
-):
+) -> OrdenConProductosPublic:
     """
     Endpoint para reemplazar los productos de una orden existente.
     No reemplaza la lista de sus productos, solo la información complementaria.
@@ -94,9 +94,10 @@ async def reemplazar_orden(
     :return: La orden actualizada.
     :raise HTTPException: Si no se encuentra la orden.
     """
+    print(orden)
     orden_actualizada = await reemplazar_orden_logica(id_orden, orden, session)
-    if not orden_actualizada:
-        raise HTTPException(status_code=404, detail="Orden no encontrada")
+    if isinstance(orden_actualizada, str):
+        raise HTTPException(status_code=404, detail=orden_actualizada)
     return orden_actualizada
 
 

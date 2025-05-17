@@ -6,3 +6,7 @@ export const aStringDecimal = (numero: number) => {
   }
   return encoding.slice(0, -2) + "." + encoding.slice(-2);
 };
+
+export const descuentoANumber = (descuento: number) => {
+  return parseInt((descuento * 100).toString());
+};
