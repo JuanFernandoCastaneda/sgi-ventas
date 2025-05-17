@@ -45,7 +45,7 @@ export const ListaOrdenes: React.FC = () => {
                     {formatearComoDinero(orden.valor_total)}
                   </p>
                   <p className="text-sm text-gray-500">
-                    {orden.productos.length} productos
+                    {orden.informacionCompletaProductos.length} productos
                   </p>
                 </div>
               </div>

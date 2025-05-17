@@ -1,7 +1,7 @@
 from app.model.schemas.productos_model import Producto, ProductoConCantidad
 from app.dependencies.database import SessionDep
 from sqlmodel import select, col
-from app.model.schemas.carrito_model import Carrito
+from app.model.schemas.carrito_model import FilaCarrito
 from sqlalchemy import func, desc
 
 
@@ -26,8 +26,8 @@ async def ver_top3(session: SessionDep) -> list[ProductoConCantidad]:
     """
 
     statement = (
-        select(Producto, func.sum(Carrito.cantidad).label("total_vendido"))
-        .where(Producto.id == Carrito.id_producto)
+        select(Producto, func.sum(FilaCarrito.cantidad).label("total_vendido"))
+        .where(Producto.id == FilaCarrito.id_producto)
         .group_by(col(Producto.id))
         .order_by(desc("total_vendido"))
         .limit(3)
@@ -36,8 +36,8 @@ async def ver_top3(session: SessionDep) -> list[ProductoConCantidad]:
     """
     More SQLAlchemy like way of solving it
     statement = (
-        select(Producto, func.sum(Carrito.cantidad).label("total_vendido"))
-        .join(Carrito, col(Carrito.id_producto) == Producto.id)
+        select(Producto, func.sum(FilaCarrito.cantidad).label("total_vendido"))
+        .join(FilaCarrito, col(FilaCarrito.id_producto) == Producto.id)
         .group_by(col(Producto.id))
         .order_by(desc("total_vendido"))
         .limit(3)

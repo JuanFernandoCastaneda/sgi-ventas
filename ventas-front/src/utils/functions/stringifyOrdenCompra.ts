@@ -11,7 +11,7 @@ export const stringifyOrderCompra = (
 ) => {
   return JSON.stringify({
     id: id,
-    detalles: Array.from(productosCarrito, ([id, cantidad]) => {
+    carrito: Array.from(productosCarrito, ([id, cantidad]) => {
       return { id_producto: id, cantidad: cantidad } as DetalleOrden;
     }),
     id_forma_pago: idFormaPago,

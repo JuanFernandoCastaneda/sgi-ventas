@@ -7,7 +7,10 @@ from app.logic.ordenes_logic import (
     eliminar_orden as eliminar_orden_logica,
     reemplazar_orden as reemplazar_orden_logica,
 )
-from app.model.schemas.ordenes_model import OrdenConProductos, OrdenConDetalle
+from app.model.schemas.ordenes_model import (
+    OrdenConProductosPublic,
+    OrdenConProductosCreate,
+)
 
 router = APIRouter(
     prefix="/ordenes",
@@ -30,16 +33,18 @@ async def ver_ordenes(session: SessionDep):
 
 
 @router.post("/")
-async def crear_orden(orden: OrdenConDetalle, session: SessionDep) -> OrdenConProductos:
+async def crear_orden(
+    orden: OrdenConProductosCreate, session: SessionDep
+) -> OrdenConProductosPublic:
     """
     Endpoint para crear una nueva orden.
 
-    :param orden: Los detalles de la orden a crear.
-    :type orden: OrdenConDetalle
+    :param orden: Los productos de la orden a crear.
+    :type orden: OrdenConProductosCreate
     :param session: La dependencia de la sesión.
     :type session: SessionDep
     :return: La orden creada con sus productos.
-    :rtype: OrdenConProductos
+    :rtype: OrdenConProductosPublic
     :raise HTTPException: Si algún producto no existe.
     """
     nueva_orden = await crear_orden_logic(orden, session)
@@ -73,15 +78,17 @@ async def ver_orden_por_id(id_orden: int, session: SessionDep):
 
 
 @router.put("/{id_orden}")
-async def reemplazar_orden(id_orden: int, orden: OrdenConDetalle, session: SessionDep):
+async def reemplazar_orden(
+    id_orden: int, orden: OrdenConProductosCreate, session: SessionDep
+):
     """
-    Endpoint para reemplazar los detalles de una orden existente.
+    Endpoint para reemplazar los productos de una orden existente.
     No reemplaza la lista de sus productos, solo la información complementaria.
 
     :param id_orden: Identificador de la orden.
     :type id_orden: str
-    :param orden: Los nuevos detalles de la orden.
-    :type orden: OrdenConDetalle
+    :param orden: Los nuevos productos de la orden.
+    :type orden: OrdenConProductosCreate
     :param session: La dependencia de la sesión.
     :type session: SessionDep
     :return: La orden actualizada.

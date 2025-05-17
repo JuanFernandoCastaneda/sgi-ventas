@@ -1,5 +1,5 @@
 import { queryOptions } from "@tanstack/react-query";
-import { OrdenDOProductosCompleto } from "../models/orden";
+import { OrdenConProductosPublic } from "../models/orden";
 import { HttpError } from "../errors/HttpError";
 import { queryClient } from "./queryClient";
 
@@ -24,7 +24,7 @@ export const allOrdersQueryOptions = () => {
  * Private method that handles the query option behaviour of asking for a specific order.
  * @returns Json with the order info or null if no order was found.
  */
-const getOrders = async (): Promise<Array<OrdenDOProductosCompleto>> => {
+const getOrders = async (): Promise<Array<OrdenConProductosPublic>> => {
   const response = await fetch(`${import.meta.env.VITE_BACKEND_IP}/ordenes/`, {
     method: "GET",
   });

@@ -4,7 +4,7 @@ from decimal import Decimal
 from pydantic import computed_field
 from sqlalchemy import CheckConstraint
 from app.model.schemas.productos_model import ProductoConCantidad
-from app.model.schemas.carrito_model import Carrito
+from app.model.schemas.carrito_model import FilaCarrito
 
 
 class OrdenBase(SQLModel):
@@ -42,21 +42,21 @@ class Orden(OrdenBase, table=True):
     )
 
 
-class OrdenConDetalle(OrdenBase):
+class OrdenConProductosCreate(OrdenBase):
     """
-    Modelo que representa una orden con detalles.
+    Modelo que representa una orden con productos.
 
     Extiende de: OrdenBase
 
     :ivar id: Identificador único de la orden.
-    :ivar detalles: Lista de detalles asociados a la orden.
+    :ivar productos: Lista de productos asociados a la orden.
     """
 
     id: int = Field(primary_key=True)
-    detalles: list[Carrito] = Field(default=[])
+    carrito: list[FilaCarrito] = Field(default=[])
 
 
-class OrdenConProductos(OrdenBase):
+class OrdenConProductosPublic(OrdenBase):
     """
     Modelo que representa una orden con productos.
 
@@ -73,13 +73,21 @@ class OrdenConProductos(OrdenBase):
 
     id: int = Field(primary_key=True)
 
-    productos: list[ProductoConCantidad] = Field(default=[])
+    informacionCompletaProductos: list[ProductoConCantidad] = Field(default=[])
 
     @computed_field  # type: ignore
     @property
     def subtotal_sin_iva(self) -> Decimal:
         return Decimal(
-            round(sum([producto.valor_total_sin_iva for producto in self.productos]), 0)
+            round(
+                sum(
+                    [
+                        producto.valor_total_sin_iva
+                        for producto in self.informacionCompletaProductos
+                    ]
+                ),
+                0,
+            )
         )
 
     @computed_field  # type: ignore
@@ -90,7 +98,7 @@ class OrdenConProductos(OrdenBase):
                 sum(
                     [
                         producto.valor_total_con_iva
-                        for producto in self.productos
+                        for producto in self.informacionCompletaProductos
                         if producto.iva > 0
                     ]
                 ),
@@ -106,7 +114,7 @@ class OrdenConProductos(OrdenBase):
                 sum(
                     [
                         producto.valor_total_con_iva
-                        for producto in self.productos
+                        for producto in self.informacionCompletaProductos
                         if producto.iva == 0
                     ]
                 ),

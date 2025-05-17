@@ -113,7 +113,7 @@ export const VerOrden: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody className="text-gray-700">
-                  {orden.productos.map((producto) => (
+                  {orden.informacionCompletaProductos.map((producto) => (
                     <tr key={producto.id} className="border-t">
                       <td className="py-2">{producto.nombre}</td>
                       <td className="py-2">{producto.cantidad}</td>

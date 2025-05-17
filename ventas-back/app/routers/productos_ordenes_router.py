@@ -1,11 +1,11 @@
 from fastapi import APIRouter, Query, HTTPException
 from app.dependencies.database import SessionDep
-from app.logic.detalle_orden_logic import (
-    crear_detalle_orden as crear_detalle_orden_logic,
-    parchar_detalle_orden as parchar_producto_orden_logic,
+from app.logic.carrito_logic import (
+    crear_fila_carrito as crear_fila_carrito_logic,
+    parchar_fila_carrito as parchar_producto_orden_logic,
 )
 from app.logic.ordenes_logic import ver_productos_orden as ver_productos_orden_logic
-from app.model.schemas.carrito_model import Carrito
+from app.model.schemas.carrito_model import FilaCarrito
 from app.model.schemas.productos_model import ProductoConCantidad
 from typing import Annotated
 
@@ -42,7 +42,7 @@ async def agregar_producto_orden(
     id_producto: int,
     cantidad: Annotated[int, Query(ge=0)],
     session: SessionDep,
-) -> Carrito:
+) -> FilaCarrito:
     """
     Endpoint para agregar un producto a una orden existente.
 
@@ -55,11 +55,11 @@ async def agregar_producto_orden(
     :param session: La dependencia de la sesión.
     :type session: SessionDep
     :return: El detalle de la orden con el producto agregado.
-    :rtype: Carrito
+    :rtype: FilaCarrito
     :raises HTTPException: Si no existe la orden o el producto.
     """
-    nuevo_detalle = await crear_detalle_orden_logic(
-        Carrito(id_producto=id_producto, cantidad=cantidad, id_orden=id_orden),
+    nuevo_detalle = await crear_fila_carrito_logic(
+        FilaCarrito(id_producto=id_producto, cantidad=cantidad, id_orden=id_orden),
         session,
     )
     if isinstance(nuevo_detalle, str):
@@ -73,7 +73,7 @@ async def parchar_producto_orden(
     id_producto: int,
     cantidad_nueva: Annotated[int, Query(ge=0)],
     session: SessionDep,
-) -> Carrito:
+) -> FilaCarrito:
     """
     Endpoint para actualizar la cantidad de un producto en una orden existente.
 
@@ -86,7 +86,7 @@ async def parchar_producto_orden(
     :param session: La dependencia de la sesión.
     :type session: SessionDep
     :return: El detalle de la orden actualizado.
-    :rtype: Carrito
+    :rtype: FilaCarrito
     :raises HTTPException: Si no existe la orden o el producto.
     """
     nuevo_detalle = await parchar_producto_orden_logic(

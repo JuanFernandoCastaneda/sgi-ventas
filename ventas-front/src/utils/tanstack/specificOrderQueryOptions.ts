@@ -1,6 +1,6 @@
 import { queryOptions } from "@tanstack/react-query";
 import { HttpError } from "../errors/HttpError";
-import { OrdenDOProductosCompleto } from "../models/orden";
+import { OrdenConProductosPublic } from "../models/orden";
 
 /**
  * Options for the query that retreives a specific order.
@@ -29,7 +29,7 @@ export const specificOrderQueryOptions = (id: number) => {
  */
 const getOrderById = async (
   id: number
-): Promise<OrdenDOProductosCompleto | null> => {
+): Promise<OrdenConProductosPublic | null> => {
   const response = await fetch(
     `${import.meta.env.VITE_BACKEND_IP}/ordenes/${id}`,
     {

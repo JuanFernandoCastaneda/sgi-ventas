@@ -2,7 +2,7 @@ from sqlmodel import SQLModel, Field
 from sqlalchemy import CheckConstraint
 
 
-class Carrito(SQLModel, table=True):
+class FilaCarrito(SQLModel, table=True):
     """
     Tabla en la base de datos que representa la cantidad de producto que se encargó en una orden.
 
@@ -13,8 +13,8 @@ class Carrito(SQLModel, table=True):
     :ivar cantidad: La cantidad de producto que se encargó. Debe ser mayor o igual a 0.
     """
 
-    id_producto: int = Field(primary_key=True, foreign_key="producto.id")
     id_orden: int = Field(primary_key=True, foreign_key="orden.id")
+    id_producto: int = Field(primary_key=True, foreign_key="producto.id")
     cantidad: int = Field(default=0, ge=0)
 
     __table_args__ = (
