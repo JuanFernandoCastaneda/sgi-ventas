@@ -55,7 +55,7 @@ export const CampoEditable: React.FC<{
 
   return (
     <>
-      <div className={twMerge("relative flex flex-row", classContainer)}>
+      <div className={twMerge("relative flex flex-row h-full", classContainer)}>
         <span className={"sr-only"}>
           El input demora poco más de medio segundo en dejar de focalizarse y
           actualizar el valor del recibo. Además, este solo recibe números

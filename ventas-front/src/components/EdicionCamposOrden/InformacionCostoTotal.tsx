@@ -60,7 +60,7 @@ export const InformacionCostoTotal: React.FC<{
           </tr>
         </thead>
         <tbody>
-          <tr>
+          <tr className="h-8">
             <td className="text-center rounded-md bg-white text-font-gray py-1">
               <p>{formatearComoDinero(subtotalSinIVA)}</p>
             </td>
@@ -73,13 +73,14 @@ export const InformacionCostoTotal: React.FC<{
             <td className="text-center rounded-md bg-white text-font-gray py-1">
               {formatearComoDinero(valorTotalOCD - subtotalSinIVA)}
             </td>
-            <td className="text-center rounded-md bg-white ">
+            <td className="text-center rounded-md bg-white h-full">
               <CampoEditableEntero
                 valorOriginal={descuento.toString()}
                 actualizarEstadoExterno={(nuevoEstado) =>
                   setDescuento(parseInt(nuevoEstado))
                 }
-                classContainer="w-full text-center rounded-md text-font-gray"
+                classContainer="h-full w-full text-center rounded-md text-font-gray"
+                classInput="h-full rounded-md"
                 transformarAInputValido={(_, nuevoValorEntero) => {
                   const valorEntero = parseInt(nuevoValorEntero);
                   if (valorEntero > 100) {

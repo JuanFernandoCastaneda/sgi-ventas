@@ -23,22 +23,23 @@ export const FilaCarritoVentas: React.FC<{
 
   return (
     <>
-      <tr>
+      <tr className="h-8">
         <th
           scope="row"
           className="flex align-center bg-background-gray rounded-md text-font-gray"
         >
-          <p className="text-left min-h-8 max-h-15 px-2 py-1 overflow-scroll wrap-break-word">
+          <p className="text-left h-full px-2 py-1 overflow-scroll wrap-break-word max-h-15">
             {producto.nombre}
           </p>
         </th>
-        <td className="text-center bg-background-gray rounded-md text-font-gray">
+        <td className="h-full text-center bg-background-gray rounded-md text-font-gray">
           <CampoEditableEntero
             valorOriginal={cantidad.toString()}
             actualizarEstadoExterno={(nuevoEstado) =>
               actualizarCantidadProducto(producto.id, parseInt(nuevoEstado))
             }
             classContainer="h-full"
+            classInput="h-full rounded-md"
           />
         </td>
         <td className="text-center bg-background-gray rounded-md text-font-gray py-1 px-2">
