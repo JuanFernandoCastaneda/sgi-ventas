@@ -30,7 +30,7 @@ export const FilaCarritoVentas: React.FC<{
         >
           {producto.nombre}
         </th>
-        <td className="text-center bg-background-gray rounded-md text-font-gray flex flex-col">
+        <td className="text-center bg-background-gray rounded-md text-font-gray">
           <CampoEditable
             valorOriginal={cantidad.toString()}
             transformarAInputValido={(_, nuevoValor) => {
@@ -45,6 +45,7 @@ export const FilaCarritoVentas: React.FC<{
             actualizarValor={(nuevoValor) =>
               actualizarCantidadProducto(producto.id, parseInt(nuevoValor))
             }
+            classContainer="h-full"
           />
         </td>
         <td className="text-center bg-background-gray rounded-md text-font-gray py-1 px-2">

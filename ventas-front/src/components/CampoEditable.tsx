@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { useStoreAplicacion } from "../utils/context/CarritoZustand";
+import { twMerge } from "tailwind-merge";
 
 export const CampoEditable: React.FC<{
   valorOriginal: string;
@@ -59,7 +60,7 @@ export const CampoEditable: React.FC<{
     <div className={classContainer}>
       <input
         value={nuevaCantidad}
-        className={classInput + " w-full"}
+        className={twMerge("w-full", classInput)}
         type={type}
         onChange={(e) => onChange(e.target.value)}
       />
