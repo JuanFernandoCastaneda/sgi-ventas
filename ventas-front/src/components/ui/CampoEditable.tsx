@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { useStoreAplicacion } from "../utils/context/CarritoZustand";
+import { useStoreAplicacion } from "../../utils/context/CarritoZustand";
 import { twMerge } from "tailwind-merge";
 
 export const CampoEditable: React.FC<{

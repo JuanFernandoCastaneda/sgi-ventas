@@ -25,7 +25,7 @@ export const ListaOrdenes: React.FC = () => {
         <BotonDescargaTop3 />
       </header>
       <main className="w-full px-4">
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col mb-4 gap-4">
           {listaOrdenes?.map((orden) => (
             <PrettyBox
               key={orden.id}

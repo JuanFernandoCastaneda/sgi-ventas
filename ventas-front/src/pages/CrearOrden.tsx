@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { EdicionCamposOrden } from "../components/EdicionCamposOrden";
+import { EdicionCamposOrden } from "../components/EdicionCamposOrden/EdicionCamposOrden";
 import { useStoreAplicacion } from "../utils/context/CarritoZustand";
 
 /**

@@ -1,7 +1,7 @@
 import { useStoreAplicacion } from "../../utils/context/CarritoZustand";
 import { formatearComoDinero } from "../../utils/functions/formatearDinero";
 import { ProductoDO } from "../../utils/models/producto";
-import { CampoEditable } from "../CampoEditable";
+import { CampoEditable } from "../ui/CampoEditable";
 
 /**
  * Componente que representa una fila de la tabla del carrito de ventas.

@@ -1,7 +1,7 @@
-import { formatearComoDinero } from "../utils/functions/formatearDinero";
+import { formatearComoDinero } from "../../utils/functions/formatearDinero";
 import { useQuery } from "@tanstack/react-query";
-import { productQueryOptions } from "../utils/tanstack/productQueryOptions";
-import { useStoreAplicacion } from "../utils/context/CarritoZustand";
+import { productQueryOptions } from "../../utils/tanstack/productQueryOptions";
+import { useStoreAplicacion } from "../../utils/context/CarritoZustand";
 
 /**
  * Componente que representa la información del costo asociado al carrito.

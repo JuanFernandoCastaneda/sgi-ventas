@@ -1,11 +1,11 @@
 import { useNavigate } from "react-router";
-import { CarritoVentas } from "../components/carritoVentas/CarritoVentas";
-import { InformacionCostoTotal } from "../components/InformacionCostoTotal";
+import { CarritoVentas } from "../CarritoVentas/CarritoVentas";
 import { useState } from "react";
-import { useFormaPago } from "../utils/hooks/useFormaPago";
-import { InformacionExtraOrden } from "../components/InformacionExtraOrden";
-import { BotonEnviarOrden } from "../components/BotonEnviarOrden";
-import { descuentoANumber } from "../utils/functions/stringADecimal";
+import { useFormaPago } from "../../utils/hooks/useFormaPago";
+import { InformacionExtraOrden } from "./InformacionExtraOrden";
+import { BotonEnviarOrden } from "./BotonEnviarOrden";
+import { descuentoANumber } from "../../utils/functions/stringADecimal";
+import { InformacionCostoTotal } from "./InformacionCostoTotal";
 
 /**
  * Componente que representa la página entera de crear una orden.

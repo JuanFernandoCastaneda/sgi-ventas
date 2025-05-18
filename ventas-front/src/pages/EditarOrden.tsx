@@ -1,5 +1,5 @@
 import { useParams } from "react-router";
-import { EdicionCamposOrden } from "../components/EdicionCamposOrden";
+import { EdicionCamposOrden } from "../components/EdicionCamposOrden/EdicionCamposOrden";
 import { useQuery } from "@tanstack/react-query";
 import { specificOrderQueryOptions } from "../utils/tanstack/specificOrderQueryOptions";
 import { useStoreAplicacion } from "../utils/context/CarritoZustand";

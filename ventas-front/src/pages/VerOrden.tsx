@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router";
 import { formatearComoDinero } from "../utils/functions/formatearDinero";
-import { InfoAtributo } from "../components/InfoAtributo";
+import { InfoAtributo } from "../components/ui/InfoAtributo";
 import { useQuery } from "@tanstack/react-query";
 import { specificOrderQueryOptions } from "../utils/tanstack/specificOrderQueryOptions";
 import { descuentoANumber } from "../utils/functions/stringADecimal";

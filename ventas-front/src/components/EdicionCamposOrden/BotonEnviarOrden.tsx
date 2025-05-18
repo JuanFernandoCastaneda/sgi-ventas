@@ -1,13 +1,13 @@
 import { useNavigate } from "react-router";
-import { useStoreAplicacion } from "../utils/context/CarritoZustand";
-import { FormaPago } from "../utils/models/formaPago";
+import { useStoreAplicacion } from "../../utils/context/CarritoZustand";
+import { FormaPago } from "../../utils/models/formaPago";
 import {
   postOrdenCompra,
   updateOrdenCompra,
-} from "../utils/models/httpMethodsOrden";
-import { refetchAllOrders } from "../utils/tanstack/allOrdersQueryOptions";
-import { OrdenConProductosPublic } from "../utils/models/orden";
-import { refetchSpecificOrder } from "../utils/tanstack/specificOrderQueryOptions";
+} from "../../utils/models/httpMethodsOrden";
+import { refetchAllOrders } from "../../utils/tanstack/allOrdersQueryOptions";
+import { OrdenConProductosPublic } from "../../utils/models/orden";
+import { refetchSpecificOrder } from "../../utils/tanstack/specificOrderQueryOptions";
 
 export const BotonEnviarOrden: React.FC<{
   idOrden?: number;

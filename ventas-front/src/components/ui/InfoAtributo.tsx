@@ -1,4 +1,4 @@
-import { formatearComoDinero } from "../utils/functions/formatearDinero";
+import { formatearComoDinero } from "../../utils/functions/formatearDinero";
 
 interface InfoAttributeProps {
   label: string;

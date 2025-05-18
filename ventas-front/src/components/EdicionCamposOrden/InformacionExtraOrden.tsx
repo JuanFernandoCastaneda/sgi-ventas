@@ -1,4 +1,4 @@
-import { FormaPago } from "../utils/models/formaPago";
+import { FormaPago } from "../../utils/models/formaPago";
 
 /**
  * Componente que representa la información no relacionada con el carrita de una ODP.
