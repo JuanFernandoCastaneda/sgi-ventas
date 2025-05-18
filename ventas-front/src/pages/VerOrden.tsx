@@ -6,6 +6,7 @@ import { specificOrderQueryOptions } from "../utils/tanstack/specificOrderQueryO
 import { descuentoANumber } from "../utils/functions/stringADecimal";
 import { cambiarFormaPago } from "../utils/functions/formaPagoPorId";
 import { useStoreAplicacion } from "../utils/context/CarritoZustand";
+import { PrettyBox } from "../components/ui/PrettyBox";
 
 /**
  * Componente que representa la vista detallada de una orden.
@@ -53,7 +54,7 @@ export const VerOrden: React.FC = () => {
         </div>
         {orden && !isError && (
           <>
-            <span className="text-sm text-gray-500">
+            <span className="text-xl text-gray-600">
               Fecha: {orden.fecha_facturacion.split("T")[0]}
             </span>
             <button
@@ -70,55 +71,7 @@ export const VerOrden: React.FC = () => {
           <p>Orden no válida</p>
         ) : (
           <>
-            <div className="bg-white rounded-md p-6 shadow-sm space-y-6">
-              <h3 className="text-xl font-medium text-gray-700">Resumen</h3>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <InfoAtributo
-                    label="Subtotal sin IVA"
-                    value={orden.subtotal_sin_iva}
-                    formatAsMoney
-                  />
-                  <InfoAtributo
-                    label="Total gravado IVA"
-                    value={orden.total_gravado_iva}
-                    formatAsMoney
-                  />
-                  <InfoAtributo
-                    label="Total no gravado IVA"
-                    value={orden.total_no_gravado_iva}
-                    formatAsMoney
-                  />
-                  <InfoAtributo
-                    label="Forma pago"
-                    value={formaPago?.tipo || ""}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <InfoAtributo
-                    label="Descuento"
-                    value={`${descuentoANumber(orden.descuento)}%`}
-                  />
-                  <InfoAtributo
-                    label="Valor Total"
-                    value={orden.valor_total}
-                    formatAsMoney
-                  />
-                  <InfoAtributo
-                    label="Total IVA"
-                    value={orden.total_iva}
-                    formatAsMoney
-                  />
-                </div>
-              </div>
-              <div className="border-t pt-4">
-                <InfoAtributo
-                  label="Observaciones"
-                  value={orden.observaciones || "Sin observaciones"}
-                />
-              </div>
-            </div>
-            <div className="bg-white rounded-md p-6 shadow-sm">
+            <PrettyBox>
               <h3 className="text-xl font-medium text-gray-700 mb-4">
                 Productos
               </h3>
@@ -150,6 +103,58 @@ export const VerOrden: React.FC = () => {
                   ))}
                 </tbody>
               </table>
+            </PrettyBox>
+            <div className="lg:grid lg:grid-cols-2 space-y-4 lg:space-y-0 lg:space-x-4">
+              <PrettyBox className="space-y-6">
+                <h3 className="text-xl font-medium text-gray-700">Resumen</h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <InfoAtributo
+                      label="Subtotal sin IVA"
+                      value={orden.subtotal_sin_iva}
+                      formatAsMoney
+                    />
+                    <InfoAtributo
+                      label="Total gravado IVA"
+                      value={orden.total_gravado_iva}
+                      formatAsMoney
+                    />
+                    <InfoAtributo
+                      label="Total no gravado IVA"
+                      value={orden.total_no_gravado_iva}
+                      formatAsMoney
+                    />
+                    <InfoAtributo
+                      label="Forma pago"
+                      value={formaPago?.tipo || ""}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <InfoAtributo
+                      label="Descuento"
+                      value={`${descuentoANumber(orden.descuento)}%`}
+                    />
+                    <InfoAtributo
+                      label="Valor Total"
+                      value={orden.valor_total}
+                      formatAsMoney
+                    />
+                    <InfoAtributo
+                      label="Total IVA"
+                      value={orden.total_iva}
+                      formatAsMoney
+                    />
+                  </div>
+                </div>
+              </PrettyBox>
+              <PrettyBox className="space-y-6">
+                <h3 className="text-xl font-medium text-gray-700">
+                  Observaciones
+                </h3>
+                <p className="w-full text-[15px] -m-1 p-2 rounded-md align-text-top align-top bg-gray-200">
+                  {orden.observaciones || "Sin observaciones"}
+                </p>
+              </PrettyBox>
             </div>
           </>
         )}

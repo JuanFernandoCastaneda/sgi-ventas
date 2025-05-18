@@ -8,5 +8,5 @@
 }
 
 body {
-  @apply bg-background-gray w-full min-h-screen;
+  @apply bg-background-gray w-full min-h-screen xl:w-[1280px] xl:ml-auto xl:mr-auto;
 }

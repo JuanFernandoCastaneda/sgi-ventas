@@ -3,6 +3,7 @@ import { formatearComoDinero } from "../utils/functions/formatearDinero";
 import { BotonDescargaTop3 } from "../components/BotonDescargaTop3";
 import { useQuery } from "@tanstack/react-query";
 import { allOrdersQueryOptions } from "../utils/tanstack/allOrdersQueryOptions";
+import { PrettyBox } from "../components/ui/PrettyBox";
 
 /**
  * Componente que representa la página de lista de ordenes.
@@ -26,9 +27,9 @@ export const ListaOrdenes: React.FC = () => {
       <main className="w-full px-4">
         <div className="flex flex-col gap-4">
           {listaOrdenes?.map((orden) => (
-            <div
+            <PrettyBox
               key={orden.id}
-              className="bg-white rounded-md p-4 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+              className="p-4 hover:shadow-md transition-shadow cursor-pointer"
               onClick={() => navigate(`/ordenes/${orden.id}`)}
             >
               <div className="flex justify-between items-start mb-2">
@@ -59,7 +60,7 @@ export const ListaOrdenes: React.FC = () => {
                   IVA: {formatearComoDinero(orden.total_iva)}
                 </span>
               </div>
-            </div>
+            </PrettyBox>
           ))}
         </div>
       </main>
