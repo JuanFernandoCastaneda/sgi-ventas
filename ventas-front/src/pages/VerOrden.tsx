@@ -107,7 +107,7 @@ export const VerOrden: React.FC = () => {
             <div className="lg:grid lg:grid-cols-2 space-y-4 lg:space-y-0 lg:space-x-4">
               <PrettyBox className="space-y-6">
                 <h3 className="text-xl font-medium text-gray-700">Resumen</h3>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="sm:grid sm:grid-cols-2 gap-4 space-y-2">
                   <div className="space-y-2">
                     <InfoAtributo
                       label="Subtotal sin IVA"
@@ -147,11 +147,11 @@ export const VerOrden: React.FC = () => {
                   </div>
                 </div>
               </PrettyBox>
-              <PrettyBox className="space-y-6">
+              <PrettyBox className="space-y-6 flex flex-col">
                 <h3 className="text-xl font-medium text-gray-700">
                   Observaciones
                 </h3>
-                <p className="w-full text-[15px] -m-1 p-2 rounded-md align-text-top align-top bg-gray-200">
+                <p className="w-full grow-1 text-[15px] -m-1 p-2 rounded-md align-text-top align-top bg-gray-200">
                   {orden.observaciones || "Sin observaciones"}
                 </p>
               </PrettyBox>
