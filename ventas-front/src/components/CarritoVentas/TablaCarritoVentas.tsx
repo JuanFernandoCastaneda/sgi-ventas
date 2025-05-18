@@ -18,13 +18,13 @@ export const TablaCarritoVentas: React.FC<{}> = ({}) => {
         <tr>
           <th
             scope="col"
-            className="w-1/3 text-left font-normal text-font-gray"
+            className="w-8/30 text-left font-normal text-font-gray"
           >
             Producto
           </th>
           <th
             scope="col"
-            className="w-2/30 text-center font-normal text-font-gray"
+            className="w-4/30 text-center font-normal text-font-gray"
           >
             Cantidad
           </th>
@@ -36,19 +36,19 @@ export const TablaCarritoVentas: React.FC<{}> = ({}) => {
           </th>
           <th
             scope="col"
-            className="w-1/6 text-left font-normal text-font-gray"
+            className="w-5/30 text-left font-normal text-font-gray"
           >
             Valor unitario sin IVA
           </th>
           <th
             scope="col"
-            className="w-1/6 text-left font-normal text-font-gray"
+            className="w-5/30 text-left font-normal text-font-gray"
           >
             Valor unitario con IVA
           </th>
           <th
             scope="col"
-            className="w-1/6 text-left font-normal text-font-gray"
+            className="w-6/30 text-left font-normal text-font-gray"
           >
             Valor total con IVA
           </th>

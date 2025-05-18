@@ -38,7 +38,7 @@ export const FilaCarritoVentas: React.FC<{
               if (!/^\d+$/.test(nuevoValor))
                 return [
                   nuevoValor.replace(/[^\d]/g, ""),
-                  "Solo puedes ingresar números enteros",
+                  "Solo números enteros",
                 ];
               return [nuevoValor, ""];
             }}

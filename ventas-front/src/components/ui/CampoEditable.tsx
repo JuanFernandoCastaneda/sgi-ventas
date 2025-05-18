@@ -11,7 +11,6 @@ export const CampoEditable: React.FC<{
   actualizarValor: (nuevoValor: string) => void;
   classContainer?: string;
   classInput?: string;
-  classMensajes?: string;
   type?: string;
 }> = ({
   valorOriginal,
@@ -19,14 +18,12 @@ export const CampoEditable: React.FC<{
   actualizarValor,
   classContainer,
   classInput,
-  classMensajes,
   type,
 }) => {
   const [nuevaCantidad, setNuevaCantidad] = useState(valorOriginal);
-  const editando = useStoreAplicacion((state) => state.editandoCampo);
   const empezarAEditar = useStoreAplicacion((state) => state.empezarAEditar);
   const dejarDeEditar = useStoreAplicacion((state) => state.dejarDeEditar);
-  const [mensajeError, setMensajeError] = useState("");
+  const [soyYoElEditado, setSoyYoElEditado] = useState(false);
 
   const typewatch = useRef(
     (function () {
@@ -45,32 +42,35 @@ export const CampoEditable: React.FC<{
       targetValue
     );
     setNuevaCantidad(targetValueValido);
-    setMensajeError(mensajeDeError);
+    setSoyYoElEditado(true);
     empezarAEditar();
 
     // Únicamente actualizar el valor cuando el usuario termine de editar (1 segundo después de dejar de tipar) y dejar de mostrar mensaje de error o de edición.
     typewatch.current(() => {
       dejarDeEditar();
       actualizarValor(targetValueValido);
-      setMensajeError("");
-    }, 500);
+      setSoyYoElEditado(false);
+    }, 700);
   };
 
   return (
-    <div className={classContainer}>
-      <input
-        value={nuevaCantidad}
-        className={twMerge("w-full", classInput)}
-        type={type}
-        onChange={(e) => onChange(e.target.value)}
-      />
-      {editando && (
-        <span className={classMensajes + " text-green-500"}>Editando...</span>
-      )}
-      <br />
-      {mensajeError !== "" && (
-        <span className={classMensajes + " text-red-500"}>{mensajeError}</span>
-      )}
-    </div>
+    <>
+      <div className={twMerge("relative flex flex-row", classContainer)}>
+        <span className={"sr-only"}>
+          El input demora poco más de medio segundo en dejar de focalizarse y
+          actualizar el valor del recibo. Además, este solo recibe números
+          enteros.
+        </span>
+        <input
+          value={nuevaCantidad}
+          className={twMerge("w-full px-2 ", classInput)}
+          type={type}
+          onChange={(e) => onChange(e.target.value)}
+        />
+        {soyYoElEditado && (
+          <span className="absolute right-0 loading loading-spinner loading-md"></span>
+        )}
+      </div>
+    </>
   );
 };

@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "daisyui";
 
 @theme {
   --color-background-gray: oklch(92.8% 0.006 264.531); /* gray-200 */

@@ -7,8 +7,8 @@
  */
 export function formatearComoDinero(
   cantidad: number,
-  currencyCode: string = "CLP",
-  locale: string = "es-CL"
+  currencyCode: string = "COP",
+  locale: string = "es-CO"
 ) {
   return new Intl.NumberFormat(locale, {
     style: "currency",
