@@ -79,8 +79,8 @@ export const InformacionCostoTotal: React.FC<{
                 actualizarEstadoExterno={(nuevoEstado) =>
                   setDescuento(parseInt(nuevoEstado))
                 }
-                classContainer="h-full w-full text-center rounded-md text-font-gray"
-                classInput="h-full rounded-md"
+                classContainer="h-full w-full text-center text-font-gray"
+                classInput="h-full rounded-sm"
                 transformarAInputValido={(_, nuevoValorEntero) => {
                   const valorEntero = parseInt(nuevoValorEntero);
                   if (valorEntero > 100) {
