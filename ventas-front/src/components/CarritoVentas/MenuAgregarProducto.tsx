@@ -54,9 +54,9 @@ export const MenuAgregarProducto: React.FC<{}> = ({}) => {
             }
           >
             <Combobox
-              placeholder="Busca el nombre"
+              placeholder="Busca un producto"
               blurActiveItemOnClick={true}
-              className="w-80 rounded-md p-1 text-font-gray "
+              className="w-80 rounded-md p-1 text-font-gray border-1 focus:border-0 shadow-sm border-gray-200"
             />
             <ComboboxPopover className="w-80 max-h-50 overflow-scroll bg-white rounded-md shadow-md border-1 border-gray-200 py-1">
               {(productoPorAgregar !== "" ? matches : productosInventario).map(
