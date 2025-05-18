@@ -33,14 +33,13 @@ export const FilaCarritoVentas: React.FC<{
         <td className="text-center bg-background-gray rounded-md text-font-gray">
           <CampoEditable
             valorOriginal={cantidad.toString()}
-            transformarAInputValido={(_, nuevoValor) => {
-              if (nuevoValor == "") return ["0", ""];
-              if (!/^\d+$/.test(nuevoValor))
-                return [
-                  nuevoValor.replace(/[^\d]/g, ""),
-                  "Solo números enteros",
-                ];
-              return [nuevoValor, ""];
+            transformarAInputValido={(antiguoValor, nuevoValor) => {
+              if (nuevoValor == "") return ["0", ""]; // User tried to errase number.
+              const nuevoValorCorregido = nuevoValor.replace(/[^\d]/g, "");
+              if (nuevoValorCorregido == "")
+                // User inputed only letters.
+                return [antiguoValor !== "" ? antiguoValor : "0", ""];
+              return [nuevoValorCorregido, ""];
             }}
             actualizarValor={(nuevoValor) =>
               actualizarCantidadProducto(producto.id, parseInt(nuevoValor))
