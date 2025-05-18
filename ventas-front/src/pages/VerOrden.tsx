@@ -151,7 +151,7 @@ export const VerOrden: React.FC = () => {
                 <h3 className="text-xl font-medium text-gray-700">
                   Observaciones
                 </h3>
-                <p className="w-full grow-1 text-[15px] -m-1 p-2 rounded-md align-text-top align-top bg-gray-200">
+                <p className="w-full grow-1 text-[15px] rounded-md align-text-top align-top text-gray-700 wrap-break-word">
                   {orden.observaciones || "Sin observaciones"}
                 </p>
               </PrettyBox>

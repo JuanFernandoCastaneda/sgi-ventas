@@ -2,6 +2,7 @@ import { formatearComoDinero } from "../../utils/functions/formatearDinero";
 import { useQuery } from "@tanstack/react-query";
 import { productQueryOptions } from "../../utils/tanstack/productQueryOptions";
 import { useStoreAplicacion } from "../../utils/context/CarritoZustand";
+import { CampoEditableEntero } from "../ui/CampoEditableEntero";
 
 /**
  * Componente que representa la información del costo asociado al carrito.
@@ -33,40 +34,27 @@ export const InformacionCostoTotal: React.FC<{
     valorTotalOCD += cantidad * producto.precio_con_iva;
   });
 
-  const manejarDescuento = (descuento: number) => {
-    if (typeof descuento !== "number") return;
-    if (isNaN(descuento)) {
-      setDescuento(0);
-    } else if (descuento <= 0) {
-      setDescuento(0);
-    } else if (descuento > 100) {
-      setDescuento(100);
-    } else {
-      setDescuento(descuento);
-    }
-  };
-
   return (
     <section className="w-full py-2">
       <table className="border-separate border-spacing-2 table-fixed">
         <thead>
           <tr>
-            <th scope="column" className="w-1/7 text-left">
+            <th scope="column" className="w-1/7 text-left text-font-gray">
               Subtotal sin IVA
             </th>
-            <th scope="column" className="w-1/7 text-left">
+            <th scope="column" className="w-1/7 text-left text-font-gray">
               Total gravado con IVA
             </th>
-            <th scope="column" className="w-1/7 text-left">
+            <th scope="column" className="w-1/7 text-left text-font-gray">
               Total no gravado con IVA
             </th>
-            <th scope="column" className="w-1/7 text-left">
+            <th scope="column" className="w-1/7 text-left text-font-gray">
               Total IVA
             </th>
-            <th scope="column" className="w-1/7 text-left">
+            <th scope="column" className="w-1/7 text-left text-font-gray">
               Descuento
             </th>
-            <th scope="column" className="w-2/7 text-left">
+            <th scope="column" className="w-2/7 text-left text-font-gray">
               Valor total OCD
             </th>
           </tr>
@@ -74,7 +62,7 @@ export const InformacionCostoTotal: React.FC<{
         <tbody>
           <tr>
             <td className="text-center rounded-md bg-white text-font-gray py-1">
-              {formatearComoDinero(subtotalSinIVA)}
+              <p>{formatearComoDinero(subtotalSinIVA)}</p>
             </td>
             <td className="text-center rounded-md bg-white text-font-gray py-1">
               {formatearComoDinero(totalGravadoConIVA)}
@@ -85,15 +73,20 @@ export const InformacionCostoTotal: React.FC<{
             <td className="text-center rounded-md bg-white text-font-gray py-1">
               {formatearComoDinero(valorTotalOCD - subtotalSinIVA)}
             </td>
-            <td className="text-center rounded-md bg-white text-font-gray py-1">
-              <input
-                type="number"
-                minLength={0}
-                min={0}
-                max={100}
-                value={descuento}
-                onChange={(e) => manejarDescuento(parseInt(e.target.value))}
-                className="w-full h-full text-center rounded-md"
+            <td className="text-center rounded-md bg-white ">
+              <CampoEditableEntero
+                valorOriginal={descuento.toString()}
+                actualizarEstadoExterno={(nuevoEstado) =>
+                  setDescuento(parseInt(nuevoEstado))
+                }
+                classContainer="w-full text-center rounded-md text-font-gray"
+                transformarAInputValido={(_, nuevoValorEntero) => {
+                  const valorEntero = parseInt(nuevoValorEntero);
+                  if (valorEntero > 100) {
+                    return ["100", ""];
+                  }
+                  return [valorEntero.toString(), ""];
+                }}
               />
             </td>
             <td className="text-center rounded-md bg-white text-font-gray py-1">

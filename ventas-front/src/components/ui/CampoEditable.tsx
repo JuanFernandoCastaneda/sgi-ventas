@@ -8,14 +8,14 @@ export const CampoEditable: React.FC<{
     antiguoValor: string,
     nuevoValor: string
   ) => [string, string]; // El primero es el input transformado. El segundo es un es un mensaje de información de lo que pudo estar mal del input.
-  actualizarValor: (nuevoValor: string) => void;
+  actualizarEstadoExterno: (nuevoEstado: string) => void;
   classContainer?: string;
   classInput?: string;
   type?: string;
 }> = ({
   valorOriginal,
   transformarAInputValido,
-  actualizarValor,
+  actualizarEstadoExterno,
   classContainer,
   classInput,
   type,
@@ -37,7 +37,7 @@ export const CampoEditable: React.FC<{
 
   const onChange = (targetValue: string) => {
     // Transformar el input para que sea válido y mostrar mensaje de error o de edición.
-    const [targetValueValido, mensajeDeError] = transformarAInputValido(
+    const [targetValueValido, _] = transformarAInputValido(
       valorOriginal,
       targetValue
     );
@@ -48,7 +48,7 @@ export const CampoEditable: React.FC<{
     // Únicamente actualizar el valor cuando el usuario termine de editar (1 segundo después de dejar de tipar) y dejar de mostrar mensaje de error o de edición.
     typewatch.current(() => {
       dejarDeEditar();
-      actualizarValor(targetValueValido);
+      actualizarEstadoExterno(targetValueValido);
       setSoyYoElEditado(false);
     }, 700);
   };

@@ -8,6 +8,10 @@
   --color-font-background-purple: #f3ccff;
 }
 
+html {
+  @apply bg-background-gray
+}
+
 body {
-  @apply bg-background-gray w-full min-h-screen xl:w-[1280px] xl:ml-auto xl:mr-auto;
+  @apply w-full min-h-screen xl:w-[1280px] xl:ml-auto xl:mr-auto;
 }

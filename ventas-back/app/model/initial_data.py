@@ -21,6 +21,13 @@ productos = [
     Producto(
         nombre="Forro Iphone", precio_sin_iva=Decimal("300.00"), iva=Decimal("0.21")
     ),
+    Producto(
+        nombre="Producto exageradoooooooooooooooooooooooooooooooooooooo",
+        precio_sin_iva=Decimal(
+            "1300.000000000000000000000000000000000000000000"
+        ),  # Para aceptar un número de este tamaño hay que modificar el tipo de datos en la DB. In practice it won't be needed.
+        iva=Decimal("0.50"),
+    ),
 ]
 
 ordenes = [

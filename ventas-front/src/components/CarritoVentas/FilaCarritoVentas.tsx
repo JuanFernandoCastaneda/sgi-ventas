@@ -1,7 +1,7 @@
 import { useStoreAplicacion } from "../../utils/context/CarritoZustand";
 import { formatearComoDinero } from "../../utils/functions/formatearDinero";
 import { ProductoDO } from "../../utils/models/producto";
-import { CampoEditable } from "../ui/CampoEditable";
+import { CampoEditableEntero } from "../ui/CampoEditableEntero";
 
 /**
  * Componente que representa una fila de la tabla del carrito de ventas.
@@ -26,23 +26,17 @@ export const FilaCarritoVentas: React.FC<{
       <tr>
         <th
           scope="row"
-          className="text-left bg-background-gray rounded-md text-font-gray py-1 px-2"
+          className="flex align-center bg-background-gray rounded-md text-font-gray"
         >
-          {producto.nombre}
+          <p className="text-left min-h-8 max-h-15 px-2 py-1 overflow-scroll wrap-break-word">
+            {producto.nombre}
+          </p>
         </th>
         <td className="text-center bg-background-gray rounded-md text-font-gray">
-          <CampoEditable
+          <CampoEditableEntero
             valorOriginal={cantidad.toString()}
-            transformarAInputValido={(antiguoValor, nuevoValor) => {
-              if (nuevoValor == "") return ["0", ""]; // User tried to errase number.
-              const nuevoValorCorregido = nuevoValor.replace(/[^\d]/g, "");
-              if (nuevoValorCorregido == "")
-                // User inputed only letters.
-                return [antiguoValor !== "" ? antiguoValor : "0", ""];
-              return [nuevoValorCorregido, ""];
-            }}
-            actualizarValor={(nuevoValor) =>
-              actualizarCantidadProducto(producto.id, parseInt(nuevoValor))
+            actualizarEstadoExterno={(nuevoEstado) =>
+              actualizarCantidadProducto(producto.id, parseInt(nuevoEstado))
             }
             classContainer="h-full"
           />

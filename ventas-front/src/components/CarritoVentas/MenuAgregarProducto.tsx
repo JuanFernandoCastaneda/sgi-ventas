@@ -49,7 +49,7 @@ export const MenuAgregarProducto: React.FC<{}> = ({}) => {
             <Combobox
               placeholder="Busca el nombre"
               blurActiveItemOnClick={true}
-              className="w-80 rounded-md p-1"
+              className="w-80 rounded-md p-1 text-font-gray "
             />
             <ComboboxPopover className="w-80 bg-white rounded-md shadow-md border-1 border-gray-200 py-1">
               {productosInventario.map((producto) => (
@@ -58,7 +58,7 @@ export const MenuAgregarProducto: React.FC<{}> = ({}) => {
                   value={producto.nombre}
                   className="w-full text-font-gray px-1"
                 >
-                  <p className="w-full rounded-md px-2 hover:bg-font-hover-purple hover:text-white">
+                  <p className="w-full rounded-md px-2 hover:bg-font-hover-purple hover:text-white wrap-break-word">
                     {producto.nombre}
                   </p>
                 </ComboboxItem>
