@@ -125,9 +125,15 @@ class OrdenConProductosPublic(OrdenBase):
     @computed_field  # type: ignore
     @property
     def valor_total(self) -> Decimal:
-        return round(self.total_gravado_iva + self.total_no_gravado_iva, 0)
+        return round(
+            (self.total_gravado_iva + self.total_no_gravado_iva) * (1 - self.descuento),
+            0,
+        )
 
     @computed_field  # type: ignore
     @property
     def total_iva(self) -> Decimal:
-        return round(self.valor_total - self.subtotal_sin_iva, 0)
+        return round(
+            self.total_gravado_iva + self.total_no_gravado_iva - self.subtotal_sin_iva,
+            0,
+        )

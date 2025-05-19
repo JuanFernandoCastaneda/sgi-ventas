@@ -49,7 +49,6 @@ export const CampoEditableEntero: React.FC<{
         if (transformarAInputValido) {
           return transformarAInputValido(antiguoValor, nuevoValorEntero);
         }
-        console.log("Lo que envía CampoEditableEntero es", nuevoValorEntero);
         return [nuevoValorEntero, mensajeError];
       }}
       actualizarEstadoExterno={actualizarEstadoExterno}

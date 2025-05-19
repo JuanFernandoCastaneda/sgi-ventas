@@ -17,7 +17,7 @@ formas_pago = [
 
 productos = [
     Producto(nombre="Papas", precio_sin_iva=Decimal("100.00"), iva=Decimal("0")),
-    Producto(nombre="Carne", precio_sin_iva=Decimal("200.00"), iva=Decimal("0")),
+    Producto(nombre="Carne", precio_sin_iva=Decimal("250.00"), iva=Decimal("0.08")),
     Producto(
         nombre="Forro Iphone", precio_sin_iva=Decimal("300.00"), iva=Decimal("0.21")
     ),

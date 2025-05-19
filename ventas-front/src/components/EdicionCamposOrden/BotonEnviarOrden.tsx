@@ -51,7 +51,7 @@ export const BotonEnviarOrden: React.FC<{
         descuento
       ).then(async (response) => {
         if (response.ok) {
-          console.log("Orden de compra creada");
+          console.log("Orden de compra actualizada");
           const orden: OrdenConProductosPublic = await response.json();
           vaciarCarrito();
           refetchSpecificOrder(orden.id);

@@ -2,6 +2,8 @@
 
 Este proyecto tiene dos partes principales: un backend en Python con FastAPI y un frontend en React usando Vite.
 
+## Video ejemplo
+
 ## Backend: Python + FastAPI
 
 El backend está en la carpeta ventas-back/. Para correrlo:
@@ -69,19 +71,18 @@ source run_dev.sh
 
 ## Decisiones de Diseño
 
+### Frontend
+
+- **Componentización**: El frontend está dividido en componentes reutilizables para facilitar el mantenimiento y la escalabilidad del proyecto. Asimismo, la estructura de carpetas hace diferencia entre las páginas y los componentes.
+- **Peticiones**: Se utiliza Tanstack Query para las peticiones, pues se automatiza el guardado en caché.
+- **Estado global**: Se utiliza Zustand para el estado global, pues reduce el número de rerenders al solo volver a renderizar los componentes con estado que cambió.
+- **Estado en Ver Orden y Lista Ordenes**: Actualmente no se reutiliza el estado de Lista Ordenes para crear el de Ver Orden. A cambio, Ver Orden hace una petición independiente. Esto se podría cambiar en producción si se empieza a ver que el rendimiento cae.
+
 ### Backend
 
 - **Estructura modular**: El backend está organizado en módulos para mantener el código limpio y escalable. Cada módulo tiene su propia lógica, modelos, y rutas.
 - **Base de datos SQLite**: Se utiliza SQLite como base de datos para simplificar el desarrollo local. Esto puede cambiarse a una base de datos más robusta en producción. <br>
   La base de datos está normalizada hasta 3NF y por tanto no tiene campos dependientes, pero el backend calcula los campos dependientes automáticamente con Pydantic y su funcionalidad `computed_field`.
-- **CORS habilitado**: Se configuró CORS para permitir peticiones desde el frontend en `http://localhost:5173`. También es posible realizar peticiones directamente desde la interfaz interactiva de FastAPI disponible en `http://localhost:8000/docs`.
+- **CORS habilitado**: Se configuró CORS para permitir peticiones desde el frontend en el lugar definido por la variable de entorno. También es posible realizar peticiones directamente desde la interfaz interactiva de FastAPI disponible en `DIRECCIÓN_BACKEND/docs`.
 - **Generación de reportes**: Los reportes se generan en formato PDF con la librería `reportlab` y se almacenan en la carpeta `reports/`.
-- **Seguridad**: Una funcionalidad básica de seguridad es el escape de cadenas de caracteres en las peticiones. Por restricciones de tiempo, no se implementaron, pero sería pertinente hacerlo en producción.
-
-### Frontend
-
-- **Estado del carrito en Crear Orden**: Actualmente, si el usuario sale de la página de "Crear Orden", el carrito de compras se pierde. Esto se puede solucionar implementando un estado global con Redux o una librería similar. Este comportamiento puede cambiarse en producción.
-- **Estado en Ver Orden y Lista Ordenes**: Actualmente no se reutiliza el estado de Lista Ordenes para crear el de Ver Orden. A cambio, Ver Orden hace una petición independiente. Esto se podría cambiar en producción si se empieza a ver que el rendimiento cae.
-- **Componentización**: El frontend está dividido en componentes reutilizables para facilitar el mantenimiento y la escalabilidad del proyecto. Asimismo, la estructura de carpetas hace diferencia entre las páginas y los componentes.
-- **Interacción con OpenAPI en producción**: En un entorno de producción, se podría considerar implementar una solución como [HeyAPI](https://heyapi.dev/). Esta permite usar las especificación de OpenAPI generada por FastAPI para crear tipos y asegurar el correcto uso de peticiones.
-- **Peticiones**: Idealmente, las peticiones deberían ser abstraidas en el directorio de módulos para desacoplar su comportamiento. Por restricciones de tiempo, no se implementó, pero sería algo a tener en cuenta en producción.
+- **Seguridad**: Por defecto, SQLModel sanitiza el input que recibe.

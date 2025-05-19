@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { formatearComoDinero } from "../../utils/functions/formatearDinero";
 import { OrdenConProductosPublic } from "../../utils/models/orden";
 import { PrettyBox } from "../ui/PrettyBox";
@@ -32,7 +32,7 @@ export const VerOrdenProductos: React.FC<{
           </thead>
           <tbody className="text-gray-700">
             {orden.informacionCompletaProductos.map((producto) => (
-              <tr key={producto.id} className="border-t">
+              <tr key={self.crypto.randomUUID()} className="border-t">
                 <td className="py-2">{producto.nombre}</td>
                 <td className="py-2">{producto.cantidad}</td>
                 <td className="py-2">{producto.iva * 100}%</td>
@@ -50,8 +50,11 @@ export const VerOrdenProductos: React.FC<{
         </table>
       ) : (
         orden.informacionCompletaProductos.map((producto) => (
-          <PrettyBox className="p-2 mb-2 border-t-1 border-gray-200">
-            <details key={self.crypto.randomUUID()}>
+          <PrettyBox
+            key={self.crypto.randomUUID()}
+            className="p-2 mb-2 border-t-1 border-gray-200"
+          >
+            <details>
               <summary>{producto.nombre}</summary>
               <p>
                 <b>Cantidad:</b> {producto.cantidad}
