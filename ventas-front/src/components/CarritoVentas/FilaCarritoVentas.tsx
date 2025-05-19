@@ -57,9 +57,9 @@ export const FilaCarritoVentas: React.FC<{
         <td className="text-center w-full h-full aspect-square py-1 px-2">
           <button
             onClick={() => eliminarProducto(producto.id)}
-            className="size-6 font-medium bg-gray-400 ratio-1/1 rounded-[50%] hover:bg-font-hover-purple text-white"
+            className="size-6 font-medium bg-red-400 ratio-1/1 rounded-[50%] hover:bg-font-hover-purple text-white"
           >
-            <span className="text-center align-middle">-</span>
+            -
           </button>
         </td>
       </tr>

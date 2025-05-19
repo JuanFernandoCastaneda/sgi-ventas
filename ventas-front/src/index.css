@@ -1,6 +1,6 @@
 @import "tailwindcss";
 @plugin "daisyui" {
-  include: loading, loading-spinner, loading-md;
+  include: loading, loading-spinner, loading-md, btn, btn-error;
 }
 
 @theme {
