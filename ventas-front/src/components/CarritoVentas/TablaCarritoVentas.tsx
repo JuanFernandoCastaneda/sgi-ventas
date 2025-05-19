@@ -2,7 +2,7 @@ import { FilaCarritoVentas } from "./FilaCarritoVentas";
 import { useQuery } from "@tanstack/react-query";
 import { productQueryOptions } from "../../utils/tanstack/productQueryOptions";
 import { useStoreAplicacion } from "../../utils/context/CarritoZustand";
-import { useEffect, useLayoutEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 /**
  * Componente que representa el carrito de compras actual en forma de tabla.

@@ -31,8 +31,8 @@ productos = [
     *[
         Producto(
             nombre=f"ProductoSpam{i}",
-            precio_sin_iva=Decimal(f"{20000.00*i}"),
-            iva=Decimal(f"{0.05*i}"),
+            precio_sin_iva=Decimal(f"{Decimal(20000.00)*Decimal(i)}"),
+            iva=Decimal(f"{Decimal(0.05)*Decimal(i)}"),
         )
         for i in range(10)
     ],
