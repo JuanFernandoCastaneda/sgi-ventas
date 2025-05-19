@@ -31,7 +31,7 @@ export const BotonDescargaTop3: React.FC = () => {
           setIsDownloading(false);
         }
       }}
-      className="py-1 px-2 outline-2 text-font-gray rounded-md outline-font-hover-purple hover:bg-font-hover-purple hover:text-white font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+      className="py-1 px-2 outline-2 text-font-gray rounded-md outline-font-hover-purple hover:bg-font-hover-purple hover:text-white font-medium disabled:opacity-50 disabled:cursor-not-allowed focus:outline-blue-400"
       disabled={isDownloading}
     >
       {isDownloading ? "Descargando..." : "Descargar Reporte"}

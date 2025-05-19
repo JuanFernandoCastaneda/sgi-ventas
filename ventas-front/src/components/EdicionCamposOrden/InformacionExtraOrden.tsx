@@ -30,7 +30,7 @@ export const InformacionExtraOrden: React.FC<{
             value={observaciones}
             onChange={(e) => setObservaciones(e.target.value)}
             placeholder="Agregar observaciones..."
-            className="w-full text-[15px] h-full p-2 bg-white rounded-md bg-inherit align-text-top align-top"
+            className="w-full text-[15px] h-full p-2 bg-white rounded-sm bg-inherit align-text-top align-top"
           />
         </div>
       </label>

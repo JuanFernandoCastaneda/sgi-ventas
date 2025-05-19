@@ -59,7 +59,7 @@ export const VerOrden: React.FC = () => {
             </span>
             <button
               onClick={() => navigate(`editar`)}
-              className="py-1 px-2 outline-2 text-font-gray rounded-md outline-font-hover-purple hover:bg-font-hover-purple hover:text-white font-medium"
+              className="py-1 px-2 outline-2 text-font-gray rounded-md outline-font-hover-purple hover:bg-font-hover-purple hover:text-white font-medium focus:outline-blue-400"
             >
               Editar orden
             </button>

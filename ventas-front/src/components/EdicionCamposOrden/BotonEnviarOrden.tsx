@@ -73,7 +73,7 @@ export const BotonEnviarOrden: React.FC<{
           onClick={() => {
             !editandoCampo && crearOrdenCompra();
           }}
-          className="py-1 px-2 outline-2 text-font-gray rounded-md outline-font-hover-purple hover:bg-font-hover-purple hover:text-white font-medium"
+          className="py-1 px-2 outline-2 text-font-gray rounded-md outline-font-hover-purple hover:bg-font-hover-purple hover:text-white font-medium focus:outline-blue-400"
         >
           Crear ODC
         </button>
@@ -82,7 +82,7 @@ export const BotonEnviarOrden: React.FC<{
           onClick={() => {
             !editandoCampo && actualizarOrdenCompra();
           }}
-          className="py-1 px-2 outline-2 text-font-gray rounded-md outline-font-hover-purple hover:bg-font-hover-purple hover:text-white font-medium"
+          className="py-1 px-2 outline-2 text-font-gray rounded-md outline-font-hover-purple hover:bg-font-hover-purple hover:text-white font-medium focus:outline-blue-400"
         >
           Actualizar ODC
         </button>

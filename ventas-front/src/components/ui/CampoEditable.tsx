@@ -68,7 +68,10 @@ export const CampoEditable: React.FC<{
         </span>
         <input
           value={nuevaCantidad}
-          className={twMerge("w-full px-2 ", classInput)}
+          className={twMerge(
+            "w-full px-2 border-2 focus:border-0 border-dotted border-purple-500",
+            classInput
+          )}
           type={type}
           onChange={(e) => onChange(e.target.value)}
         />

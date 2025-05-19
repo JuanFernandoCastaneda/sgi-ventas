@@ -76,7 +76,7 @@ export const MenuAgregarProducto: React.FC<{}> = ({}) => {
           </ComboboxProvider>
           <button
             onClick={() => agregar(productoPorAgregar)}
-            className="py-1 px-2 outline-2 text-font-gray rounded-md outline-font-hover-purple ml-2 hover:bg-font-hover-purple hover:text-white font-medium"
+            className="py-1 px-2 outline-2 text-font-gray rounded-md outline-font-hover-purple ml-2 hover:bg-font-hover-purple hover:text-white font-medium focus:outline-blue-400"
           >
             Agregar
           </button>
@@ -84,7 +84,7 @@ export const MenuAgregarProducto: React.FC<{}> = ({}) => {
       ) : (
         <button
           onClick={() => setToggleBuscador(true)}
-          className="font-medium text-font-gray hover:text-font-hover-purple hover:font-medium flex flex-row align-center outline-1 outline-font-gray rounded-xl py-1 px-2 hover:outline-font-hover-purple"
+          className="font-medium text-font-gray hover:text-font-hover-purple hover:font-medium flex flex-row align-center outline-1 outline-font-gray rounded-xl py-1 px-2 hover:outline-font-hover-purple focus:outline-blue-400 focus:outline-2"
         >
           + Agregar nuevo producto
         </button>
