@@ -4,6 +4,7 @@ import { BotonDescargaTop3 } from "../components/BotonDescargaTop3";
 import { useQuery } from "@tanstack/react-query";
 import { allOrdersQueryOptions } from "../utils/tanstack/allOrdersQueryOptions";
 import { PrettyBox } from "../components/ui/PrettyBox";
+import { ProductoDOCompleto } from "../utils/models/producto";
 
 /**
  * Componente que representa la página de lista de ordenes.
@@ -11,6 +12,15 @@ import { PrettyBox } from "../components/ui/PrettyBox";
 export const ListaOrdenes: React.FC = () => {
   const navigate = useNavigate();
   const { data: listaOrdenes } = useQuery(allOrdersQueryOptions());
+
+  const textoCantidadProductos = (productos: Array<ProductoDOCompleto>) => {
+    const cantidadProductos = productos.reduce((suma, producto) => {
+      return suma + producto.cantidad;
+    }, 0);
+    return `${cantidadProductos} ${
+      cantidadProductos > 1 ? "productos" : "producto"
+    }`;
+  };
 
   return (
     <>
@@ -27,7 +37,11 @@ export const ListaOrdenes: React.FC = () => {
       <main className="w-full px-4">
         <div className="flex flex-col mb-4 gap-4">
           {listaOrdenes?.map((orden) => (
-            <div tabIndex={0} className="rounded-sm">
+            <div
+              key={self.crypto.randomUUID()}
+              tabIndex={0}
+              className="rounded-sm"
+            >
               <PrettyBox
                 key={orden.id}
                 className="p-4 hover:shadow-md transition-shadow cursor-pointer"
@@ -47,7 +61,9 @@ export const ListaOrdenes: React.FC = () => {
                       {formatearComoDinero(orden.valor_total)}
                     </p>
                     <p className="text-sm text-gray-500">
-                      {orden.informacionCompletaProductos.length} productos
+                      {textoCantidadProductos(
+                        orden.informacionCompletaProductos
+                      )}
                     </p>
                   </div>
                 </div>

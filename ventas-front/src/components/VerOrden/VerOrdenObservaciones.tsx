@@ -12,7 +12,9 @@ export const VerOrdenObservaciones: React.FC<{
       </h3>
       <div className="w-inherit grow-1 text-[15px] rounded-md align-text-top align-top text-gray-700 prose">
         {orden.observaciones.split("\n").map((paragraph) => (
-          <p className="text-gray-700 break-all">{paragraph}</p>
+          <p key={self.crypto.randomUUID()} className="text-gray-700 break-all">
+            {paragraph}
+          </p>
         ))}
       </div>
     </PrettyBox>

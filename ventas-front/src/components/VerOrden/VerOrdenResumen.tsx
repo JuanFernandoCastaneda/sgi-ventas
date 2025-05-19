@@ -10,9 +10,9 @@ export const VerOrdenResumen: React.FC<{
   formaPago: FormaPago | null;
 }> = ({ orden, formaPago }) => {
   return (
-    <PrettyBox className="space-y-6 lg:grid-rows-4">
+    <PrettyBox className="space-y-6">
       <h3 className="text-xl font-medium text-gray-700">Resumen</h3>
-      <div className="grid sm:grid-cols-2 sm:grid-rows-4 gap-4">
+      <div className="grid xs:grid-cols-2 sm:grid-rows-4 gap-4">
         <InfoAtributo
           label="Subtotal sin IVA"
           value={orden.subtotal_sin_iva}

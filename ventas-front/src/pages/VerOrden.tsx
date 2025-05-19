@@ -71,7 +71,7 @@ export const VerOrden: React.FC = () => {
         ) : (
           <>
             <VerOrdenProductos orden={orden} />
-            <div className="lg:grid lg:grid-cols-2 space-y-4 lg:space-y-0 lg:space-x-4">
+            <div className="md:grid md:grid-cols-2 space-y-4 md:space-y-0 md:space-x-4">
               <VerOrdenResumen orden={orden} formaPago={formaPago} />
               <VerOrdenObservaciones orden={orden} />
             </div>
