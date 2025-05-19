@@ -4,6 +4,7 @@
 }
 
 @theme {
+  --breakpoint-xs: 540px;
   --color-background-gray: oklch(92.8% 0.006 264.531); /* gray-200 */
   --color-font-gray: oklch(37.1% 0 0);
   --color-font-hover-purple: #b95fd5;

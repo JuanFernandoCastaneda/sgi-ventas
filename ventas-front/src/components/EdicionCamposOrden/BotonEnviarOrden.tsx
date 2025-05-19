@@ -68,6 +68,10 @@ export const BotonEnviarOrden: React.FC<{
         <span className="text-orange-500">
           Espera a que la orden de compra termine de editarse para guardarla
         </span>
+      ) : productosCarrito.size <= 0 ? (
+        <span className="text-orange-500">
+          Tienes que agregar al menos un producto al carrito
+        </span>
       ) : !idOrden ? (
         <button
           onClick={() => {
