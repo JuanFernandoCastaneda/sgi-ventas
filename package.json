@@ -1,8 +1,0 @@
-{
-	"devDependencies": {
-		"daisyui": "^5.0.35"
-	},
-	"dependencies": {
-		"fast-fuzzy": "^1.12.0"
-	}
-}
