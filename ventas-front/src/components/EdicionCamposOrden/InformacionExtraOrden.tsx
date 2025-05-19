@@ -21,10 +21,10 @@ export const InformacionExtraOrden: React.FC<{
   setFechaFactura,
 }) => {
   return (
-    <section className="w-full flex flex-row gap-4 mt-4">
+    <section className="w-full md:flex md:flex-row gap-4 mt-8 md:mt-8 lg:mt-6">
       <label className="w-1/2 text-font-gray">
         Observaciones
-        <div className="w-full h-20 my-2">
+        <div className="w-full h-20 mt-2 mb-6 md:mb-2">
           <input
             type="text"
             value={observaciones}
@@ -36,22 +36,22 @@ export const InformacionExtraOrden: React.FC<{
       </label>
       <label className="w-1/2 text-font-gray">
         Información de facturación
-        <div className="flex flex-row my-2 w-full rounded-md p-1 h-20 bg-white align-text-top">
-          <label className="flex flex-col w-1/2 p-2">
+        <div className="sm:flex sm:flex-row my-2 w-full rounded-md p-1 min-h-20 bg-white align-text-top">
+          <label className="flex flex-col sm:w-1/2 p-2">
             Fecha facturación
             <input
               type="date"
               value={fechaFactura}
               onChange={(e) => setFechaFactura(e.target.value)}
-              className="w-full px-1 bg-background-gray rounded-md h-full"
+              className="w-full px-1 bg-background-gray rounded-md h-full min-h-8"
             />
           </label>
-          <label className="flex flex-col w-1/2 p-2">
+          <label className="flex flex-col sm:w-1/2 p-2">
             Forma de pago
             <select
               value={formaPago?.id || ""}
               onChange={(e) => cambiarFormaPago(e.target.value)}
-              className="w-full px-1 bg-background-gray rounded-md h-full"
+              className="w-full px-1 bg-background-gray rounded-md min-h-8"
             >
               {formasPagoDisponibles.map((formaPago) => (
                 <option

@@ -52,7 +52,7 @@ export const InformacionCostoTotal: React.FC<{
   };
 
   return (
-    <section className="w-full py-2 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+    <section className="w-full my-5 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
       {EstiloCajita("Subtotal sin IVA", formatearComoDinero(subtotalSinIVA))}
       {EstiloCajita(
         "Total gravado con IVA",
