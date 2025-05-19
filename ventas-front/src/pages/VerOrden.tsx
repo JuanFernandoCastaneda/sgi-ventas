@@ -1,12 +1,11 @@
 import { useNavigate, useParams } from "react-router";
-import { formatearComoDinero } from "../utils/functions/formatearDinero";
-import { InfoAtributo } from "../components/ui/InfoAtributo";
 import { useQuery } from "@tanstack/react-query";
 import { specificOrderQueryOptions } from "../utils/tanstack/specificOrderQueryOptions";
-import { descuentoANumber } from "../utils/functions/stringADecimal";
 import { cambiarFormaPago } from "../utils/functions/formaPagoPorId";
 import { useStoreAplicacion } from "../utils/context/CarritoZustand";
-import { PrettyBox } from "../components/ui/PrettyBox";
+import { VerOrdenResumen } from "../components/VerOrden/VerOrdenResumen";
+import { VerOrdenObservaciones } from "../components/VerOrden/VerOrdenObservaciones";
+import { VerOrdenProductos } from "../components/VerOrden/VerOrdenProductos";
 
 /**
  * Componente que representa la vista detallada de una orden.
@@ -71,88 +70,10 @@ export const VerOrden: React.FC = () => {
           <p>Orden no válida</p>
         ) : (
           <>
-            <PrettyBox>
-              <h3 className="text-xl font-medium text-gray-700 mb-4">
-                Productos
-              </h3>
-              <table className="w-full">
-                <thead className="text-left text-gray-600">
-                  <tr>
-                    <th className="py-2">Nombre</th>
-                    <th className="py-2">Cantidad</th>
-                    <th className="py-2">IVA</th>
-                    <th className="py-2">Precio Unitario</th>
-                    <th className="py-2">Total</th>
-                  </tr>
-                </thead>
-                <tbody className="text-gray-700">
-                  {orden.informacionCompletaProductos.map((producto) => (
-                    <tr key={producto.id} className="border-t">
-                      <td className="py-2">{producto.nombre}</td>
-                      <td className="py-2">{producto.cantidad}</td>
-                      <td className="py-2">{producto.iva * 100}%</td>
-                      <td className="py-2">
-                        {formatearComoDinero(producto.precio_con_iva)}
-                      </td>
-                      <td className="py-2">
-                        {formatearComoDinero(
-                          producto.precio_con_iva * producto.cantidad
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </PrettyBox>
+            <VerOrdenProductos orden={orden} />
             <div className="lg:grid lg:grid-cols-2 space-y-4 lg:space-y-0 lg:space-x-4">
-              <PrettyBox className="space-y-6 lg:grid-rows-4">
-                <h3 className="text-xl font-medium text-gray-700">Resumen</h3>
-                <div className="grid sm:grid-cols-2 sm:grid-rows-4 gap-4">
-                  <InfoAtributo
-                    label="Subtotal sin IVA"
-                    value={orden.subtotal_sin_iva}
-                    formatAsMoney
-                  />
-                  <InfoAtributo
-                    label="Total gravado IVA"
-                    value={orden.total_gravado_iva}
-                    formatAsMoney
-                  />
-                  <InfoAtributo
-                    label="Total no gravado IVA"
-                    value={orden.total_no_gravado_iva}
-                    formatAsMoney
-                  />
-                  <InfoAtributo
-                    label="Forma pago"
-                    value={formaPago?.tipo || ""}
-                  />
-                  <InfoAtributo
-                    label="Descuento"
-                    value={`${descuentoANumber(orden.descuento)}%`}
-                  />
-                  <InfoAtributo
-                    label="Valor Total"
-                    value={orden.valor_total}
-                    formatAsMoney
-                  />
-                  <InfoAtributo
-                    label="Total IVA"
-                    value={orden.total_iva}
-                    formatAsMoney
-                  />
-                </div>
-              </PrettyBox>
-              <PrettyBox className="w-full space-y-6 flex-flex-col">
-                <h3 className="w-full text-xl font-medium text-gray-700">
-                  Observaciones
-                </h3>
-                <div className="w-inherit grow-1 text-[15px] rounded-md align-text-top align-top text-gray-700 prose">
-                  {orden.observaciones.split("\n").map((paragraph) => (
-                    <p className="text-gray-700 break-all">{paragraph}</p>
-                  ))}
-                </div>
-              </PrettyBox>
+              <VerOrdenResumen orden={orden} formaPago={formaPago} />
+              <VerOrdenObservaciones orden={orden} />
             </div>
           </>
         )}

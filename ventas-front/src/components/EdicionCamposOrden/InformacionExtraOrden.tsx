@@ -22,9 +22,9 @@ export const InformacionExtraOrden: React.FC<{
 }) => {
   return (
     <section className="w-full md:flex md:flex-row gap-4 mt-8 md:mt-8 lg:mt-6">
-      <div className="w-1/2 text-font-gray">
+      <div className="md:w-1/2 text-font-gray">
         <label>Observaciones</label>
-        <div className="w-full h-20 mt-2 mb-6 md:mb-2">
+        <div className="w-full h-30 mt-2 mb-6 md:mb-2">
           <textarea
             value={observaciones}
             onChange={(e) => setObservaciones(e.target.value)}
@@ -35,14 +35,14 @@ export const InformacionExtraOrden: React.FC<{
       </div>
       <label className="w-1/2 text-font-gray">
         Información de facturación
-        <div className="sm:flex sm:flex-row my-2 w-full rounded-md p-1 min-h-20 bg-white align-text-top">
+        <div className="min-h-30 sm:flex sm:flex-row my-2 w-full rounded-md p-1 bg-white align-text-top sm:items-center">
           <label className="flex flex-col sm:w-1/2 p-2">
             Fecha facturación
             <input
               type="date"
               value={fechaFactura}
               onChange={(e) => setFechaFactura(e.target.value)}
-              className="w-full px-1 bg-background-gray rounded-md h-full min-h-8"
+              className="w-full px-1 bg-background-gray rounded-md min-h-8"
             />
           </label>
           <label className="flex flex-col sm:w-1/2 p-2">

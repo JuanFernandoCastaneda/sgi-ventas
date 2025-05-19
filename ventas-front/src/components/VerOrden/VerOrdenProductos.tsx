@@ -1,0 +1,41 @@
+import { formatearComoDinero } from "../../utils/functions/formatearDinero";
+import { OrdenConProductosPublic } from "../../utils/models/orden";
+import { PrettyBox } from "../ui/PrettyBox";
+
+export const VerOrdenProductos: React.FC<{
+  orden: OrdenConProductosPublic;
+}> = ({ orden }) => {
+  return (
+    <PrettyBox>
+      <h3 className="text-xl font-medium text-gray-700 mb-4">Productos</h3>
+      <table className="w-full">
+        <thead className="text-left text-gray-600">
+          <tr>
+            <th className="py-2">Nombre</th>
+            <th className="py-2">Cantidad</th>
+            <th className="py-2">IVA</th>
+            <th className="py-2">Precio Unitario</th>
+            <th className="py-2">Total</th>
+          </tr>
+        </thead>
+        <tbody className="text-gray-700">
+          {orden.informacionCompletaProductos.map((producto) => (
+            <tr key={producto.id} className="border-t">
+              <td className="py-2">{producto.nombre}</td>
+              <td className="py-2">{producto.cantidad}</td>
+              <td className="py-2">{producto.iva * 100}%</td>
+              <td className="py-2">
+                {formatearComoDinero(producto.precio_con_iva)}
+              </td>
+              <td className="py-2">
+                {formatearComoDinero(
+                  producto.precio_con_iva * producto.cantidad
+                )}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </PrettyBox>
+  );
+};
