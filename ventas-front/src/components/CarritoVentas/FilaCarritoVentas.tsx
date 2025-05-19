@@ -5,6 +5,8 @@ import { CampoEditableEntero } from "../ui/CampoEditableEntero";
 
 /**
  * Componente que representa una fila de la tabla del carrito de ventas.
+ *
+ * It was decided to add a class type for each cell that represents the content it has (usefull for deletion on responsiveness).
  */
 export const FilaCarritoVentas: React.FC<{
   producto: ProductoDO;
@@ -23,16 +25,16 @@ export const FilaCarritoVentas: React.FC<{
 
   return (
     <>
-      <tr className="h-8">
+      <tr id="product-table" className="h-8">
         <th
           scope="row"
-          className="flex align-center bg-background-gray rounded-md text-font-gray"
+          className="flex align-center bg-background-gray rounded-md text-font-gray celda-nombre"
         >
           <p className="text-left h-full px-2 py-1 overflow-scroll wrap-break-word max-h-15">
             {producto.nombre}
           </p>
         </th>
-        <td className="h-full text-center bg-background-gray rounded-md text-font-gray">
+        <td className="h-full text-center bg-background-gray rounded-md text-font-gray celda-cantidad">
           <CampoEditableEntero
             valorOriginal={cantidad.toString()}
             actualizarEstadoExterno={(nuevoEstado) =>
@@ -42,19 +44,21 @@ export const FilaCarritoVentas: React.FC<{
             classInput="h-full rounded-md"
           />
         </td>
-        <td className="text-center bg-background-gray rounded-md text-font-gray py-1 px-2">
+        <td className="text-center bg-background-gray rounded-md text-font-gray py-1 px-2 celda-iva">
           {producto.iva * 100}%
         </td>
-        <td className="text-center bg-background-gray rounded-md text-font-gray py-1 px-2">
+        <td className="text-center bg-background-gray rounded-md text-font-gray py-1 px-2 celda-sin-iva">
           {formatearComoDinero(producto.precio_sin_iva)}
         </td>
-        <td className="text-center bg-background-gray rounded-md text-font-gray py-1 px-2">
+        <td className="text-center bg-background-gray rounded-md text-font-gray py-1 px-2 celda-con-iva">
           {formatearComoDinero(producto.precio_con_iva)}
         </td>
-        <td className="text-center bg-background-gray rounded-md text-font-gray py-1 px-2">
-          {formatearComoDinero(producto.precio_con_iva * cantidad)}
+        <td className="text-center bg-background-gray rounded-md text-font-gray py-1 px-2 celda-total ">
+          <p className="overflow-scroll">
+            {formatearComoDinero(producto.precio_con_iva * cantidad)}
+          </p>
         </td>
-        <td className="text-center w-full h-full aspect-square py-1 px-2">
+        <td className="">
           <button
             onClick={() => eliminarProducto(producto.id)}
             className="size-6 font-medium bg-red-400 ratio-1/1 rounded-[50%] hover:bg-font-hover-purple text-white"

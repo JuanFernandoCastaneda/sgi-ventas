@@ -11,8 +11,10 @@ export const InfoAtributo: React.FC<InfoAttributeProps> = ({
   value,
   formatAsMoney = false,
 }) => (
-  <p className="text-gray-700">
-    <span className="font-medium">{label}:</span>{" "}
-    {formatAsMoney ? formatearComoDinero(value as number) : value}
-  </p>
+  <div className="text-gray-700">
+    <h4 className="font-medium">{label}:</h4>
+    <p className="">
+      {formatAsMoney ? formatearComoDinero(value as number) : value}
+    </p>
+  </div>
 );

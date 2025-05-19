@@ -22,18 +22,17 @@ export const InformacionExtraOrden: React.FC<{
 }) => {
   return (
     <section className="w-full md:flex md:flex-row gap-4 mt-8 md:mt-8 lg:mt-6">
-      <label className="w-1/2 text-font-gray">
-        Observaciones
+      <div className="w-1/2 text-font-gray">
+        <label>Observaciones</label>
         <div className="w-full h-20 mt-2 mb-6 md:mb-2">
-          <input
-            type="text"
+          <textarea
             value={observaciones}
             onChange={(e) => setObservaciones(e.target.value)}
             placeholder="Agregar observaciones..."
             className="w-full text-[15px] h-full p-2 bg-white rounded-sm bg-inherit align-text-top align-top"
           />
         </div>
-      </label>
+      </div>
       <label className="w-1/2 text-font-gray">
         Información de facturación
         <div className="sm:flex sm:flex-row my-2 w-full rounded-md p-1 min-h-20 bg-white align-text-top">

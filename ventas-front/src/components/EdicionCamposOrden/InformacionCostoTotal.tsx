@@ -45,7 +45,7 @@ export const InformacionCostoTotal: React.FC<{
       <div className={estiloDivCajita}>
         <h3 className={estiloH3Cajita}>{titulo}</h3>
         <PrettyBox className={estiloPrettyBoxCajita}>
-          <p className="">{contenido}</p>
+          <p className="overflow-scroll">{contenido}</p>
         </PrettyBox>
       </div>
     );

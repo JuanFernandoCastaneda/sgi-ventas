@@ -54,7 +54,7 @@ export const VerOrden: React.FC = () => {
         </div>
         {orden && !isError && (
           <>
-            <span className="text-xl text-gray-600">
+            <span className="text-lg text-gray-600">
               Fecha: {orden.fecha_facturacion.split("T")[0]}
             </span>
             <button
@@ -66,7 +66,7 @@ export const VerOrden: React.FC = () => {
           </>
         )}
       </header>
-      <main className="w-full p-4 space-y-4">
+      <main className="w-full p-4 space-y-4 text-font-gray">
         {!orden || isError ? (
           <p>Orden no válida</p>
         ) : (
@@ -105,55 +105,53 @@ export const VerOrden: React.FC = () => {
               </table>
             </PrettyBox>
             <div className="lg:grid lg:grid-cols-2 space-y-4 lg:space-y-0 lg:space-x-4">
-              <PrettyBox className="space-y-6">
+              <PrettyBox className="space-y-6 lg:grid-rows-4">
                 <h3 className="text-xl font-medium text-gray-700">Resumen</h3>
-                <div className="sm:grid sm:grid-cols-2 gap-4 space-y-2">
-                  <div className="space-y-2">
-                    <InfoAtributo
-                      label="Subtotal sin IVA"
-                      value={orden.subtotal_sin_iva}
-                      formatAsMoney
-                    />
-                    <InfoAtributo
-                      label="Total gravado IVA"
-                      value={orden.total_gravado_iva}
-                      formatAsMoney
-                    />
-                    <InfoAtributo
-                      label="Total no gravado IVA"
-                      value={orden.total_no_gravado_iva}
-                      formatAsMoney
-                    />
-                    <InfoAtributo
-                      label="Forma pago"
-                      value={formaPago?.tipo || ""}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <InfoAtributo
-                      label="Descuento"
-                      value={`${descuentoANumber(orden.descuento)}%`}
-                    />
-                    <InfoAtributo
-                      label="Valor Total"
-                      value={orden.valor_total}
-                      formatAsMoney
-                    />
-                    <InfoAtributo
-                      label="Total IVA"
-                      value={orden.total_iva}
-                      formatAsMoney
-                    />
-                  </div>
+                <div className="grid sm:grid-cols-2 sm:grid-rows-4 gap-4">
+                  <InfoAtributo
+                    label="Subtotal sin IVA"
+                    value={orden.subtotal_sin_iva}
+                    formatAsMoney
+                  />
+                  <InfoAtributo
+                    label="Total gravado IVA"
+                    value={orden.total_gravado_iva}
+                    formatAsMoney
+                  />
+                  <InfoAtributo
+                    label="Total no gravado IVA"
+                    value={orden.total_no_gravado_iva}
+                    formatAsMoney
+                  />
+                  <InfoAtributo
+                    label="Forma pago"
+                    value={formaPago?.tipo || ""}
+                  />
+                  <InfoAtributo
+                    label="Descuento"
+                    value={`${descuentoANumber(orden.descuento)}%`}
+                  />
+                  <InfoAtributo
+                    label="Valor Total"
+                    value={orden.valor_total}
+                    formatAsMoney
+                  />
+                  <InfoAtributo
+                    label="Total IVA"
+                    value={orden.total_iva}
+                    formatAsMoney
+                  />
                 </div>
               </PrettyBox>
-              <PrettyBox className="space-y-6 flex flex-col">
-                <h3 className="text-xl font-medium text-gray-700">
+              <PrettyBox className="w-full space-y-6 flex-flex-col">
+                <h3 className="w-full text-xl font-medium text-gray-700">
                   Observaciones
                 </h3>
-                <p className="w-full grow-1 text-[15px] rounded-md align-text-top align-top text-gray-700 wrap-break-word">
-                  {orden.observaciones || "Sin observaciones"}
-                </p>
+                <div className="w-inherit grow-1 text-[15px] rounded-md align-text-top align-top text-gray-700 prose">
+                  {orden.observaciones.split("\n").map((paragraph) => (
+                    <p className="text-gray-700 break-all">{paragraph}</p>
+                  ))}
+                </div>
               </PrettyBox>
             </div>
           </>
