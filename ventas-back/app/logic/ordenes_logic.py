@@ -1,6 +1,7 @@
 from typing import Sequence
 from sqlmodel import select
-from app.dependencies.database import SessionDep
+from sqlmodel import Session
+
 from app.model.schemas.ordenes_model import (
     Orden,
     OrdenConProductosPublic,
@@ -15,12 +16,12 @@ from app.logic.carrito_logic import (
 )
 
 
-async def ver_ordenes(session: SessionDep) -> list[OrdenConProductosPublic]:
+async def ver_ordenes(session: Session) -> list[OrdenConProductosPublic]:
     """
     Devuelve todas las órdenes de la base de datos con sus productos asociados.
 
     :param session: Sesión de base de datos activa.
-    :type session: SessionDep
+    :type session: Session
     :return: Lista de órdenes con sus productos asociados.
     :rtype: list[OrdenConProductosPublic]
     """
@@ -35,7 +36,7 @@ async def ver_ordenes(session: SessionDep) -> list[OrdenConProductosPublic]:
 
 
 async def ver_orden_por_id(
-    orden_id: int, session: SessionDep
+    orden_id: int, session: Session
 ) -> OrdenConProductosPublic | None:
     """
     Devuelve una orden específica con sus productos asociados.
@@ -43,7 +44,7 @@ async def ver_orden_por_id(
     :param orden_id: Identificador único de la orden.
     :type orden_id: int
     :param session: Sesión de base de datos activa.
-    :type session: SessionDep
+    :type session: Session
     :return: Una instancia de OrdenConProductosPublic si la orden existe, de lo contrario None.
     :rtype: OrdenConProductosPublic | None
     """
@@ -57,7 +58,7 @@ async def ver_orden_por_id(
 
 
 async def crear_orden(
-    orden: OrdenConProductosCreate, session: SessionDep
+    orden: OrdenConProductosCreate, session: Session
 ) -> OrdenConProductosPublic | str:
     """
     Crea una nueva orden en la base de datos junto con sus productos y productos asociados.
@@ -65,7 +66,7 @@ async def crear_orden(
     :param orden: Objeto que contiene los productos de la orden y los productos.
     :type orden: OrdenConProductosCreate
     :param session: Sesión de base de datos activa.
-    :type session: SessionDep
+    :type session: Session
     :return: Una instancia de OrdenConProductosPublic si la creación es exitosa, de lo contrario None.
     :rtype: OrdenConProductosPublic | None
     """
@@ -99,7 +100,7 @@ async def crear_orden(
 
 
 async def ver_productos_orden(
-    id_orden: int, session: SessionDep
+    id_orden: int, session: Session
 ) -> list[ProductoConCantidad] | None:
     """
     Obtiene los productos asociados a una orden específica.
@@ -107,7 +108,7 @@ async def ver_productos_orden(
     :param id_orden: Identificador único de la orden.
     :type id_orden: int
     :param session: Sesión de base de datos activa.
-    :type session: SessionDep
+    :type session: Session
     :return: Lista de productos con sus cantidades si la orden existe, de lo contrario None.
     :rtype: list[ProductoConCantidad] | None
     """
@@ -132,14 +133,14 @@ async def ver_productos_orden(
     return listaProductos
 
 
-async def eliminar_orden(id_orden: int, session: SessionDep) -> bool:
+async def eliminar_orden(id_orden: int, session: Session) -> bool:
     """
     Elimina una orden y sus productos asociados de la base de datos.
 
     :param id_orden: Identificador único de la orden a eliminar.
     :type id_orden: int
     :param session: Sesión de base de datos activa.
-    :type session: SessionDep
+    :type session: Session
     :return: True si la orden fue eliminada exitosamente, False si la orden no existe.
     :rtype: bool
     """
@@ -157,7 +158,7 @@ async def eliminar_orden(id_orden: int, session: SessionDep) -> bool:
 
 
 async def reemplazar_orden(
-    id_orden: int, orden: OrdenConProductosCreate, session: SessionDep
+    id_orden: int, orden: OrdenConProductosCreate, session: Session
 ) -> OrdenConProductosPublic | str:
     """
     Actualiza los datos de una orden existente sin modificar sus productos.
@@ -167,7 +168,7 @@ async def reemplazar_orden(
     :param orden: Nueva información de la orden.
     :type orden: Orden
     :param session: Sesión de base de datos activa.
-    :type session: SessionDep
+    :type session: Session
     :return: La orden actualizada si existe, de lo contrario None.
     :rtype: Orden | None
     """

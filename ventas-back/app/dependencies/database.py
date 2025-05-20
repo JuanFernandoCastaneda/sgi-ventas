@@ -9,10 +9,6 @@ sqlite_url = f"sqlite:///{sqlite_file_name}"
 connect_args = {"check_same_thread": False}
 engine = create_engine(sqlite_url, connect_args=connect_args)
 
-app.model.migrations.create_db_and_tables(engine)
-with Session(engine) as session:
-    app.model.migrations.populate_db(session)
-
 
 def get_session():
     with Session(engine) as session:
@@ -20,3 +16,12 @@ def get_session():
 
 
 SessionDep = Annotated[Session, Depends(get_session)]
+
+
+def create_db_and_tables():
+    app.model.migrations.create_db_and_tables(engine)
+
+
+def populate_db():
+    with Session(engine) as session:
+        app.model.migrations.populate_db(session)

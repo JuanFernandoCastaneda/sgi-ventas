@@ -1,11 +1,11 @@
 from app.model.schemas.productos_model import Producto
 from app.model.schemas.carrito_model import FilaCarrito
 from app.model.schemas.ordenes_model import Orden
-from app.dependencies.database import SessionDep
+from sqlmodel import Session
 
 
 async def parchar_fila_carrito(
-    id_orden: int, id_producto: int, cantidad_nueva: int, session: SessionDep
+    id_orden: int, id_producto: int, cantidad_nueva: int, session: Session
 ) -> FilaCarrito | str:
     """
     Reemplaza el atributo cantidad en el detalle de una orden en la base de datos.
@@ -34,7 +34,7 @@ async def parchar_fila_carrito(
 
 
 async def crear_fila_carrito(
-    detalle_orden: FilaCarrito, session: SessionDep
+    detalle_orden: FilaCarrito, session: Session
 ) -> FilaCarrito | str:
     """
     Crea un detalle de orden en la base de datos.
@@ -65,7 +65,7 @@ async def crear_fila_carrito(
 
 
 async def eliminar_fila_carrito(
-    id_orden: int, id_producto: int, session: SessionDep
+    id_orden: int, id_producto: int, session: Session
 ) -> FilaCarrito | None:
     """
     Elimina el producto del carro de la orden

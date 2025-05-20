@@ -1,10 +1,12 @@
 from fastapi import APIRouter, Query, HTTPException
-from app.dependencies.database import SessionDep
+from sqlmodel import Session
+
 from app.logic.carrito_logic import (
     crear_fila_carrito as crear_fila_carrito_logic,
     parchar_fila_carrito as parchar_producto_orden_logic,
 )
 from app.logic.ordenes_logic import ver_productos_orden as ver_productos_orden_logic
+from app.dependencies.database import SessionDep
 from app.model.schemas.carrito_model import FilaCarrito
 from app.model.schemas.productos_model import ProductoConCantidad
 from typing import Annotated
@@ -25,7 +27,7 @@ async def ver_productos_orden(
     :param id_orden: Identificador de la orden.
     :type id_orden: int
     :param session: La dependencia de la sesión.
-    :type session: SessionDep
+    :type session: Session
     :return: Lista de productos con sus cantidades asociadas a la orden.
     :rtype: list[ProductoConCantidad]
     :raises HTTPException: Si la orden no existe.
@@ -53,7 +55,7 @@ async def agregar_producto_orden(
     :param cantidad: La cantidad del producto a agregar.
     :type cantidad: int
     :param session: La dependencia de la sesión.
-    :type session: SessionDep
+    :type session: Session
     :return: El detalle de la orden con el producto agregado.
     :rtype: FilaCarrito
     :raises HTTPException: Si no existe la orden o el producto.
@@ -84,7 +86,7 @@ async def parchar_producto_orden(
     :param cantidad_nueva: La nueva cantidad del producto en la orden.
     :type cantidad_nueva: int
     :param session: La dependencia de la sesión.
-    :type session: SessionDep
+    :type session: Session
     :return: El detalle de la orden actualizado.
     :rtype: FilaCarrito
     :raises HTTPException: Si no existe la orden o el producto.

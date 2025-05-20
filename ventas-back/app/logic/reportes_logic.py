@@ -1,4 +1,5 @@
-from app.dependencies.database import SessionDep
+from sqlmodel import Session
+
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph
@@ -8,12 +9,12 @@ from datetime import datetime
 import os
 
 
-async def generar_reporte(session: SessionDep):
+async def generar_reporte(session: Session):
     """
     Lógica para generar un reporte PDF con los 3 productos más vendidos.
 
     :param session: La dependencia de la sesión.
-    :type session: SessionDep
+    :type session: Session
     :return: Un diccionario con la ruta del reporte generado.
     """
     # Obtener los 3 productos más vendidos

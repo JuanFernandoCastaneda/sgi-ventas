@@ -1,6 +1,8 @@
-from fastapi import APIRouter
-from app.dependencies.database import SessionDep
+from fastapi import APIRouter, Depends
+from sqlmodel import Session
+from app.dependencies.database import get_session
 from app.logic.forma_pago_logic import ver_formas_pago as ver_formas_pago_logic
+from app.dependencies.database import SessionDep
 from app.model.schemas.forma_pago_model import FormaPago
 
 router = APIRouter(

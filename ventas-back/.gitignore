@@ -26,6 +26,4 @@ dist-ssr
 __pycache__
 .venv
 
-database.db
-
 .pytest_cache
