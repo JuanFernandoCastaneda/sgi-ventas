@@ -31,8 +31,8 @@ productos = [
     *[
         Producto(
             nombre=f"ProductoSpam{i}",
-            precio_sin_iva=Decimal(f"{20000.00*i}"),
-            iva=Decimal(f"{0.05*i}"),
+            precio_sin_iva=Decimal(f"{Decimal(20000.00)*Decimal(i)}"),
+            iva=Decimal(f"{Decimal(0.05)*Decimal(i)}"),
         )
         for i in range(10)
     ],
@@ -70,4 +70,6 @@ productos_orden = [
     FilaCarrito(id_orden=1, id_producto=2, cantidad=1),
     FilaCarrito(id_orden=2, id_producto=3, cantidad=5),
     FilaCarrito(id_orden=3, id_producto=1, cantidad=10),
+    FilaCarrito(id_orden=4, id_producto=6, cantidad=90),
+    FilaCarrito(id_orden=4, id_producto=7, cantidad=10),
 ]

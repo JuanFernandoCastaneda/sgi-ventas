@@ -1,5 +1,5 @@
 reports/
-**/*.db
+*.db
 .vscode
 *.env
 !*.env.example

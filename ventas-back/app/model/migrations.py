@@ -8,6 +8,8 @@ from app.model.initial_data import formas_pago, productos, ordenes, productos_or
 def create_db_and_tables(engine: Engine) -> None:
     """
     Crea la base de datos y las tablas necesarias.
+
+    Should only be called by the dependency injection of the database.
     """
     SQLModel.metadata.create_all(engine)
 
@@ -16,6 +18,8 @@ def populate_db(session: Session) -> None:
     """
     Crea datos de prueba en la base de datos.
     No importa si ya existen los datos.
+
+    Should only be called by the dependency injection of the database.
     """
     try:
         session.add_all(formas_pago)

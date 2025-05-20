@@ -1,5 +1,6 @@
 from fastapi import APIRouter, HTTPException
-from app.dependencies.database import SessionDep
+from sqlmodel import Session
+
 from app.logic.ordenes_logic import (
     ver_orden_por_id as ver_orden_por_id_logic,
     ver_ordenes as ver_ordenes_logic,
@@ -7,6 +8,7 @@ from app.logic.ordenes_logic import (
     eliminar_orden as eliminar_orden_logica,
     reemplazar_orden as reemplazar_orden_logica,
 )
+from app.dependencies.database import SessionDep
 from app.model.schemas.ordenes_model import (
     OrdenConProductosPublic,
     OrdenConProductosCreate,
@@ -25,7 +27,7 @@ async def ver_ordenes(session: SessionDep):
     Endpoint para ver todas las órdenes registradas.
 
     :param session: La dependencia de la sesión.
-    :type session: SessionDep
+    :type session: Session
     :return: Una lista de órdenes.
     """
     ordenes = await ver_ordenes_logic(session)
@@ -42,7 +44,7 @@ async def crear_orden(
     :param orden: Los productos de la orden a crear.
     :type orden: OrdenConProductosCreate
     :param session: La dependencia de la sesión.
-    :type session: SessionDep
+    :type session: Session
     :return: La orden creada con sus productos.
     :rtype: OrdenConProductosPublic
     :raise HTTPException: Si algún producto no existe.
@@ -67,7 +69,7 @@ async def ver_orden_por_id(id_orden: int, session: SessionDep):
     :param id_orden: Identificador de la orden.
     :type id_orden: str
     :param session: La dependencia de la sesión.
-    :type session: SessionDep
+    :type session: Session
     :return: La orden con sus productos.
     :raise HTTPException: Si no se encuentra la orden.
     """
@@ -90,7 +92,7 @@ async def reemplazar_orden(
     :param orden: Los nuevos productos de la orden.
     :type orden: OrdenConProductosCreate
     :param session: La dependencia de la sesión.
-    :type session: SessionDep
+    :type session: Session
     :return: La orden actualizada.
     :raise HTTPException: Si no se encuentra la orden.
     """
@@ -109,7 +111,7 @@ async def eliminar_orden(id_orden: int, session: SessionDep):
     :param id_orden: Identificador de la orden.
     :type id_orden: str
     :param session: La dependencia de la sesión.
-    :type session: SessionDep
+    :type session: Session
     :return: True si la orden fue eliminada.
     :rtype: bool
     :raise HTTPException: Si no se encuentra la orden.
