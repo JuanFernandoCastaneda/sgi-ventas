@@ -4,6 +4,8 @@ Este proyecto tiene dos partes principales: un backend en Python con FastAPI y u
 
 ## Video ejemplo
 
+https://github.com/user-attachments/assets/c13aa217-aa12-4aca-9a8d-de4e51fa107d
+
 ## Backend: Python + FastAPI
 
 El backend está en la carpeta ventas-back/. Para correrlo:
@@ -86,3 +88,4 @@ source run_dev.sh
 - **CORS habilitado**: Se configuró CORS para permitir peticiones desde el frontend en el lugar definido por la variable de entorno. También es posible realizar peticiones directamente desde la interfaz interactiva de FastAPI disponible en `DIRECCIÓN_BACKEND/docs`.
 - **Generación de reportes**: Los reportes se generan en formato PDF con la librería `reportlab` y se almacenan en la carpeta `reports/`.
 - **Seguridad**: Por defecto, SQLModel sanitiza el input que recibe.
+- **Testing**: En el directorio `/tests` se encuentran los tests de los endpoints del backend. Es un trabajo en progreso, pero por ahora pueden correr los existentes con el comando `pytest`.
