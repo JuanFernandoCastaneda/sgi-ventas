@@ -2,6 +2,7 @@ from fastapi import APIRouter
 from app.dependencies.database import SessionDep
 from app.logic.productos_logic import ver_productos as ver_productos_logic
 from app.logic.productos_logic import ver_top3 as ver_top3_logic
+from app.model.schemas.productos_model import Producto, ProductoConCantidad
 
 router = APIRouter(
     prefix="/productos",
@@ -11,7 +12,7 @@ router = APIRouter(
 
 
 @router.get("/")
-async def ver_productos(session: SessionDep):
+async def ver_productos(session: SessionDep) -> list[Producto]:
     """
     Endpoint para ver todos los productos registrados.
 
@@ -24,7 +25,7 @@ async def ver_productos(session: SessionDep):
 
 
 @router.get("/top3")
-async def ver_top3(session: SessionDep):
+async def ver_top3(session: SessionDep) -> list[ProductoConCantidad]:
     """
     Endpoint para ver los 3 productos más vendidos.
 
