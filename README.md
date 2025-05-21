@@ -1,17 +1,19 @@
 # Proyecto Ventas
 
-Este proyecto tiene dos partes principales: un backend en Python con FastAPI y un frontend en React usando Vite.
+This project has two main parts: a backend built with Python and FastAPI, and a frontend built with React using Vite.
 
-## Video ejemplo
+It was made originally for a Spanish speaking context, and thus has a lot of components written in it.
+
+## Example video
 
 https://github.com/user-attachments/assets/c13aa217-aa12-4aca-9a8d-de4e51fa107d
 
 ## Backend: Python + FastAPI
 
-El backend está en la carpeta ventas-back/. Para correrlo:
+The backend is located in the `ventas-back/` folder. To run it:
 
-1. **Instalar dependencias**:
-   Asegúrate de tener Python 3.9 o superior instalado. Luego, ejecuta los siguientes comandos desde la carpeta `ventas-back/`:
+1. **Install dependencies**:
+   Make sure Python 3.9 or later is installed. Then run the following commands from the `ventas-back/` directory:
 
    ```bash
    python -m venv venv
@@ -19,73 +21,73 @@ El backend está en la carpeta ventas-back/. Para correrlo:
    pip install -r requirements.txt
    ```
 
-2. **Archivo .env**:
-   Es necesario darle al backend la dirección del frontend para que este permita la conexión. Esto se hace a través de un archivo `.env`.
+2. **.env file**:
+   The frontend needs to know the backend's address. This is also configured with a `.env` file.
 
-   Hay un archivo llamado `.env.example` que tiene la estructura necesaria para el archivo env real. Puedes basarte en este o solo renombrarlo a `.env`.
+   A `.env.example` file is provided. You can use it as a reference or simply rename it to `.env`.
 
-3. **Ejecutar el servidor**:
-   Una vez instaladas las dependencias y configurado el archivo `.env`, puedes iniciar el servidor con:
+3. **Run the server**:
+   Once dependencies are installed and the `.env` file is set up, start the server with:
 
    ```bash
    fastapi run app/main.py
    ```
 
-   El backend en local estará disponible en `http://localhost:8000`.
+   The backend will be available locally at `http://localhost:8000`.
 
 ## Frontend: Vite + React
 
-El frontend está en ventas-front/. Para correrlo:
+The frontend is in the `ventas-front/` folder. To run it:
 
-1. **Instalar dependencias**:
-   Necesitas tener Node.js y PNPM. Luego, desde ventas-front/:
+1. **Install dependencies**:
+   You need Node.js and PNPM. From inside `ventas-front/`:
 
    ```bash
    pnpm install
    ```
 
-2. **Archivo .env**:
-   Es necesario darle al frontend la dirección desde la cual va a acceder al backend. Esto se hace a través de un archivo `.env`.
+2. **.env file**:
+   The frontend needs to know the backend's address. This is also configured with a `.env` file.
 
-   Hay un archivo llamado `.env.example` que tiene la estructura necesaria para el archivo env real. Puedes basarte en este o solo renombrarlo a `.env`.
+   A `.env.example` file is provided. You can use it as a reference or simply rename it to `.env`.
 
-3. **Ejecutar el servidor de desarrollo**:
+3. **Run the development server**:
    Una vez instaladas las dependencias y configurado el archivo `.env`, puedes iniciar el servidor de desarrollo con:
 
    ```bash
    pnpm dev
    ```
 
-   El frontend estará disponible en `http://localhost:5173`.
+   The frontend will be available at `http://localhost:5173`.
 
-## Alternativa rápida para correr el proyecto
+## Quick alternative to run the project
 
-Si estás usando una terminal de gnome, puedes hacer uso del archivo bash `run_dev.sh` para correr automáticamente el proyecto una vez instaladas las dependencias. Este script reinicia la base de datos cada vez que se ejecuta.
+If you're using GNOME terminal, you can run the included `run_dev.sh` bash script to start the project automatically once dependencies are installed. This script also resets the database every time it runs:
 
 ```bash
 source run_dev.sh
 ```
 
-## Notas
+## Notes
 
-- El backend y el frontend están configurados para ejecutarse en `localhost`. Ambos servidores (frontend y backend) deben estar corriendo para que la app funcione.
-- Las migraciones se hacen automáticamente por el archivo del back que se encuentra en `app/model/migrations.py`. Este archivo importa los modelos que se encuentran en `app/model/schemas/*_model.py` y con eso permite que SQLModel los genere. Los constraints de las tablas están dentro de estos archivos `*_model.py`.
+- The backend and frontend are both configured to run on `localhost`. Both must be running for the app to work.
+- Database migrations are handled automatically by the backend file located at `app/model/migrations.py`. It imports models from `app/model/schemas/*_model.py` which SQLModel uses to generate tables. Table constraints are defined inside those `*_model.py` files.
 
-## Decisiones de Diseño
+## Design Decisions
 
 ### Frontend
 
-- **Componentización**: El frontend está dividido en componentes reutilizables para facilitar el mantenimiento y la escalabilidad del proyecto. Asimismo, la estructura de carpetas hace diferencia entre las páginas y los componentes.
-- **Peticiones**: Se utiliza Tanstack Query para las peticiones, pues se automatiza el guardado en caché.
-- **Estado global**: Se utiliza Zustand para el estado global, pues reduce el número de rerenders al solo volver a renderizar los componentes con estado que cambió.
-- **Estado en Ver Orden y Lista Ordenes**: Actualmente no se reutiliza el estado de Lista Ordenes para crear el de Ver Orden. A cambio, Ver Orden hace una petición independiente. Esto se podría cambiar en producción si se empieza a ver que el rendimiento cae.
+- **Componentization**: The frontend is divided into reusable components for easier maintenance and scalability. The folder structure also distinguishes between pages and components.
+- **Requests**: Tanstack Query is used for API requests, enabling automated caching.
+- **Global State**: Zustand is used for global state management, reducing unnecessary re-renders by only updating components with changed state.
+- **State on VerOrden and ListaOrdenes**: The "View Order" page doesn't reuse the state from the "Order List" page; it makes its own request. This could be optimized if performance issues arise in production.
 
 ### Backend
 
-- **Estructura modular**: El backend está organizado en módulos para mantener el código limpio y escalable. Cada módulo tiene su propia lógica, modelos, y rutas.
-- **Base de datos SQLite**: Se utiliza SQLite como base de datos para simplificar el desarrollo local. Esto puede cambiarse a una base de datos más robusta en producción. <br>
-  La base de datos está normalizada hasta 3NF y por tanto no tiene campos dependientes, pero el backend calcula los campos dependientes automáticamente con Pydantic y su funcionalidad `computed_field`.
-- **CORS habilitado**: Se configuró CORS para permitir peticiones desde el frontend en el lugar definido por la variable de entorno. También es posible realizar peticiones directamente desde la interfaz interactiva de FastAPI disponible en `DIRECCIÓN_BACKEND/docs`.
-- **Generación de reportes**: Los reportes se generan en formato PDF con la librería `reportlab` y se almacenan en la carpeta `reports/`.
-- **Seguridad**: Por defecto, SQLModel sanitiza el input que recibe.
-- **Testing**: En el directorio `/tests` se encuentran los tests de los endpoints del backend. Es un trabajo en progreso, pero por ahora pueden correr los existentes con el comando `pytest`.
+- **Modular structure**: The backend is organized into modules for clean, scalable code. Each module contains its own logic, models, and routes.
+- **SQLite Database**: SQLite is used to simplify local development. It can be swapped for a more robust DB in production. <br>
+  The database is normalized up to 3NF. Derived fields are computed automatically with Pydantic’s `computed_field`.
+- **CORS Enabled**: CORS is configured to allow requests from the frontend address specified in the environment variables. You can also use FastAPI's interactive docs at `DIRECCIÓN_BACKEND/docs`.
+- **PDF Report Generation**: Reports are generated as PDFs using the `reportlab` library and stored in the `reports/` folder.
+- **Security**: SQLModel sanitizes input by default.
+- **Testing**: The `/tests` directory contains backend endpoint tests. It's a work in progress, but existing tests can be run using `pytest`.
